@@ -1,28 +1,24 @@
 variable "base_domain" {
-  type = string
+  type    = string
+  default = "secureweb.ltd"
 }
 
 variable "concourse_helm_version" {
-  type = string
+  type    = string
+  default = "13.0.0"
 }
 
 variable "vault_helm_version" {
-  type = string
-}
-
-variable "azure_tenant" {
-  type = string
-}
-
-variable "azure_client_id" {
-  type = string
-}
-
-variable "azure_client_secret" {
-  type = string
+  type    = string
+  default = "0.7.0"
 }
 
 variable "additional_owners" {
   type    = list
-  default = []
+  default = ["allan_secureweb.ltd#EXT#@allansecureweb.onmicrosoft.com"]
 }
+
+variable "azuread_tenant" {}
+variable "azuread_client_id" {}
+variable "azuread_client_secret" {}
+variable "cloudflare_apitoken" {}

@@ -4,10 +4,31 @@ resource "helm_release" "cilium" {
   repository = "https://helm.cilium.io/"
   chart      = "cilium"
   namespace  = "kube-system"
+  version    = "1.8.3"
+
+
+  set {
+    name  = "operator.numReplicas"
+    value = 1
+  }
+
+  set {
+    name  = "operator.numReplicas"
+    value = 1
+  }
+
+  set {
+    name  = "global.kubeProxyReplacement"
+    value = "strict"
+  }
 
   set {
     name  = "global.containerRuntime.integration"
-    value = "auto"
+    value = "crio"
+  }
+  set {
+    name  = "k8s.requireIPv4PodCIDR"
+    value = true
   }
 
   set {
@@ -16,8 +37,22 @@ resource "helm_release" "cilium" {
   }
 
   set {
-    name  = "global.kubeProxyReplacement"
-    value = "strict"
+    name  = "global.hubble.enabled"
+    value = true
+  }
+
+  set {
+    name  = "global.hubble.relay.enabled"
+    value = true
+}
+
+  set {
+    name  = "global.hubble.ui.enabled"
+    value = true
+  }
+  set {
+    name  = "global.hubble.listenAddress"
+    value = ":4244"
   }
 
   set {
@@ -29,12 +64,5 @@ resource "helm_release" "cilium" {
     name  = "global.k8sServicePort"
     value = "6443"
   }
-
-  set {
-    name  = "global.cni.tunnel"
-    value = "disabled"
-
-  }
-
 
 }

@@ -21,11 +21,6 @@ resource "helm_release" "concourse" {
   }
 
   set {
-    name  = "web.ingress.tls[0].secretName"
-    value = "secureweb-tls"
-  }
-
-  set {
     name  = "concourse.web.externalUrl"
     value = "https://concourse${var.base_domain}"
   }
@@ -82,22 +77,12 @@ resource "helm_release" "concourse" {
 
   set {
     name  = "concourse.web.kubernetes.enabled"
-    value = "false"
-  }
-
-  set {
-    name  = "concourse.web.vault.enabled"
     value = "true"
   }
 
   set {
-    name  = "concourse.web.vault.url"
-    value = "http://vault.vault.svc:8200"
-  }
-
-  set {
-    name  = "concourse.web.vault.authBackend"
-    value = "approle"
+    name  = "concourse.web.kubernetes.keepNamespaces"
+    value = "false"
   }
 
 }

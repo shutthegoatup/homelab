@@ -1,0 +1,26 @@
+---
+platform: linux
+
+inputs:
+  - name: source
+    path: .
+  - name: .terraform
+
+outputs:
+  - name: terraform_plan
+
+params:
+  TF_IN_AUTOMATION: 1
+
+  KUBE_HOST: ((vault:kv/kubernetes.host))
+  KUBE_CLUSTER_CA_CERT_DATA: ((vault:kv/kubernetes.cluster_ca_certificate))
+  KUBE_CLIENT_CERT_DATA: ((vault:kv/kubernetes.client_certificate))
+  KUBE_CLIENT_KEY_DATA: ((vault:kv/kubernetes.client_key))
+
+run: 
+  path: sh
+  args:
+    - -c 
+    - |
+      set -euo pipefail
+      exec terraform plan -out=terraform_plan/tfplan -input=false

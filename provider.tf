@@ -1,22 +1,14 @@
-provider "kubernetes" {
-  config_context_auth_info = "kubernetes-admin"
-  config_context_cluster   = "kubernetes"
-}
-
-provider "kubernetes-alpha" {}
-
-provider "vault" {
-  address = "https://vault${var.base_domain}"
-  token   = ""
-}
-
-provider "concourse" {
-  target = "homelab"
+provider "kubernetes-alpha" {
+  config_path = "~/.kube/config" // path to kubeconfig
 }
 
 provider "azuread" {
-  tenant_id       = var.azure_tenant
-  subscription_id = var.azure_tenant
-  client_id       = var.azure_client_id
-  client_secret   = var.azure_client_secret
+  client_id     = var.azuread_client_id
+  client_secret = var.azuread_client_secret
+  tenant_id     = var.azuread_tenant
+}
+
+provider "vault" {
+  address = "https://vault.secureweb.ltd"
+  token   = ""
 }

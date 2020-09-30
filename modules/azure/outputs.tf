@@ -10,3 +10,6 @@ output "vault_client_secret" {
   value = azuread_application_password.vault.value
 }
 
+output "tenant_id" {
+  value = data.azuread_client_config.current.tenant_id
+}
