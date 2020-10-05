@@ -1,9 +1,9 @@
 variable "additional_owners" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
 variable "homelab_redirect_uris" {
-  type    = list
+  type    = list(any)
   default = []
 }

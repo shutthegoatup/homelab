@@ -14,11 +14,13 @@ variable "vault_helm_version" {
 }
 
 variable "additional_owners" {
-  type    = list
+  type    = list(any)
   default = ["allan_secureweb.ltd#EXT#@allansecureweb.onmicrosoft.com"]
 }
 
 variable "azuread_tenant" {}
 variable "azuread_client_id" {}
 variable "azuread_client_secret" {}
-variable "cloudflare_apitoken" {}
+variable "cloudflare_api_token" {}
+variable "cloudflare_email" {}
+variable "cloudflare_zone_id" {}

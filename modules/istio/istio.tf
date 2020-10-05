@@ -13,7 +13,7 @@ resource "helm_release" "istio-operator" {
 
   set {
     name  = "tag"
-    value = "1.7.2"
+    value = "1.8.0"
   }
 
   set {
@@ -26,12 +26,6 @@ resource "helm_release" "istio-operator" {
     value = "istio-system"
   }
 }
-
-#resource "kubernetes_namespace" "istio_namespace" {
-#  metadata {
-#    name = "istio-system"
-#  }
-#}
 
 resource "kubernetes_manifest" "istio_config" {
   depends_on = [helm_release.istio-operator]

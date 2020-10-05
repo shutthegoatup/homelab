@@ -12,21 +12,63 @@ module "azure" {
   additional_owners     = var.additional_owners
 }
 
-module "concourse" {
-  source = "./modules/concourse"
+module "cilium" {
+  source = "./modules/cilium"
+}
 
-  concourse_helm_version = var.concourse_helm_version
-  base_domain            = var.base_domain
-  oidc_client_id         = module.azure.homelab_client_id
-  oidc_client_secret     = module.azure.concourse_client_secret
-  oidc_discovery_url     = "https://login.microsoftonline.com/${module.azure.tenant_id}/v2.0"
+module "cert-manager" {
+  source = "./modules/cert-manager"
+}
+
+module "cloudflare" {
+  source = "./modules/cloudflare"
+
+  cloudflare_email     = var.cloudflare_email
+  cloudflare_api_token = var.cloudflare_api_token
+  cloudflare_zone_id   = var.cloudflare_zone_id
+}
+
+module "ingress" {
+  depends_on = [module.cert-manager]
+  source     = "./modules/ingress"
+
+  base_domain         = var.base_domain
+  cloudflare_api_token = var.cloudflare_api_token
+}
+
+module "downloads" {
+  source = "./modules/downloads"
+}
+
+#module "matrix" {
+#  source = "./modules/matrix"
+#}
+
+module "jellyfin" {
+  source = "./modules/jellyfin"
+}
+
+module "sonarr" {
+  source = "./modules/sonarr"
+}
+
+module "radarr" {
+  source = "./modules/radarr"
+}
+
+module "sabnzbd" {
+  source = "./modules/sabnzbd"
+}
+
+module "foodnow" {
+  source = "./modules/foodnow"
 }
 
 module "network" {
   source = "./modules/network"
 
   base_domain         = var.base_domain
-  cloudflare_apitoken = var.cloudflare_apitoken
+  cloudflare_api_token = var.cloudflare_api_token
 
   ingress = [
     {
@@ -86,33 +128,12 @@ module "network" {
   ]
 }
 
-module "vault" {
-  source = "./modules/vault"
-
-  vault_helm_version  = var.vault_helm_version
-  base_domain         = var.base_domain
-  oidc_client_id      = module.azure.homelab_client_id
-  oidc_client_secret  = module.azure.vault_client_secret
-  oidc_discovery_url  = "https://login.microsoftonline.com/${module.azure.tenant_id}/v2.0"
-  vault_redirect_uris = local.vault_redirect_uris
-}
-
-module "gitlab" {
-  source = "./modules/gitlab"
-
-  azure_client_id     = module.azure.homelab_client_id
-  azure_client_secret = module.azure.concourse_client_secret
-  azure_tenant_id        = module.azure.tenant_id
-}
-
-module "falco" {
-  source = "./modules/falco"
-}
-
 module "loki" {
   source = "./modules/loki"
 }
 
 module "grafana" {
   source = "./modules/grafana"
+
+  base_domain = var.base_domain
 }
