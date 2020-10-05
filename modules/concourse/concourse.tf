@@ -7,27 +7,12 @@ resource "helm_release" "concourse" {
 
   set {
     name  = "web.ingress.enabled"
-    value = true
-  }
-
-  set {
-    name  = "web.ingress.hosts[0]"
-    value = "concourse${var.base_domain}"
-  }
-
-  set {
-    name  = "web.ingress.tls[0].hosts[0]"
-    value = "concourse${var.base_domain}"
+    value = false
   }
 
   set {
     name  = "concourse.web.externalUrl"
-    value = "https://concourse${var.base_domain}"
-  }
-
-  set {
-    name  = "concourse.web.kubernetes.keepNamespaces"
-    value = false
+    value = "https://concourse.${var.base_domain}"
   }
 
   set {
