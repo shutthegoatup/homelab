@@ -11,23 +11,23 @@ resource "helm_release" "falco" {
   namespace  = kubernetes_namespace.falco.metadata.0.name
 
   set {
-    name  = "ebpf.enabled"
+    name = "ebpf.enabled"
     value = true
   }
   set {
-    name  = "docker.enabled"
+    name = "docker.enabled"
     value = false
   }
   set {
-    name  = "podSecurityPolicy.create"
+    name = "podSecurityPolicy.create"
     value = true
   }
   set {
-    name  = "auditLog.enabled"
+    name = "auditLog.enabled"
     value = true
   }
   set {
-    name  = "scc.create"
+    name = "scc.create"
     value = false
   }
 }
