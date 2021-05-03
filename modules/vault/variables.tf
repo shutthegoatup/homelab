@@ -19,5 +19,5 @@ variable "oidc_client_secret" {
 }
 
 variable "vault_redirect_uris" {
-  type = list
+  type = list(any)
 }

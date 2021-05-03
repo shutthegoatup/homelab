@@ -157,7 +157,7 @@ resource "kubernetes_secret" "cloudflare_api" {
     namespace = "istio-system"
   }
   data = {
-    "api-token" = "${var.cloudflare_apitoken}"
+    "api-token" = var.cloudflare_apitoken
   }
 }
 
