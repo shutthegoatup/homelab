@@ -1,0 +1,2 @@
+zfs-localpv:
+  enabled: true

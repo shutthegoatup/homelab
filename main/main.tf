@@ -6,22 +6,26 @@ locals {
 }
 
 module "azure" {
-  source = "./modules/azure"
+  source = "../modules/azure"
 
   homelab_redirect_uris = local.homelab_redirect_uris
   additional_owners     = var.additional_owners
 }
 
 module "cilium" {
-  source = "./modules/cilium"
+  source = "../modules/cilium"
+}
+
+module "calico" {
+  source = "../modules/calico"
 }
 
 module "cert-manager" {
-  source = "./modules/cert-manager"
+  source = "../modules/cert-manager"
 }
 
 module "cloudflare" {
-  source = "./modules/cloudflare"
+  source = "../modules/cloudflare"
 
   cloudflare_email     = var.cloudflare_email
   cloudflare_api_token = var.cloudflare_api_token
@@ -30,14 +34,14 @@ module "cloudflare" {
 
 module "ingress" {
   depends_on = [module.cert-manager]
-  source     = "./modules/ingress"
+  source     = "../modules/ingress"
 
   base_domain         = var.base_domain
   cloudflare_api_token = var.cloudflare_api_token
 }
 
 module "downloads" {
-  source = "./modules/downloads"
+  source = "../modules/downloads"
 }
 
 #module "matrix" {
@@ -45,27 +49,27 @@ module "downloads" {
 #}
 
 module "jellyfin" {
-  source = "./modules/jellyfin"
+  source = "../modules/jellyfin"
 }
 
 module "sonarr" {
-  source = "./modules/sonarr"
+  source = "../modules/sonarr"
 }
 
 module "radarr" {
-  source = "./modules/radarr"
+  source = "../modules/radarr"
 }
 
 module "sabnzbd" {
-  source = "./modules/sabnzbd"
+  source = "../modules/sabnzbd"
 }
 
 module "foodnow" {
-  source = "./modules/foodnow"
+  source = "../modules/foodnow"
 }
 
 module "network" {
-  source = "./modules/network"
+  source = "../modules/network"
 
   base_domain         = var.base_domain
   cloudflare_api_token = var.cloudflare_api_token
@@ -129,11 +133,61 @@ module "network" {
 }
 
 module "loki" {
-  source = "./modules/loki"
+  source = "../modules/loki"
 }
 
 module "grafana" {
-  source = "./modules/grafana"
-
+  source = "../modules/grafana"
   base_domain = var.base_domain
+}
+
+#module "gitea" {
+#  source = "../modules/gitea"
+#}
+
+module "unifi" {
+  source = "../modules/unifi"
+}
+
+module "metallb" {
+  source = "../modules/metallb"
+}
+
+module "openebs" {
+  source = "../modules/openebs"
+}
+
+module "wildcard-cert" {
+  source = "../modules/wildcard-cert"
+  team_email                = "letsencrypt@secureweb.ltd"
+  wildcard_base_domain      = "secureweb.ltd"
+  wildcard_subrecord        = "*"
+  ingress_namespace         = "kube-ingress"
+
+}
+
+module "vaultwarden" {
+  source = "../modules/vaultwarden"
+}
+
+module "plex" {
+  source = "../modules/plex"
+}
+
+module "echo" {
+  source = "../modules/echoserver"
+}
+
+module "amd-gpu" {
+  source = "../modules/amd-gpu"
+}
+
+module "istio" {
+  source = "../modules/istio"
+  namespace = "istio-system"
+}
+
+module "kong" {
+  source = "../modules/kong"
+  namespace = "kong"
 }

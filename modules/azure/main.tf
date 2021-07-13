@@ -9,30 +9,26 @@ data "azuread_users" "additional_owners" {
 }
 
 resource "azuread_group" "super_user" {
-  name    = "superusers"
+  display_name    = "superusers"
   owners  = [data.azuread_service_principal.master_app.object_id]
   members = data.azuread_users.additional_owners.object_ids
+  security_enabled = true
 }
 
 resource "azuread_application" "homelab" {
-  name                    = "homelab"
+  display_name            = "homelab"
   owners                  = concat(data.azuread_users.additional_owners.object_ids, [data.azuread_service_principal.master_app.object_id])
-  group_membership_claims = "SecurityGroup"
-
-  reply_urls = var.homelab_redirect_uris
+  group_membership_claims = ["SecurityGroup"]
 
   app_role {
+    id = "72c6e997-67aa-4724-b574-9f2cb40f2a53"
     allowed_member_types = [
       "User",
     ]
     description  = "Used as roles or groups on downstream apps"
     display_name = "superusers"
-    is_enabled   = true
     value        = "superusers"
   }
-  available_to_other_tenants = false
-  oauth2_allow_implicit_flow = false
-  type                       = "webapp/api"
 
   required_resource_access {
     resource_app_id = "00000003-0000-0000-c000-000000000000"
@@ -52,18 +48,12 @@ resource "azuread_service_principal" "homelab" {
 
 resource "azuread_application_password" "concourse" {
   application_object_id = azuread_application.homelab.id
-  description           = "concourse 10 day"
-  value                 = random_password.concourse_password.result
   end_date_relative     = "240h"
-  depends_on            = [random_password.concourse_password]
 }
 
 resource "azuread_application_password" "vault" {
   application_object_id = azuread_application.homelab.id
-  description           = "vault 10 day"
-  value                 = random_password.concourse_password.result
   end_date_relative     = "240h"
-  depends_on            = [random_password.vault_password]
 }
 
 resource "random_password" "concourse_password" {
