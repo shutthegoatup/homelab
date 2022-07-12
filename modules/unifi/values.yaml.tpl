@@ -12,11 +12,12 @@ ingress:
 persistence:
   config:
     enabled: true
+    size: 100Gi
   unifi:
     enabled: true
     mountPath: /unifi
     accessMode: ReadWriteOnce
-    size: 10Gi
+    size: 100Gi
 
 service:
   main:

@@ -1,7 +1,7 @@
 terraform {
   backend "kubernetes" {
     secret_suffix    = "state"
-    load_config_file = true
+    config_path      = "~/.kube/config"
   }
 
 
@@ -12,7 +12,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.5.0"
+      version = ">= 2.11.0"
     }
   }
 }

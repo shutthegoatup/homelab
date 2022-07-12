@@ -1,18 +1,22 @@
 ---
 kubeProxyReplacement: strict
-k8s:
-  requireIPv4PodCIDR: true
 k8sServiceHost: "192.168.1.1"
 k8sServicePort: "6443"
 
-operator:
+hostServices:
+  enabled: false
+
+externalIPs:
   enabled: true
-  rollOutPods: true
-  replicas: 1
 
-devices: "enp39s0"
+nodePort:
+  enabled: true
 
-#bgp:
-#  enabled: true
-#  announce:
-#    loadbalancerIP: true
+hostPort:
+  enabled: true
+
+bpf:
+  masquerade: false
+
+ipam:
+  mode: kubernetes

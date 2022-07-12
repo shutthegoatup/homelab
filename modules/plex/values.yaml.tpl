@@ -2,6 +2,7 @@
 ingress:
   main:
     enabled: true
+    ingressClassName: nginx
     hosts:
       -
         host: plex.secureweb.ltd
@@ -95,10 +96,11 @@ service:
 
 env:
   TZ: "Europe/London"
-  ALLOWED_NETWORKS: "0.0.0.0/0.0.0.0"
+  ADVERTISE_IP: "https://plex.secureweb.ltd/,http://plex.secureweb.ltd:32400/,http://plex.secureweb.ltd:80/"
+  ALLOWED_NETWORKS: "192.168.1.0/24"
   PLEX_PREFERENCE_1: "FriendlyName=plexy"
   PLEX_PREFERENCE_2: "EnableIPv6=0"
-  PLEX_PREFERENCE_3: "LanNetworksBandwidth=0.0.0.0/0"
+  PLEX_PREFERENCE_3: "LanNetworksBandwidth=192.168.1.0/24"
   PLEX_PREFERENCE_4: "TreatWanIpAsLocal=1"
 
 podSecurityContext:

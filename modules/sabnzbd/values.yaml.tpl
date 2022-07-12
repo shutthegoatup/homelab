@@ -11,7 +11,8 @@ ingress:
               port: 8080
 
 env:
-  TZ: "Europe/London" 
+  TZ: "Europe/London"
+  HOST_WHITELIST_ENTRIES: "sabnzbd.secureweb.ltd"
 
 persistence:
   config:
@@ -37,4 +38,3 @@ podSecurityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
-

@@ -16,8 +16,8 @@ module "cilium" {
   source = "../modules/cilium"
 }
 
-module "calico" {
-  source = "../modules/calico"
+module "csi-driver-nfs" {
+  source = "../modules/csi-driver-nfs"
 }
 
 module "cert-manager" {
@@ -26,6 +26,14 @@ module "cert-manager" {
 
 module "cloudflare" {
   source = "../modules/cloudflare"
+
+  cloudflare_email     = var.cloudflare_email
+  cloudflare_api_token = var.cloudflare_api_token
+  cloudflare_zone_id   = var.cloudflare_zone_id
+}
+
+module "external-dns" {
+  source = "../modules/external-dns"
 
   cloudflare_email     = var.cloudflare_email
   cloudflare_api_token = var.cloudflare_api_token
@@ -64,9 +72,9 @@ module "sabnzbd" {
   source = "../modules/sabnzbd"
 }
 
-module "foodnow" {
-  source = "../modules/foodnow"
-}
+#module "foodnow" {
+#  source = "../modules/foodnow"
+#}
 
 module "network" {
   source = "../modules/network"
@@ -153,9 +161,9 @@ module "metallb" {
   source = "../modules/metallb"
 }
 
-module "openebs" {
-  source = "../modules/openebs"
-}
+#module "openebs" {
+#  source = "../modules/openebs"
+#}
 
 module "wildcard-cert" {
   source = "../modules/wildcard-cert"
@@ -178,9 +186,9 @@ module "echo" {
   source = "../modules/echoserver"
 }
 
-module "amd-gpu" {
-  source = "../modules/amd-gpu"
-}
+#module "amd-gpu" {
+#  source = "../modules/amd-gpu"
+#}
 
 module "istio" {
   source = "../modules/istio"
