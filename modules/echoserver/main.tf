@@ -13,6 +13,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     }
   }
   spec {
+    ingress_class_name = "istio"
     rule {
       host = "echo.secureweb.ltd"
       http {
@@ -21,7 +22,7 @@ resource "kubernetes_ingress_v1" "ingress" {
             service {
               name = "echoserver"
               port {
-                number = 8000
+                number = 8080
               }
             }
           }
@@ -38,6 +39,8 @@ resource "kubernetes_service" "service" {
     namespace = kubernetes_namespace.ns.metadata.0.name
   }
   spec {
+    external_traffic_policy = "Local"
+    type = "LoadBalancer"
     selector = {
       app = "echoserver"
     }
