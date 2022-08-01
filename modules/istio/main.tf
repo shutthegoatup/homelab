@@ -12,7 +12,6 @@ resource "helm_release" "istio-base" {
 }
 
 resource "helm_release" "discovery" {
-resource "helm_release" "istio-discovery" {
   name       = "istiod"
   repository = "https://istio-release.storage.googleapis.com/charts"
   chart      = "istiod"
