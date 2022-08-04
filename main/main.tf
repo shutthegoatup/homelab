@@ -16,6 +16,10 @@ module "cilium" {
   source = "../modules/cilium"
 }
 
+module "parca" {
+  source = "../modules/parca"
+}
+
 module "csi-driver-nfs" {
   source = "../modules/csi-driver-nfs"
 }
