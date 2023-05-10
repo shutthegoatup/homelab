@@ -1,9 +1,6 @@
 terraform {
-  cloud {
-    organization = "shutthegoatup"
-
-    workspaces {
-      name = "static"
-    }
+  backend "kubernetes" {
+    secret_suffix    = "homelab-static"
+    config_path      = "~/.kube/config"
   }
 }
