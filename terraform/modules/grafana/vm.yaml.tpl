@@ -3,7 +3,7 @@ ingress:
   ingressClassName: nginx
   enabled: true
   hosts: 
-    - ${service_name}.${base_domain}
+    - vm.${base_domain}
   tls: 
     - hosts:
-       - ${service_name}.${base_domain}
+       - vm.${base_domain}

@@ -5,6 +5,20 @@ locals {
   homelab_redirect_uris   = concat(local.concourse_redirect_uris, local.vault_redirect_uris, local.gitlab_redirect_uris)
 }
 
+
+
+module "cilium" {
+  source = "../modules/cilium"
+}
+
+module "downloads" {
+  source = "../modules/downloads"
+}
+
+module "metallb" {
+  source = "../modules/metallb"
+}
+
 module "azure" {
   source = "../modules/azure"
 
@@ -52,18 +66,6 @@ module "ingress" {
   cloudflare_api_token = var.cloudflare_api_token
 }
 
-module "downloads" {
-  source = "../modules/downloads"
-}
-
-#module "matrix" {
-#  source = "./modules/matrix"
-#}
-
-module "jellyfin" {
-  source = "../modules/jellyfin"
-}
-
 module "sonarr" {
   source = "../modules/sonarr"
 }
@@ -76,98 +78,14 @@ module "sabnzbd" {
   source = "../modules/sabnzbd"
 }
 
-#module "foodnow" {
-#  source = "../modules/foodnow"
+#module "loki" {
+#  source = "../modules/loki"
 #}
-
-module "network" {
-  source = "../modules/network"
-
-  base_domain         = var.base_domain
-  cloudflare_api_token = var.cloudflare_api_token
-
-  ingress = [
-    {
-      name      = "emby"
-      service   = "emby-embyserver"
-      namespace = "news"
-      port      = 8096
-    },
-    {
-      name      = "concourse"
-      service   = "concourse-web"
-      namespace = "concourse"
-      port      = 8080
-    },
-    {
-      name      = "sabnzbd"
-      service   = "sabnzbd"
-      namespace = "news"
-      port      = 8080
-    },
-    {
-      name      = "sonarr"
-      service   = "sonarr"
-      namespace = "news"
-      port      = 8081
-    },
-    {
-      name      = "couchpotato"
-      service   = "couchpotato"
-      namespace = "news"
-      port      = 80
-    },
-    {
-      name      = "hubble"
-      service   = "hubble-ui"
-      namespace = "kube-system"
-      port      = 80
-    },
-    {
-      name      = "gitlab"
-      service   = "gitlab-webservice"
-      namespace = "gitlab"
-      port      = 8181
-    },
-    {
-      name      = "grafana"
-      service   = "grafana"
-      namespace = "grafana"
-      port      = 80
-    },
-    {
-      name      = "vault"
-      service   = "vault"
-      namespace = "vault"
-      port      = 8200
-    },
-  ]
-}
-
-module "loki" {
-  source = "../modules/loki"
-}
 
 module "grafana" {
   source = "../modules/grafana"
   base_domain = var.base_domain
 }
-
-#module "gitea" {
-#  source = "../modules/gitea"
-#}
-
-module "unifi" {
-  source = "../modules/unifi"
-}
-
-module "metallb" {
-  source = "../modules/metallb"
-}
-
-#module "openebs" {
-#  source = "../modules/openebs"
-#}
 
 module "wildcard-cert" {
   source = "../modules/wildcard-cert"
@@ -182,22 +100,10 @@ module "vaultwarden" {
   source = "../modules/vaultwarden"
 }
 
-module "plex" {
-  source = "../modules/plex"
-}
-
 module "echo" {
   source = "../modules/echoserver"
 }
 
-#module "amd-gpu" {
-#  source = "../modules/amd-gpu"
-#}
-
-module "istio" {
-  source = "../modules/istio"
-  namespace = "istio-system"
-}
 
 module "kong" {
   source = "../modules/kong"

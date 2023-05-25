@@ -24,5 +24,20 @@ locals {
     "${path.module}/values.yaml.tpl",
     local.template_vars
   )
+
+    vm_chart_values = templatefile(
+    "${path.module}/vm.yaml.tpl",
+    local.template_vars
+  )
+}
+
+resource "helm_release" "victoria-metrics" {
+  name       = "victoria-metrics-cluster"
+  repository = "https://victoriametrics.github.io/helm-charts/"
+  chart      = "victoria-metrics-cluster"
+  namespace  = kubernetes_namespace.grafana.metadata.0.name
+
+  values = [local.vm_chart_values]
+
 }
 
