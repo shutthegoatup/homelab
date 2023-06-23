@@ -23,3 +23,8 @@ provider "helm" {
     config_context = "kind-main"
   }
 }
+
+provider "vault" {
+  address = "https://vault.shutthegoatup.com"
+  token = module.vault.vault_token.data
+}
