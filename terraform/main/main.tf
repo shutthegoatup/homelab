@@ -48,7 +48,7 @@ module "ingress" {
   depends_on = [module.cert-manager]
   source     = "../modules/ingress"
 
-  base_domain         = var.base_domain
+  base_domain          = var.base_domain
   cloudflare_api_token = var.cloudflare_api_token
 }
 
@@ -83,7 +83,7 @@ module "sabnzbd" {
 module "network" {
   source = "../modules/network"
 
-  base_domain         = var.base_domain
+  base_domain          = var.base_domain
   cloudflare_api_token = var.cloudflare_api_token
 
   ingress = [
@@ -149,7 +149,7 @@ module "loki" {
 }
 
 module "grafana" {
-  source = "../modules/grafana"
+  source      = "../modules/grafana"
   base_domain = var.base_domain
 }
 
@@ -170,11 +170,11 @@ module "metallb" {
 #}
 
 module "wildcard-cert" {
-  source = "../modules/wildcard-cert"
-  team_email                = "letsencrypt@secureweb.ltd"
-  wildcard_base_domain      = "secureweb.ltd"
-  wildcard_subrecord        = "*"
-  ingress_namespace         = "kube-ingress"
+  source               = "../modules/wildcard-cert"
+  team_email           = "letsencrypt@secureweb.ltd"
+  wildcard_base_domain = "secureweb.ltd"
+  wildcard_subrecord   = "*"
+  ingress_namespace    = "kube-ingress"
 
 }
 
@@ -195,11 +195,11 @@ module "echo" {
 #}
 
 module "istio" {
-  source = "../modules/istio"
+  source    = "../modules/istio"
   namespace = "istio-system"
 }
 
 module "kong" {
-  source = "../modules/kong"
+  source    = "../modules/kong"
   namespace = "kong"
 }

@@ -40,7 +40,7 @@ resource "kubernetes_service" "service" {
   }
   spec {
     external_traffic_policy = "Local"
-    type = "LoadBalancer"
+    type                    = "LoadBalancer"
     selector = {
       app = "echoserver"
     }

@@ -9,9 +9,9 @@ data "azuread_users" "additional_owners" {
 }
 
 resource "azuread_group" "super_user" {
-  display_name    = "superusers"
-  owners  = [data.azuread_service_principal.master_app.object_id]
-  members = data.azuread_users.additional_owners.object_ids
+  display_name     = "superusers"
+  owners           = [data.azuread_service_principal.master_app.object_id]
+  members          = data.azuread_users.additional_owners.object_ids
   security_enabled = true
 }
 

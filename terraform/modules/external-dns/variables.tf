@@ -1,5 +1,5 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "external-dns"
 }
 

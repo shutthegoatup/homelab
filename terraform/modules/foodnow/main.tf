@@ -78,9 +78,9 @@ resource "kubernetes_deployment" "deployment" {
         }
         container {
           image = "postgis/postgis"
-          name = "postgis"
+          name  = "postgis"
           env {
-            name = "POSTGRES_PASSWORD"
+            name  = "POSTGRES_PASSWORD"
             value = "postgres"
           }
           volume_mount {
@@ -101,7 +101,7 @@ resource "kubernetes_deployment" "deployment" {
 
 resource "kubernetes_persistent_volume_claim" "config" {
   metadata {
-    name = "config"
+    name      = "config"
     namespace = kubernetes_namespace.namespace.metadata.0.name
   }
   spec {
