@@ -1,20 +1,20 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "actions-runner-controller"
 }
 
 variable "fqdn" {
-  type = string
+  type    = string
   default = "shutthegoatup.com"
 }
 
 variable "service-name" {
-  type = string
+  type    = string
   default = "arc"
 }
 
 variable "metrics-service-name" {
-  type = string
+  type    = string
   default = "arc-metrics"
 }
 
@@ -23,6 +23,6 @@ variable "yaml" {
 }
 
 variable "helm_version" {
-  type = string
+  type    = string
   default = "0.23.2"
 }

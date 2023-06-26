@@ -14,6 +14,6 @@ resource "helm_release" "main" {
 
   values = [templatefile("${path.module}/values.yaml.tpl", {
     }
-  )] 
+  )]
 
 }

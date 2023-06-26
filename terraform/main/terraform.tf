@@ -1,13 +1,13 @@
 terraform {
   backend "kubernetes" {
-    secret_suffix    = "state"
-    config_path      = "~/.kube/config"
+    secret_suffix = "state"
+    config_path   = "~/.kube/config"
   }
 
 
   required_providers {
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
       version = "2.20.0"
     }
     kubernetes = {

@@ -1,13 +1,13 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "vault-secrets-operator"
 }
 
 variable "helm_version" {
-  type = string
+  type    = string
   default = "0.1.0"
 }
 
 variable "secrets" {
-  type = map
+  type = map(any)
 }

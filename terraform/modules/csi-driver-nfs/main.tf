@@ -16,7 +16,7 @@ resource "helm_release" "helm" {
 }
 
 resource "kubernetes_storage_class" "csi-nfs" {
-  depends_on = [ helm_release.helm ]
+  depends_on = [helm_release.helm]
   metadata {
     name = var.namespace
   }

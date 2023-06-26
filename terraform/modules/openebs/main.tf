@@ -25,13 +25,13 @@ resource "kubernetes_storage_class" "sc" {
   storage_provisioner = "zfs.csi.openebs.io"
   reclaim_policy      = "Delete"
   parameters = {
-    fstype = "zfs"
-    poolname = "data"
-    recordsize = "4k"
+    fstype        = "zfs"
+    poolname      = "data"
+    recordsize    = "4k"
     thinprovision = "no"
   }
   allow_volume_expansion = "true"
-  volume_binding_mode = "Immediate"
+  volume_binding_mode    = "Immediate"
 }
 
 

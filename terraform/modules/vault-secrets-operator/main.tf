@@ -5,16 +5,16 @@ resource "kubernetes_namespace" "ns" {
 }
 
 resource "helm_release" "vault-secrets-operator" {
-  wait       = true
+  wait          = true
   wait_for_jobs = true
-  name       = "vault-secrets-operator"
-  repository = "https://helm.releases.hashicorp.com"
-  chart      = "vault-secrets-operator"
-  namespace  = kubernetes_namespace.ns.metadata.0.name
+  name          = "vault-secrets-operator"
+  repository    = "https://helm.releases.hashicorp.com"
+  chart         = "vault-secrets-operator"
+  namespace     = kubernetes_namespace.ns.metadata.0.name
 
   values = [templatefile("${path.module}/values.yaml.tpl", {
-      vault-kube-auth-role = vault_kubernetes_auth_backend_role.vso.role_name
-      vault-kube-service-account = "vault-secrets-operator-controller-manager"
+    vault-kube-auth-role       = vault_kubernetes_auth_backend_role.vso.role_name
+    vault-kube-service-account = "vault-secrets-operator-controller-manager"
   })]
 
 }
@@ -33,7 +33,7 @@ resource "vault_kv_secret_v2" "secrets" {
   name                = each.key
   cas                 = 1
   delete_all_versions = true
-  data_json = jsonencode(yamldecode(each.value))
+  data_json           = jsonencode(yamldecode(each.value))
 }
 
 resource "vault_auth_backend" "kubernetes" {
@@ -41,10 +41,10 @@ resource "vault_auth_backend" "kubernetes" {
 }
 
 resource "kubernetes_secret_v1" "sa" {
-  depends_on = [helm_release.vault-secrets-operator]
+  depends_on                     = [helm_release.vault-secrets-operator]
   wait_for_service_account_token = true
   metadata {
-    name = "vault-sa"
+    name      = "vault-sa"
     namespace = var.namespace
     annotations = {
       "kubernetes.io/service-account.name" = "vault-secrets-operator-controller-manager"
@@ -55,9 +55,9 @@ resource "kubernetes_secret_v1" "sa" {
 
 resource "vault_kubernetes_auth_backend_config" "kubernetes" {
   backend                = vault_auth_backend.kubernetes.path
-  kubernetes_host = "https://kubernetes.default.svc.cluster.local"
-  kubernetes_ca_cert = "@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-  token_reviewer_jwt = kubernetes_secret_v1.sa.data["token"]
+  kubernetes_host        = "https://kubernetes.default.svc.cluster.local"
+  kubernetes_ca_cert     = "@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+  token_reviewer_jwt     = kubernetes_secret_v1.sa.data["token"]
   disable_iss_validation = true
   issuer                 = "api"
 }
@@ -66,10 +66,10 @@ resource "vault_kubernetes_auth_backend_role" "vso" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "vso"
   bound_service_account_names      = ["vault-secrets-operator-controller-manager"]
-  bound_service_account_namespaces = [ var.namespace ]
+  bound_service_account_namespaces = [var.namespace]
   token_ttl                        = 3600
-  token_policies                   = ["default", "vso"]
-  audience = "vault"
+  token_policies                   = ["default", vault_policy.vso.name]
+  audience                         = "vault"
 }
 
 resource "vault_policy" "vso" {
@@ -83,14 +83,14 @@ EOT
 }
 
 resource "helm_release" "vso-secrets" {
-  depends_on = [ helm_release.vault-secrets-operator ]
-  for_each = var.secrets
+  depends_on = [helm_release.vault-secrets-operator]
+  for_each   = var.secrets
   name       = each.key
   repository = "https://dysnix.github.io/charts"
   chart      = "raw"
   version    = "0.3.1"
   namespace  = var.namespace
-values = [
+  values = [
     <<-EOF
     resources:
     - apiVersion: secrets.hashicorp.com/v1beta1

@@ -1,19 +1,19 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "vault"
 }
 
 variable "service_name" {
-  type = string
+  type    = string
   default = "vault"
 }
 
 variable "fqdn" {
-  type = string
+  type    = string
   default = "shutthegoatup.com"
 }
 
 variable "helm_version" {
-  type = string
+  type    = string
   default = "0.24.1"
 }

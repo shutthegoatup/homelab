@@ -1,14 +1,14 @@
 variable "yaml" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "namespace" {
-  type = string
+  type    = string
   default = "atlantis"
 }
 
 variable "name" {
-  type = string
+  type    = string
   default = "atlantis"
 }

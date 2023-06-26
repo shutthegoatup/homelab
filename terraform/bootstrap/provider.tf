@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "2.9.0"
     }
     kubernetes = {
@@ -9,28 +9,28 @@ terraform {
       version = ">= 2.11.0"
     }
     vault = {
-      source = "hashicorp/vault"
+      source  = "hashicorp/vault"
       version = "3.17.0"
     }
   }
 }
 
 provider "kubernetes" {
-    config_path = "~/.kube/config"
-        config_context = "kind-main"
+  config_path    = "~/.kube/config"
+  config_context = "kind-main"
 
 }
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
+    config_path    = "~/.kube/config"
     config_context = "kind-main"
   }
 }
 
 provider "vault" {
-  address = module.vault.vault_address
-  token = "hvs.8aUXvvul8uIL5dDL7na5REj6"
-  skip_child_token=true
+  address                = module.vault.vault_address
+  token                  = "hvs.8aUXvvul8uIL5dDL7na5REj6"
+  skip_child_token       = true
   skip_get_vault_version = true
 }
