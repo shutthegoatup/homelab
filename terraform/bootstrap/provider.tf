@@ -29,6 +29,8 @@ provider "helm" {
 }
 
 provider "vault" {
-  address = "https://vault.shutthegoatup.com"
-  token = module.vault.vault_token.data
+  address = module.vault.vault_address
+  token = "hvs.8aUXvvul8uIL5dDL7na5REj6"
+  skip_child_token=true
+  skip_get_vault_version = true
 }

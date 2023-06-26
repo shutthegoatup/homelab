@@ -20,6 +20,7 @@ resource "helm_release" "helm" {
 
 resource "helm_release" "unseal" {
   wait       = true
+  wait_for_jobs = true
   name       = "vault-autounseal"
   repository = "https://pytoshka.github.io/vault-autounseal"
   chart      = "vault-autounseal"
@@ -29,11 +30,3 @@ resource "helm_release" "unseal" {
 
   })]
 }
-
-data "kubernetes_secret_v1" "vault_token" {
-  depends_on = [helm_release.helm, helm_release.unseal]
-  metadata {
-    name = "vault-root-token"
-  }
-}
-

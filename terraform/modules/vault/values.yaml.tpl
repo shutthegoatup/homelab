@@ -1,5 +1,9 @@
 ---
+
 server:
+  logLevel: trace
+  logFormat: json
+  enabled: true
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -7,4 +11,7 @@ server:
       - host: ${service-name}.${fqdn}
 
 csi:
-  enabled: true
+  enabled: false
+
+injector:
+  enabled: false
