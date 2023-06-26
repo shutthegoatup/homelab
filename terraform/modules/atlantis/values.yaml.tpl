@@ -11,5 +11,5 @@ environment:
     KUBE_IN_CLUSTER_CONFIG: true
 service:
     type: ClusterIP
-orgAllowList: "${org-allow-list}"
+orgAllowlist: "${org-allow-list}"
 githubApp: ${github-app}
