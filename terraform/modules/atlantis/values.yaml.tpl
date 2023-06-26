@@ -1,4 +1,6 @@
 ---
+orgAllowlist: ${org-allow-list}
+githubApp: ${github-app}
 ingress:
     enabled: true
     ingressClassName: nginx
@@ -11,5 +13,4 @@ environment:
     KUBE_IN_CLUSTER_CONFIG: true
 service:
     type: ClusterIP
-orgAllowlist: "${org-allow-list}"
-githubApp: ${github-app}
+

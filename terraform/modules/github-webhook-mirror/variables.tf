@@ -14,5 +14,5 @@ variable "fqdn" {
 }
 
 variable "mirrors_fqdn" {
-  type    = list
+  type = list(any)
 }
