@@ -1,11 +1,11 @@
 variable "namespace" {
   type    = string
-  default = "vault"
+  default = "github-webooks"
 }
 
 variable "service_name" {
   type    = string
-  default = "vault"
+  default = "github-webooks"
 }
 
 variable "fqdn" {
@@ -13,7 +13,6 @@ variable "fqdn" {
   default = "shutthegoatup.com"
 }
 
-variable "helm_version" {
-  type    = string
-  default = "0.24.1"
+variable "mirrors_fqdn" {
+  type = list(any)
 }

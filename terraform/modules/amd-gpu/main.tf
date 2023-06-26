@@ -11,7 +11,7 @@ resource "helm_release" "helm" {
   namespace  = kubernetes_namespace.ns.metadata.0.name
 
   values = [templatefile("${path.module}/values.yaml.tpl", {
-      namespace = var.namespace
+    namespace = var.namespace
     }
   )]
 }

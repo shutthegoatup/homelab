@@ -1,7 +1,7 @@
 resource "kubernetes_namespace" "ns" {
-metadata {
-  name = var.namespace
-}
+  metadata {
+    name = var.namespace
+  }
 }
 
 resource "helm_release" "helm" {

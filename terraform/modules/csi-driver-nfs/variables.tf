@@ -1,4 +1,4 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "csi-driver-nfs"
 }
