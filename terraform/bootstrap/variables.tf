@@ -1,3 +1,7 @@
-variable "github_yaml" {
+variable "github-app" {
+  type = string
+}
+
+variable "atlantis" {
   type = string
 }
