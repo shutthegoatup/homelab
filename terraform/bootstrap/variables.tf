@@ -1,8 +1,4 @@
-variable "github-app" {
-  type = string
-}
-
-variable "atlantis" {
+variable "atlantis-github-app" {
   type = string
 }
 
