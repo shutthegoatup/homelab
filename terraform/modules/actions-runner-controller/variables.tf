@@ -24,6 +24,6 @@ variable "helm_version" {
 }
 
 variable "secrets" {
-  type = list
+  type    = list(any)
   default = ["arc-github-app", "github-webhook-secret"]
 }

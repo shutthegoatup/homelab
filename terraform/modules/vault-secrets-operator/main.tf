@@ -13,8 +13,8 @@ resource "helm_release" "vault-secrets-operator" {
   namespace     = kubernetes_namespace.ns.metadata.0.name
 
   values = [templatefile("${path.module}/values.yaml.tpl", {
-    vault-kube-auth-role       = vault_kubernetes_auth_backend_role.vso.role_name
-    vault-kube-service-account = "vault-secrets-operator-controller-manager"
+    vault-kube-auth-role = vault_kubernetes_auth_backend_role.vso.role_name
+    namespace            = var.namespace
   })]
 
 }
@@ -47,7 +47,7 @@ resource "kubernetes_secret_v1" "sa" {
     name      = "vault-sa"
     namespace = var.namespace
     annotations = {
-      "kubernetes.io/service-account.name" = "vault-secrets-operator-controller-manager"
+      "kubernetes.io/service-account.name" = "default"
     }
   }
   type = "kubernetes.io/service-account-token"
@@ -72,8 +72,8 @@ resource "vault_kubernetes_auth_backend_config" "kubernetes" {
 resource "vault_kubernetes_auth_backend_role" "vso" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "vso"
-  bound_service_account_names      = ["vault-secrets-operator-controller-manager"]
-  bound_service_account_namespaces = [var.namespace]
+  bound_service_account_names      = ["default"]
+  bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
   token_policies                   = ["default", vault_policy.vso.name]
   audience                         = "vault"
@@ -87,35 +87,6 @@ path "${vault_mount.kvv2.path}/*" {
   capabilities = ["read", "list"]
 }
 EOT
-}
-
-resource "helm_release" "vso-secrets" {
-  depends_on = [helm_release.vault-secrets-operator]
-  for_each   = var.secrets-list
-  name       = each.key
-  repository = "https://dysnix.github.io/charts"
-  chart      = "raw"
-  version    = "0.3.1"
-  namespace  = var.namespace
-  values = [
-    <<-EOF
-    resources:
-    - apiVersion: secrets.hashicorp.com/v1beta1
-      kind: VaultStaticSecret
-      metadata:
-        namespace: ${var.namespace}
-        name: ${each.key}
-      spec:
-        mount: ${vault_mount.kvv2.path}
-        type: kv-v2
-        path: ${each.key}
-        refreshAfter: 60s
-        destination:
-          create: true
-          namespace: ${each.value}
-          name: ${each.key}
-          EOF
-  ]
 }
 
 resource "vault_audit" "aduit" {

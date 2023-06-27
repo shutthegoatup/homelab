@@ -17,8 +17,8 @@ module "vault-secrets-operator" {
 
 data "vault_kv_secret_v2" "github" {
   depends_on = [module.vault.vault-secrets-operator]
-  mount = "kvv2"
-  name  = "github-app"
+  mount      = "kvv2"
+  name       = "atlantis-github-app"
 }
 
 module "atlantis" {
@@ -31,5 +31,5 @@ module "atlantis" {
 module "actions-runner-controller" {
   depends_on = [module.vault-secrets-operator]
 
-  source     = "../modules/actions-runner-controller"
+  source = "../modules/actions-runner-controller"
 }

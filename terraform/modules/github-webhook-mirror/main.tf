@@ -4,3 +4,5 @@ resource "kubernetes_ingress_v1" "ingress" {
     namespace = var.namespace
   }
 }
+
+
