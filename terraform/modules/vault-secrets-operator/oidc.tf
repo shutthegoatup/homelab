@@ -7,6 +7,7 @@ resource "vault_jwt_auth_backend" "oidc" {
     oidc_client_secret = "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"
     provider_config = {
         provider = "gsuite"
+        gsuite_service_account = "@path.json"
         gsuite_admin_impersonate = "allan@shutthegoatup.com"
         fetch_groups = true
         fetch_user_info = true

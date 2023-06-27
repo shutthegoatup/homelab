@@ -1,3 +1,13 @@
-{"web":{"client_id":"785078594887-ved0hp4i50lromi2njhrr42rnr0skh3s.apps.googleusercontent.com","project_id":"shut-the-goat-up","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost:8200/ui/vault/auth/oidc/oidc/callback","http://localhost:8250/oidc/callback"]}}
-
-
+{
+    "type": "service_account",
+    "project_id": "shut-the-goat-up",
+    "private_key_id": "efeb22d439027714462c73637b564bfe60a26f0e",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3fjj7NwxfHWfS\ntM6K7qcp/gm4nAA/XPXtBszPjXjyzJXpcqSSJYdigDziXpRq+iA6LXFu+kgUP9DY\ndxKsW6URyS0NHUKVjFnD5UyZ1dli+jvo6dN3QuvB/LNrGt81soKRBhDuri9u3k6d\n76Hs5tWeCw2LGYcF+VKo4shaOdTWNQaXl5Ff0yGNmtUVsLMoFsPKl4ccY5+9slaj\nWS3vJcuSGhUdDRNbYdmaDL40+q7cITUKpobrKfarKqybny9a0i0EsaqGGsxCmTBq\nPR8PSywyOKF8JUxvC8CcIrHzPkn5uQdqjT6RcmyKseJ9rj1mE/86PJYdqsvltmU2\nnjHP713lAgMBAAECggEAFTI4/dgBj1kzvZTSSR1BZSnp0JAAvVENPYisDwu+HXoB\nlTp/hTxdk8TRg6q+RU9Ier/2GwZBXkly5BZ5KzzY6CGPmTS4lNLmKalqvFiGKJdU\nZVbhbSTnW/zHcwdjIm5RA9SqDxBC/XEjrr3YPCf8JCoNsfRMcyW2ZTjxQO7uRaIf\nFIbynA17BhDXnKjenDh/Ac0rSifZXNgCS/hAHJbgIPdig0oHkmuvdPhi37BAn8cA\ndh33+5csIuxunXihiGoPi4sVbpSTZwitRNRlJ4huaM9wMdWEmh7aWZEph8hrEpcE\nfn8rSuuY5HlB+J+Rh+/oZfKracvLYB30I+WCPp6+XwKBgQDyA69TX0Z8emo+rB1t\nPm98j+XEkc+DKJkkQTlb/m/Iy7utJHFMtx2j/QQUqhaGJfhL7Jnk2WozHA+THEcZ\niG5Acoo4JGnlTYSnVwvttS4KSD2FPf45/lyCKjqzNiydqi+PZxkkDBPhy4G3gOsR\najoKGPrxits2H7dl68dIqcobywKBgQDCGMi9C/4tfChUn9U0Qgsgq2mLPfcFcjSI\nKC4Nuz/I2rVUWi59MjcPMZt+iyymGSrQKFTks2G7eU85jsoYDVgsssxu7Ufwhf5k\nmtIJXh43berG/BqUUhmYNffImhJfBnEaFy3o6SDvwFDejS/ZeU8Q6giRKiDJf0bd\nAi6Sk7mXDwKBgQDbk7ZOGYJ1TAf7ZuOoC17RkCly6KxzHrGbcEYfjkFT2G0mEYtu\nhDGzaMt8CDo5alfWYwvZ090EFDCZU626n8sQVBvOBlPCBUwXG+YpvRnRoGuY6X8w\nlPTP8IqjsMJYJmHSZUMtLnwXgDHoEWK1wUB5iuKbplVvzOTz5zE/XzWNcwKBgED2\nqKFVlUJGDv2b7XErNaw+kvnOyJHjEqALyrY/2O5x/UT5VhwDJZiJQwEMten1/HVl\nOly9iVWFGbYrC4sXVE7JnVD3TB+9yVKE2w3VmYl12aG2GXNRM03VqlRS9Rkm/836\nuhv9g0+bb7W9TamdR5BitHFZx1WJqv8nzsyycuiTAoGABs+aN32OadVVOAK2fV1k\nMmjQNpbuIG3Ubt4MJdOR4gPAn1Aw23yPmWWZFzynIuv+9pi6XpnqLzzdu4fpDC6X\ny80BKVLvO2xV4oy+vsGapnk/75+HkycV0GLaQNBGxpL28eRiydPxXhHHye+UJloZ\nTXgdxCK+vuUZEXjVR9mam1Y=\n-----END PRIVATE KEY-----\n",
+    "client_email": "vaultservice@shut-the-goat-up.iam.gserviceaccount.com",
+    "client_id": "103959936059071282714",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/vaultservice%40shut-the-goat-up.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
