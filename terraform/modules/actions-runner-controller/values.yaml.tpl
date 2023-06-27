@@ -3,10 +3,10 @@ githubWebhookServer:
   enabled: true
   secret:
     enabled: true
-    create: true
-    github_webhook_secret_token: ${github-webhook-secret-token}
+    create: false
+    name: github-webhook-secret
   ingress:
-    ingressClassName: true
+    ingressClassName: nginx
     enabled: true
     hosts: 
       - host: ${service-name}.${fqdn}
@@ -15,19 +15,18 @@ githubWebhookServer:
             pathType: Prefix
 
 authSecret:
-  create: true
-  github_app_id: ${github-app-id}
-  github_app_installation_id: ${github-app-installation-id}
-  github_app_private_key: ${github-app-private-key}
+  enabled: true
+  create: false
+  name: arc-github-app
 
 actionsMetricsServer:
   enabled: true
   secret:
     enabled: true
-    create: true
-    github_webhook_secret_token: ${github-webhook-secret-token}
+    create: false
+    name: github-webhook-secret
   ingress:
-    ingressClassName: true
+    ingressClassName: nginx
     enabled: true
     hosts: 
       - host: ${metrics-service-name}.${fqdn}
@@ -35,3 +34,9 @@ actionsMetricsServer:
           - path: /
             pathType: Prefix
 
+runner:
+  statusUpdateHook:
+    enabled: true
+
+rbac:
+  allowGrantingKubernetesContainerModePermissions: true

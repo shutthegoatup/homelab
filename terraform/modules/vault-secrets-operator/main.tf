@@ -53,10 +53,17 @@ resource "kubernetes_secret_v1" "sa" {
   type = "kubernetes.io/service-account-token"
 }
 
+data "kubernetes_config_map_v1" "ca" {
+  metadata {
+    name      = "kube-root-ca.crt"
+    namespace = "kube-public"
+  }
+}
+
 resource "vault_kubernetes_auth_backend_config" "kubernetes" {
   backend                = vault_auth_backend.kubernetes.path
-  kubernetes_host        = "https://kubernetes.default.svc.cluster.local"
-  kubernetes_ca_cert     = "@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+  kubernetes_host        = "https://kubernetes.default.svc"
+  kubernetes_ca_cert     = data.kubernetes_config_map_v1.ca.data["ca.crt"]
   token_reviewer_jwt     = kubernetes_secret_v1.sa.data["token"]
   disable_iss_validation = true
   issuer                 = "api"
@@ -84,7 +91,7 @@ EOT
 
 resource "helm_release" "vso-secrets" {
   depends_on = [helm_release.vault-secrets-operator]
-  for_each   = var.secrets
+  for_each   = var.secrets-list
   name       = each.key
   repository = "https://dysnix.github.io/charts"
   chart      = "raw"
@@ -105,6 +112,7 @@ resource "helm_release" "vso-secrets" {
         refreshAfter: 60s
         destination:
           create: true
+          namespace: ${each.value}
           name: ${each.key}
           EOF
   ]

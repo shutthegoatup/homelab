@@ -5,3 +5,11 @@ variable "github-app" {
 variable "atlantis" {
   type = string
 }
+
+variable "github-webhook-secret" {
+  type = string
+}
+
+variable "arc-github-app" {
+  type = string
+}

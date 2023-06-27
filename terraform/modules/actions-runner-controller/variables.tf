@@ -18,11 +18,12 @@ variable "metrics-service-name" {
   default = "arc-metrics"
 }
 
-variable "yaml" {
-  type = string
-}
-
 variable "helm_version" {
   type    = string
   default = "0.23.2"
+}
+
+variable "secrets" {
+  type = list
+  default = ["arc-github-app", "github-webhook-secret"]
 }
