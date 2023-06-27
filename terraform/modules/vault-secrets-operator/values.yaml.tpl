@@ -6,7 +6,7 @@ defaultAuthMethod:
   enabled: true
   kubernetes:
     role: ${vault-kube-auth-role}
-    serviceAccount: ${vault-kube-service-account}
+    serviceAccount: default
     tokenAudiences:
     - vault
 

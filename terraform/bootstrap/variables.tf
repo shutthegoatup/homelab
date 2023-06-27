@@ -1,7 +1,15 @@
-variable "github-app" {
+variable "atlantis-github-app" {
   type = string
 }
 
-variable "atlantis" {
+variable "github-webhook-secret" {
+  type = string
+}
+
+variable "arc-github-app" {
+  type = string
+}
+
+variable "gsuite" {
   type = string
 }

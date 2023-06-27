@@ -3,7 +3,9 @@ resource "kubernetes_secret_v1" "input_vars" {
     name = "input-vars"
   }
   data = {
-    github-app = var.github-app
-    atlantis   = var.atlantis
+    atlantis-github-app   = var.atlantis-github-app
+    github-webhook-secret = var.github-webhook-secret
+    arc-github-app        = var.arc-github-app
+    gsuite                = var.gsuite
   }
 }
