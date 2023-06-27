@@ -9,3 +9,7 @@ variable "github-webhook-secret" {
 variable "arc-github-app" {
   type = string
 }
+
+variable "gsuite" {
+  type = string
+}
