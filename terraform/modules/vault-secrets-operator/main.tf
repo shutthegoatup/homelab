@@ -47,7 +47,7 @@ resource "kubernetes_secret_v1" "sa" {
     name      = "vault-sa"
     namespace = var.namespace
     annotations = {
-      "kubernetes.io/service-account.name" = "default"
+      "kubernetes.io/service-account.name" = "vault-secrets-operator-controller-manager"
     }
   }
   type = "kubernetes.io/service-account-token"
