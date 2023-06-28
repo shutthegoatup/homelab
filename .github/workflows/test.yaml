@@ -6,4 +6,4 @@ jobs:
     runs-on: gha-runner-scale-set
     steps:
       - name: my-step
-        run: echo "Hello World! "
+        run: echo "Hello World!"
