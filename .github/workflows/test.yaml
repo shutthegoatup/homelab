@@ -3,7 +3,7 @@ name: hello-world
 on: push
 jobs:
   my-job:
-    runs-on: arc-runner-set
+    runs-on: gha-runner-scale-set
     steps:
       - name: my-step
         run: echo "Hello World! "
