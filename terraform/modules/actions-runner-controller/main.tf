@@ -4,25 +4,10 @@ resource "kubernetes_namespace" "ns" {
   }
 }
 
-resource "helm_release" "actions-runner-controller" {
-  wait          = true
-  wait_for_jobs = true
-  name          = "actions-runner-controller"
-  repository    = "https://actions-runner-controller.github.io/actions-runner-controller"
-  chart         = "actions-runner-controller"
-  namespace     = kubernetes_namespace.ns.metadata.0.name
-  version       = var.helm_version
-  values = [templatefile("${path.module}/values.yaml.tpl", {
-    fqdn                 = var.fqdn,
-    service-name         = var.service-name,
-    metrics-service-name = var.metrics-service-name
-  })]
-}
-
 resource "helm_release" "gha-runner-scale-set-controller" {
   wait          = true
   wait_for_jobs = true
-  name          = "gha-runner-scale-set-controller"
+  name          = "arc"
   repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart         = "gha-runner-scale-set-controller"
   namespace     = kubernetes_namespace.ns.metadata.0.name
@@ -35,7 +20,7 @@ resource "helm_release" "gha-runner-scale-set" {
   depends_on    = [helm_release.gha-runner-scale-set-controller]
   wait          = true
   wait_for_jobs = true
-  name          = "gha-runner-scale-set"
+  name          = "arc-scale-set"
   repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart         = "gha-runner-scale-set"
   namespace     = kubernetes_namespace.ns.metadata.0.name
@@ -54,7 +39,7 @@ resource "helm_release" "secrets" {
   repository    = "https://dysnix.github.io/charts"
   chart         = "raw"
   version       = "0.3.1"
-  namespace     = var.namespace
+  namespace     = kubernetes_namespace.ns.metadata.0.name
   values = [
     <<-EOF
     resources:
