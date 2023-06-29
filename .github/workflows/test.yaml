@@ -4,8 +4,7 @@ on: push
 jobs:
   my-job:
     runs-on: gha-runner-scale-set
-    container: 
-      image: debian
+    container: debian:latest
     steps:
       - name: my-step
         run: echo "Hello World! "
