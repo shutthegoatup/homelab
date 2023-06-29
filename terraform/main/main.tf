@@ -12,10 +12,6 @@ module "azure" {
   additional_owners     = var.additional_owners
 }
 
-module "cilium" {
-  source = "../modules/cilium"
-}
-
 module "parca" {
   source = "../modules/parca"
 }

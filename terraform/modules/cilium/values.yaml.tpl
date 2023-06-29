@@ -1,6 +1,6 @@
 ---
 kubeProxyReplacement: strict
-k8sServiceHost: "192.168.1.1"
+k8sServiceHost: "192.168.1.5"
 k8sServicePort: "6443"
 
 socketLB:
@@ -22,4 +22,4 @@ ipam:
   mode: kubernetes
 
 ingressController:
-  enabled: true
+  enabled: false

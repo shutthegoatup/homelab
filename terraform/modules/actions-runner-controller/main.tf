@@ -7,11 +7,11 @@ resource "kubernetes_namespace" "ns" {
 resource "helm_release" "gha-runner-scale-set-controller" {
   wait          = true
   wait_for_jobs = true
-  name          = "gha-runner-scale-set-controller"
-  repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
+  name          = "arc"
+  repository    = "../../../actions-runner-controller/charts"
   chart         = "gha-runner-scale-set-controller"
   namespace     = kubernetes_namespace.ns.metadata.0.name
-  #version       = var.helm_version
+  version       = "0.4.0"
   values = [templatefile("${path.module}/values-arc-set-controller.yaml.tpl", {
   })]
 }
@@ -21,10 +21,10 @@ resource "helm_release" "gha-runner-scale-set" {
   wait          = true
   wait_for_jobs = true
   name          = "gha-runner-scale-set"
-  repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
+  repository    = "../../../actions-runner-controller/charts"
   chart         = "gha-runner-scale-set"
   namespace     = kubernetes_namespace.ns.metadata.0.name
-  #version       = var.helm_version
+  version       = "0.4.0"
   values = [templatefile("${path.module}/values-arc-set.yaml.tpl", {
     github-org-url       = "https://github.com/shutthegoatup",
     github-config-secret = "arc-github-app"

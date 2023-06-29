@@ -4,6 +4,8 @@ on: push
 jobs:
   my-job:
     runs-on: gha-runner-scale-set
+    container:
+      image: debian
     steps:
-      - name: my-step
-        run: echo "Hello World! "
+      - name: Check for dockerenv file
+        run: id

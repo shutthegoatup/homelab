@@ -9,3 +9,7 @@ resource "kubernetes_secret_v1" "input_vars" {
     gsuite                = var.gsuite
   }
 }
+
+module "cilium" {
+  source = "../modules/cilium"
+}
