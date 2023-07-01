@@ -1,7 +1,0 @@
----
-team_email: "softwareteam@eposnow.com"
-wildcard_base_domain: "eposnow.com"
-region: "eu-west-1"
-cert_manager_route53_zone: "changeme"
-wildcard_subrecord: ".ephemeral"
-acme_server:  "https://acme-v02.api.letsencrypt.org/directory"

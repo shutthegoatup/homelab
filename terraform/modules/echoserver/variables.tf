@@ -3,9 +3,12 @@ variable "namespace" {
   default = "echoserver"
 }
 
-variable "container" {
+variable "fqdn" {
   type    = string
-  default = "k8s.gcr.io/echoserver:1.10"
+  default = "shutthegoatup.com"
 }
 
-
+variable "service_name" {
+  type    = string
+  default = "echo"
+}

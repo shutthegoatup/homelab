@@ -1,9 +1,9 @@
 variable "namespace" {
   type    = string
-  default = "cert-manager"
+  default = "kube-prometheus"
 }
 
 variable "helm_version" {
   type    = string
-  default = "v1.12.0"
+  default = "47.1.0"
 }

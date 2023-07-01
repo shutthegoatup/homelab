@@ -3,8 +3,9 @@ ingress:
   enabled: true
   hosts:
     - 
-      host: parca.secureweb.ltd
+      host: ${service_name}.${fqdn}
       paths:
         - 
           path: /
+          pathType: Prefix
 

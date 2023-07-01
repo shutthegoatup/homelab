@@ -9,8 +9,9 @@ resource "helm_release" "helm" {
   repository = "https://parca-dev.github.io/helm-charts"
   chart      = "parca"
   namespace  = kubernetes_namespace.ns.metadata.0.name
-
   values = [templatefile("${path.module}/values.yaml.tpl", {
+    service_name = var.service_name,
+    fqdn         = var.fqdn
     }
   )]
 }

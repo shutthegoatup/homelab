@@ -3,6 +3,9 @@ kubeProxyReplacement: strict
 k8sServiceHost: "192.168.1.5"
 k8sServicePort: "6443"
 
+l2announcements:
+  enabled: false
+
 socketLB:
   enabled: false
 

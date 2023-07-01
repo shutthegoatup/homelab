@@ -84,7 +84,7 @@ resource "kubernetes_deployment" "deployment" {
           name = local.service_name
           nfs {
             path   = "/data/public"
-            server = "192.168.1.1"
+            server = "192.168.1.5"
           }
         }
       }
