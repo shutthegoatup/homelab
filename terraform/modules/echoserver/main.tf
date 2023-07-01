@@ -13,16 +13,16 @@ resource "kubernetes_ingress_v1" "ingress" {
     }
   }
   spec {
-    ingress_class_name = "istio"
+    ingress_class_name = "nginx"
     rule {
-      host = "echo.secureweb.ltd"
+      host = "${var.service_name}.${var.fqdn}"
       http {
         path {
           backend {
             service {
               name = "echoserver"
               port {
-                number = 8080
+                number = 80
               }
             }
           }
@@ -39,22 +39,69 @@ resource "kubernetes_service" "service" {
     namespace = kubernetes_namespace.ns.metadata.0.name
   }
   spec {
-    external_traffic_policy = "Local"
-    type                    = "LoadBalancer"
     selector = {
       app = "echoserver"
     }
     port {
-      port        = 8080
-      target_port = 8080
+      port        = 80
+      target_port = 80
     }
   }
 }
 
+resource "kubernetes_deployment" "deployment" {
+  metadata {
+    name      = "echoserver"
+    namespace = kubernetes_namespace.ns.metadata.0.name
+    labels = {
+      app = "echoserver"
+    }
+  }
+  spec {
+    replicas = 3
+    selector {
+      match_labels = {
+        app = "echoserver"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "echoserver"
+        }
+      }
+      spec {
+        container {
+          image = "kennethreitz/httpbin"
+          name  = "httpbin"
 
-resource "helm_release" "helm" {
-  name      = "${var.namespace}-secret-test"
-  chart     = "${path.module}/helm"
-  namespace = var.namespace
+          resources {
+            limits = {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
 
+          liveness_probe {
+            http_get {
+              path = "/"
+              port = 80
+
+              http_header {
+                name  = "X-Custom-Header"
+                value = "Awesome"
+              }
+            }
+
+            initial_delay_seconds = 3
+            period_seconds        = 3
+          }
+        }
+      }
+    }
+  }
 }

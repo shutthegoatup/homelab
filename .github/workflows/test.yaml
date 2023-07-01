@@ -1,0 +1,10 @@
+---
+name: hello-world
+on: push
+jobs:
+  my-job:
+    runs-on: gha-runner-scale-set
+    container: debian:latest
+    steps:
+      - name: my-step
+        run: echo "Hello World! "

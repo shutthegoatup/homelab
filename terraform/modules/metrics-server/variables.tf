@@ -1,9 +1,9 @@
 variable "namespace" {
   type    = string
-  default = "cert-manager"
+  default = "metrics-server"
 }
 
 variable "helm_version" {
   type    = string
-  default = "v1.12.0"
+  default = "3.10.0"
 }
