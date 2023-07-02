@@ -7,6 +7,7 @@ grafana:
       - ${grafana-service-name}.${fqdn}
     path: /
     pathType: Prefix
+<<<<<<< HEAD
   grafana.ini:
     server:
       root_url: https://${grafana-service-name}.${fqdn}
@@ -33,3 +34,6 @@ grafana:
       secretKeyRef:
         name: gsuite
         key: client-secret
+=======
+
+>>>>>>> d49f70a (argocd)

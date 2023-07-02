@@ -49,3 +49,8 @@ module "minio-operator" {
 module "redis-operator" {
   source = "../modules/redis-operator"
 }
+
+module "argoproj" {
+  depends_on = [module.vault-secrets-operator]
+  source     = "../modules/argoproj"
+}

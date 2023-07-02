@@ -18,4 +18,6 @@ module "sabnzbd" {
   source = "../modules/sabnzbd"
 }
 
-
+module "backstage" {
+  source = "../modules/backstage"
+}
