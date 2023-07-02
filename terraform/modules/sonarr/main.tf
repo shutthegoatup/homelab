@@ -14,4 +14,3 @@ resource "helm_release" "helm" {
     }
   )]
 }
-

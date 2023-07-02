@@ -13,7 +13,6 @@ variable "grafana_service_name" {
   default = "grafana"
 }
 
-
 variable "fqdn" {
   type    = string
   default = "shutthegoatup.com"
