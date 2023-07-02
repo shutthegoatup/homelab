@@ -83,7 +83,7 @@ resource "kubernetes_deployment" "deployment" {
         volume {
           name = local.service_name
           host_path {
-            path   = "/data/public"
+            path = "/data/public"
           }
         }
       }
