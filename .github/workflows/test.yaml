@@ -7,4 +7,4 @@ jobs:
     container: debian:latest
     steps:
       - name: my-step
-        run: echo "Hello World! "
+        run: echo "Hello World!"
