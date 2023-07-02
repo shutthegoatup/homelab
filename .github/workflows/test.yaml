@@ -1,10 +1,16 @@
 ---
-name: hello-world
-on: push
+name: "Terraform Plan"
+
+on:
+  pull_request:
+    
 jobs:
-  my-job:
+  terraform:
+    name: "Terraform Plan"    
     runs-on: gha-runner-scale-set
-    container: debian:latest
+    container: hashicorp/terraform:latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: my-step
         run: echo "Hello World!"
