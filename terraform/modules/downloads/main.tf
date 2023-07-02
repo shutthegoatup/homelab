@@ -82,9 +82,8 @@ resource "kubernetes_deployment" "deployment" {
         }
         volume {
           name = local.service_name
-          nfs {
+          host_path {
             path   = "/data/public"
-            server = "192.168.1.5"
           }
         }
       }

@@ -8,10 +8,6 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.11.0"
     }
-    vault = {
-      source  = "hashicorp/vault"
-      version = "3.17.0"
-    }
   }
 }
 
@@ -26,11 +22,4 @@ provider "helm" {
     config_path    = "~/.kube/config"
     config_context = "kind-main"
   }
-}
-
-provider "vault" {
-  address                = module.vault.vault_address
-  token                  = module.vault.vault_token
-  skip_child_token       = true
-  skip_get_vault_version = true
 }

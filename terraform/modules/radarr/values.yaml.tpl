@@ -16,10 +16,9 @@ env:
 persistence:
   config:
     enabled: true
-    type: pvc
     mountPath:   /config
-    readOnly: false
-    accessMode: ReadWriteOnce
+    type: hostPath
+    hostPath: /data/news/config/radarr
 
   downloads:
     enabled: true
