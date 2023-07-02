@@ -1,3 +1,8 @@
+data "vault_kv_secret_v2" "github" {
+  mount = "kvv2"
+  name  = "atlantis-github-app"
+}
+
 resource "kubernetes_namespace" "ns" {
   metadata {
     name = var.namespace
@@ -16,7 +21,7 @@ resource "helm_release" "helm" {
     service-name       = var.service-name
     fqdn               = var.fqdn
     default-tf-version = var.default_tf_version
-    github-app         = var.github_app
+    github-app         = data.vault_kv_secret_v2.github.data_json
     org-allow-list     = var.org_allow_list
     }
   )]

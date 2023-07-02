@@ -18,10 +18,6 @@ variable "default_tf_version" {
   default = "1.4.6"
 }
 
-variable "github_app" {
-  type = string
-}
-
 variable "org_allow_list" {
   type    = string
   default = "github.com/shutthegoatup/*"

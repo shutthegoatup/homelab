@@ -14,3 +14,4 @@ environment:
 service:
     type: ClusterIP
 
+hidePrevPlanComments: true
