@@ -12,14 +12,15 @@ jobs:
     name: "Terraform Plan"    
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/04_observability
     steps:
       - name: Checkout
         uses: actions/checkout@v3          
       - run: terraform init
-        working-directory: 04_observability
       - id: plan
         run: terraform plan -no-color
-        working-directory: 04_observability
       - run: echo ${{ steps.plan.outputs.stdout }}
       - run: echo ${{ steps.plan.outputs.stderr }}
       - run: echo ${{ steps.plan.outputs.exitcode }}
