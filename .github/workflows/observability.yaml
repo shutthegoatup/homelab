@@ -14,7 +14,7 @@ jobs:
     container: hashicorp/terraform:latest
     defaults:
       run:
-        working-directory: terraform/04_observability
+        working-directory: terraform/03_observability
     steps:
       - name: Checkout
         uses: actions/checkout@v3          
