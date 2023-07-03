@@ -3,15 +3,18 @@ name: "Observability"
 
 on:
   pull_request:
-    
+    branches:
+    - main
+
 jobs:
   terraform:
+    if: github.event.pull_request.merged != true
     name: "Terraform Plan"    
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
       run:
-        working-directory: 04_observability
+        working-directory: terraform/03_observability
     steps:
       - name: Checkout
         uses: actions/checkout@v3          
