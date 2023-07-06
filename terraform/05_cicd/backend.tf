@@ -1,5 +1,5 @@
 terraform {
   backend "kubernetes" {
-    secret_suffix  = "cicd-state"
+    secret_suffix = "cicd-state"
   }
 }

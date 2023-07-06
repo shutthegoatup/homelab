@@ -8,8 +8,8 @@ resource "vault_jwt_auth_backend" "oidc" {
   oidc_discovery_url = "https://accounts.google.com"
   path               = "oidc"
   type               = "oidc"
-  oidc_client_id     = local.gsuite.client-id
-  oidc_client_secret = local.gsuite.client-secret
+  oidc_client_id     = sensitive(local.gsuite.client-id)
+  oidc_client_secret = sensitive(local.gsuite.client-secret)
   provider_config = {
     provider                 = "gsuite"
     gsuite_service_account   = sensitive(local.gsuite_service_account)
@@ -59,5 +59,5 @@ resource "vault_kv_secret_v2" "secrets" {
   name                = each.key
   cas                 = 1
   delete_all_versions = true
-  data_json           = jsonencode(yamldecode(each.value))
+  data_json           = sensitive(jsonencode(yamldecode(each.value)))
 }
