@@ -1,0 +1,81 @@
+---
+name: "cicd"
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  network:
+    if: github.event.pull_request.merged != true
+    name: "Terraform Plan"    
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/02_network
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - run: terraform init
+      - id: plan
+        run: terraform plan -no-color
+  observability:
+    if: github.event.pull_request.merged != true
+    name: "Terraform Plan"    
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/03_observability
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - run: terraform init
+      - id: plan
+        run: terraform plan -no-color
+  vault:
+    if: github.event.pull_request.merged != true
+    name: "Terraform Plan"    
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/04_vault
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - run: terraform init
+      - id: plan
+        run: terraform plan -no-color
+  cicd:
+    if: github.event.pull_request.merged != true
+    name: "Terraform Plan"    
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/05_cicd
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - run: terraform init
+      - id: plan
+        run: terraform plan -no-color
+  services:
+    if: github.event.pull_request.merged != true
+    name: "Terraform Plan"    
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/06_services
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - run: terraform init
+      - id: plan
+        run: terraform plan -no-color
+      
+
