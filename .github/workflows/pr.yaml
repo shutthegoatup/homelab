@@ -9,7 +9,7 @@ on:
 jobs:
   network:
     if: github.event.pull_request.merged != true
-    name: "Terraform Plan"    
+    name: network   
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
@@ -23,7 +23,7 @@ jobs:
         run: terraform plan -no-color
   observability:
     if: github.event.pull_request.merged != true
-    name: "Terraform Plan"    
+    name: observability    
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
@@ -37,7 +37,7 @@ jobs:
         run: terraform plan -no-color
   vault:
     if: github.event.pull_request.merged != true
-    name: "Terraform Plan"    
+    name: vault    
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
@@ -51,7 +51,7 @@ jobs:
         run: terraform plan -no-color
   cicd:
     if: github.event.pull_request.merged != true
-    name: "Terraform Plan"    
+    name: cicd  
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
@@ -65,7 +65,7 @@ jobs:
         run: terraform plan -no-color
   services:
     if: github.event.pull_request.merged != true
-    name: "Terraform Plan"    
+    name: services    
     runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
