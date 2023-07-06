@@ -82,4 +82,9 @@ resource "kubernetes_cluster_role_binding" "yolo" {
     name      = kubernetes_service_account.sa.metadata.0.name
     namespace = kubernetes_service_account.sa.metadata.0.namespace
   }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = kubernetes_service_account.sa.metadata.0.namespace
+  }
 }
