@@ -1,6 +1,6 @@
 version: 3
 projects:
-- dir: terraform
+- dir: .
   autoplan:
     enabled: false
 
