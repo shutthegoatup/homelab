@@ -1,5 +1,5 @@
 ---
-name: "cicd"
+name: "network"
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ jobs:
     container: hashicorp/terraform:latest
     defaults:
       run:
-        working-directory: terraform/05_cicd
+        working-directory: terraform/02_network
     steps:
       - name: Checkout
         uses: actions/checkout@v3          
