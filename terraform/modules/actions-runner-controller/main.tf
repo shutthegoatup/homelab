@@ -13,6 +13,7 @@ resource "helm_release" "gha-runner-scale-set-controller" {
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = "0.4.0"
   values = [templatefile("${path.module}/values-arc-set-controller.yaml.tpl", {
+    service-account = kubernetes_service_account.sa.metadata.0.name
   })]
 }
 
@@ -58,4 +59,32 @@ resource "helm_release" "secrets" {
           name: ${each.key}
           EOF
   ]
+}
+
+resource "kubernetes_service_account" "sa" {
+  metadata {
+    namespace = kubernetes_namespace.ns.metadata.0.name
+    name      = "yolo"
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "yolo" {
+  metadata {
+    name = "github-arc-controller"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.sa.metadata.0.name
+    namespace = kubernetes_service_account.sa.metadata.0.namespace
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = kubernetes_service_account.sa.metadata.0.namespace
+  }
 }

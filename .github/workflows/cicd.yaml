@@ -1,0 +1,26 @@
+---
+name: "CI/CD"
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  terraform:
+    if: github.event.pull_request.merged != true
+    name: "Terraform Plan"    
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/05_cicd
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3          
+      - run: terraform init
+      - id: plan
+        run: terraform plan -no-color
+      - run: echo ${{ steps.plan.outputs.stdout }}
+      - run: echo ${{ steps.plan.outputs.stderr }}
+      - run: echo ${{ steps.plan.outputs.exitcode }}
