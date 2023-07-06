@@ -28,6 +28,7 @@ resource "helm_release" "gha-runner-scale-set" {
   values = [templatefile("${path.module}/values-arc-set.yaml.tpl", {
     github-org-url       = "https://github.com/shutthegoatup",
     github-config-secret = "arc-github-app"
+    service-account      = kubernetes_service_account.sa.metadata.0.name
   })]
 }
 
@@ -58,4 +59,27 @@ resource "helm_release" "secrets" {
           name: ${each.key}
           EOF
   ]
+}
+
+resource "kubernetes_service_account" "sa" {
+  metadata {
+    namespace = kubernetes_namespace.ns.metadata.0.name
+    name      = "yolo"
+  }
+}
+
+resource "kubernetes_cluster_role_binding" "yolo" {
+  metadata {
+    name = "github-arc-controller"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.sa.metadata.0.name
+    namespace = kubernetes_service_account.sa.metadata.0.namespace
+  }
 }
