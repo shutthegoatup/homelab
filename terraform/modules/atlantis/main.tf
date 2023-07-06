@@ -21,7 +21,7 @@ resource "helm_release" "helm" {
     service-name       = var.service-name
     fqdn               = var.fqdn
     default-tf-version = var.default_tf_version
-    github-app         = data.vault_kv_secret_v2.github.data_json
+    github-app         = sensitive(data.vault_kv_secret_v2.github.data_json)
     org-allow-list     = var.org_allow_list
     }
   )]
