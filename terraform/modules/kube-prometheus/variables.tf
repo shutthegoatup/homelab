@@ -17,3 +17,8 @@ variable "fqdn" {
   type    = string
   default = "shutthegoatup.com"
 }
+
+variable "secrets" {
+  type    = list(any)
+  default = ["gsuite"]
+}
