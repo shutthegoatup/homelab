@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "ns" {
 }
 
 resource "helm_release" "operator" {
-  depends_on = [helm_release.secrets]
+  depends_on = [ helm_release.secrets ]
   name       = "harbor"
   chart      = "https://github.com/goharbor/harbor-operator/releases/download/v1.3.0/harbor-operator-v1.3.0.tgz"
   namespace  = kubernetes_namespace.ns.metadata.0.name
@@ -43,6 +43,14 @@ resource "helm_release" "harbor-config" {
         accesskey: YWRtaW4=
         secretkey: bWluaW8xMjM=
       type: Opaque
+    - apiVersion: v1
+      kind: Secret
+      metadata:
+        name: redis
+        namespace: ${kubernetes_namespace.ns.metadata.0.name}
+      type: Opaque
+      stringData:
+        password: MWYyZDFlMmU2N2Rm
     - apiVersion: databases.spotahome.com/v1
       kind: RedisFailover
       metadata:
@@ -52,26 +60,45 @@ resource "helm_release" "harbor-config" {
         sentinel:
           replicas: 3
           extraVolumes:
-          - name: foo
+          - name: redis
             secret:
-              secretName: foo
+              secretName: redis
               optional: false
           extraVolumeMounts:
-          - name: foo
-            mountPath: "/etc/foo"
+          - name: redis
+            mountPath: "/etc/secret"
             readOnly: true
         redis:
           replicas: 3
           extraVolumes:
-          - name: foo
+          - name: redis
             secret:
-              secretName: foo
+              secretName: redis
               optional: false
           extraVolumeMounts:
-          - name: foo
-            mountPath: "/etc/foo"
+          - name: redis
+            mountPath: "/etc/secret"
             readOnly: true
-
+    - apiVersion: "acid.zalan.do/v1"
+      kind: postgresql
+      metadata:
+        name: acid-minimal-cluster
+      spec:
+        teamId: "acid"
+        volume:
+          size: 1Gi
+        numberOfInstances: 2
+        users:
+          zalando:  # database owner
+          - superuser
+          - createdb
+          foo_user: []  # role for application foo
+        databases:
+          foo: zalando  # dbname: owner
+        preparedDatabases:
+          bar: {}
+        postgresql:
+          version: "15"
     - apiVersion: v1
       kind: Secret
       metadata:
@@ -116,19 +143,14 @@ resource "helm_release" "harbor-config" {
             enabled: true
         exporter: {}
         database:
-          kind: Zlando/PostgreSQL
+          kind: PostgreSQL
           spec:
-            zlandoPostgreSql:
-              operatorVersion: "1.10.0"
-              storage: 10Gi
-              replicas: 1
-              resources:
-                limits:
-                  cpu: 500m
-                  memory: 500Mi
-                requests:
-                  cpu: 100m
-                  memory: 250Mi
+            postgresql:
+              username: postsql # Required
+              passwordRef: psqlSecret # Optional
+              hosts:
+                - host: psql # Required
+                  port: 5432 # Optional
         storage:
           kind: "S3"
           spec:
@@ -163,7 +185,6 @@ resource "helm_release" "harbor-config" {
         EOF
   ]
 }
-
 
 resource "helm_release" "secrets" {
   for_each      = toset(var.secrets)
