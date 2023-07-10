@@ -1,13 +1,19 @@
-locals {
-  service_name = var.hostname
-}
-
-variable "base_domain" {
-  type    = string
-  default = "secureweb.ltd"
-}
-
-variable "hostname" {
+variable "namespace" {
   type    = string
   default = "harbor"
+}
+
+variable "domain" {
+  type    = string
+  default = "shutthegoatup.com"
+}
+
+variable "host" {
+  type    = string
+  default = "harbor"
+}
+
+variable "secrets" {
+  type    = list(string)
+  default = ["gsuite"]
 }

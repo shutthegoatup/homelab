@@ -1,0 +1,3 @@
+---
+secrets:
+  existingSecret: ${existing-secret}
