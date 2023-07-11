@@ -42,6 +42,7 @@ resource "helm_release" "harbor-config" {
       data:
         accesskey: YWRtaW4=
         secretkey: bWluaW8xMjM=
+        secret: bWluaW8xMjM=
       type: Opaque
     - apiVersion: v1
       kind: Secret
@@ -129,16 +130,13 @@ resource "helm_release" "harbor-config" {
             ingress:
               host: notary.${var.domain}
               ingressClassName: nginx
-            tls:
-              certificateRef: sample-public-certificate
         portal: {}
         registry:
           metrics:
             enabled: true
         core:
-          tokenIssuer:
-            name: selfsigned-issuer
-            kind: Issuer
+          tokenIssuer: 
+            name: myIssuer
           metrics:
             enabled: true
         exporter: {}
@@ -146,8 +144,8 @@ resource "helm_release" "harbor-config" {
           kind: PostgreSQL
           spec:
             postgresql:
-              username: postsql # Required
-              passwordRef: psqlSecret # Optional
+              username: zalando # Required
+              passwordRef: "postgres.acid-minimal-cluster.credentials.postgresql.acid.zalan.do" # Optional
               hosts:
                 - host: psql # Required
                   port: 5432 # Optional
@@ -155,8 +153,11 @@ resource "helm_release" "harbor-config" {
           kind: "S3"
           spec:
             s3:
-              accesskey: ak # Optional
-              secretkeyRef: "minio-access-secret"
+              accesskey: admin
+              secretkeyRef: minio-access-secret
+              region: us-east-1 # Required
+              regionendpoint: Minio # Required
+              bucket: default # Required
         cache: # Optional
           kind: "Redis"
           spec:
@@ -164,8 +165,7 @@ resource "helm_release" "harbor-config" {
               host: redis # Required
               port: 6347 # Required
               sentinelMasterSet: sentinel # Optional
-              passwordRef: pwdSecret # Optional
-              certificateRef: cert # Optional
+              passwordRef: redis # Optional
     - apiVersion: goharbor.io/v1beta1
       kind: HarborConfiguration
       metadata:
