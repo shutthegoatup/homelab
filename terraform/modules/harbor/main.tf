@@ -221,6 +221,7 @@ resource "helm_release" "minio-tenant" {
   repository = "https://operator.min.io/"
   chart      = "tenant"
   namespace  = kubernetes_namespace.ns.metadata.0.name
+  version    = var.minio_tenant_helm_version
   values = [templatefile("${path.module}/minio-tenant-values.yaml.tpl", {
     existing-secret = "minio-access-secret"
   })]

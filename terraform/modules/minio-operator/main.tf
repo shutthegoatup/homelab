@@ -11,8 +11,7 @@ resource "helm_release" "operator" {
   repository    = "https://operator.min.io/"
   chart         = "operator"
   namespace     = kubernetes_namespace.ns.metadata.0.name
-  //  version       = var.helm_version
-  /*
+  version       = var.helm_version
   values = [templatefile("${path.module}/values.yaml.tpl", {
-  })]*/
+  })]
 }
