@@ -50,7 +50,7 @@
         container: hashicorp/terraform:latest
         defaults:
           run:
-            working-directory: terraform/06_services
+            working-directory: terraform/05_services
         steps:
           - name: Checkout
             uses: actions/checkout@v3          
