@@ -12,15 +12,21 @@ ingress:
 persistence:
   config:
     enabled: true
-    mountPath: /mnt/config
-    accessMode: ReadWriteOnce
-    size: 100Gi
+    mountPath: /config
+    type: hostPath
+    hostPath: /data/news/config/jellyfin
+
+  cache:
+    enabled: true
+    mountPath: /cache
+    type: hostPath
+    hostPath: /data/news/cache
 
   transcode:
     enabled: true
-    mountPath: /mnt/cache
-    accessMode: ReadWriteOnce
-    size: 100Gi
+    mountPath: /transcode
+    type: hostPath
+    hostPath: /data/news/transcode
 
   media:
     enabled: true
