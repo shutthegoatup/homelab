@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "ns" {
 }
 
 resource "helm_release" "helm" {
-  depends_on = [ helm_release.secrets ]
+  depends_on = [helm_release.secrets]
   name       = "harbor"
   chart      = "harbor"
   repository = "https://helm.goharbor.io"
@@ -46,15 +46,15 @@ resource "helm_release" "secrets" {
 }
 
 resource "vault_identity_oidc_key" "key" {
-  name               = "my-key"
+  name               = "harbor"
   allowed_client_ids = ["*"]
   rotation_period    = 3600
   verification_ttl   = 3600
 }
 
 resource "vault_identity_oidc_client" "client" {
-  name          = "harbor"
-  key           = vault_identity_oidc_key.key.name
+  name = "harbor"
+  key  = vault_identity_oidc_key.key.name
   redirect_uris = [
     "https://${var.host}.${var.domain}/c/oidc/callback"
   ]
@@ -65,13 +65,3 @@ resource "vault_identity_oidc_client" "client" {
   access_token_ttl = 7200
 }
 
-resource "vault_identity_oidc_provider" "harbor" {
-  name = var.host
-  https_enabled = true
-  issuer_host = "${var.vault_host}.${var.vault_domain}"
-  allowed_client_ids = [
-    vault_identity_oidc_client.client.client_id
-  ]
-  
-  scopes_supported = [ "email", "groups" ]
-}
