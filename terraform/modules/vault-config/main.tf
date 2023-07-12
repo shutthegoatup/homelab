@@ -18,25 +18,40 @@ resource "vault_jwt_auth_backend" "oidc" {
     fetch_user_info          = true
     groups_recurse_max_depth = 5
   }
-  default_role = "admin"
+  default_role = "default"
 }
 
 resource "vault_jwt_auth_backend_role" "role" {
   backend        = vault_jwt_auth_backend.oidc.path
-  role_name      = "admin"
-  token_policies = ["default", vault_policy.admin.name]
-
-  user_claim   = "sub"
-  groups_claim = "groups"
-  role_type    = "oidc"
+  role_name      = "default"
+  token_policies = ["default"]
+  oidc_scopes    = ["openid", "email"]
+  user_claim     = "email"
+  groups_claim   = "groups"
+  role_type      = "oidc"
   allowed_redirect_uris = ["http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
     "http://localhost:8250/oidc/callback",
     "https://vault.shutthegoatup.com/ui/vault/auth/oidc/oidc/callback"
   ]
 }
 
-resource "vault_policy" "admin" {
-  name = "admin"
+resource "vault_identity_group" "superadmin" {
+  name     = "superadmin"
+  type     = "external"
+  policies = [vault_policy.superadmin.name]
+  metadata = {
+    version = "1"
+  }
+}
+
+resource "vault_identity_group_alias" "superadmin_group_alias" {
+  name           = "superadmin@${var.domain}"
+  mount_accessor = vault_jwt_auth_backend.oidc.accessor
+  canonical_id   = vault_identity_group.superadmin.id
+}
+
+resource "vault_policy" "superadmin" {
+  name = "superadmin"
 
   policy = <<EOT
 path "*" {
@@ -60,4 +75,20 @@ resource "vault_kv_secret_v2" "secrets" {
   cas                 = 1
   delete_all_versions = true
   data_json           = sensitive(jsonencode(yamldecode(each.value)))
+}
+
+resource "vault_identity_oidc_scope" "user" {
+  name     = "user"
+  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}, \"groups\":{{identity.entity.groups.names}}}"
+
+  description = "user scope."
+}
+
+resource "vault_identity_oidc_provider" "vault" {
+  name               = var.host
+  https_enabled      = true
+  issuer_host        = "${var.host}.${var.domain}"
+  allowed_client_ids = ["*"]
+
+  scopes_supported = [vault_identity_oidc_scope.user.name]
 }
