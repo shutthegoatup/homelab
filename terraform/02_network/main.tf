@@ -9,7 +9,7 @@ module "cilium" {
 }
 
 module "ingress" {
-  depends_on = [module.cert-manager, module.cilium]
+  depends_on = [module.cert-manager, module.metallb]
   source     = "../modules/ingress"
 
   team_email           = "letsencrypt@secureweb.ltd"
@@ -30,4 +30,9 @@ module "cert-manager" {
 module "echo" {
   depends_on = [module.ingress]
   source     = "../modules/echoserver"
+}
+
+module "vault" {
+  depends_on = [module.ingress]
+  source = "../modules/vault"
 }

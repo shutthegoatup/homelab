@@ -1,0 +1,61 @@
+---
+    name: "Scheduled Run"
+    on:
+      schedule: 
+        - cron:  '0 */8 * * *'
+    
+    jobs:
+      network:
+        name: network   
+        runs-on: gha-runner-scale-set
+        container: hashicorp/terraform:latest
+        defaults:
+          run:
+            working-directory: terraform/02_network
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3          
+          - run: terraform init
+          - id: plan
+            run: terraform plan
+      observability:
+        name: observability    
+        runs-on: gha-runner-scale-set
+        container: hashicorp/terraform:latest
+        defaults:
+          run:
+            working-directory: terraform/03_observability
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3          
+          - run: terraform init
+          - id: plan
+            run: terraform plan
+      cicd:
+        name: cicd  
+        runs-on: gha-runner-scale-set
+        container: hashicorp/terraform:latest
+        defaults:
+          run:
+            working-directory: terraform/04_cicd
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3          
+          - run: terraform init
+          - id: plan
+            run: terraform plan
+      services:
+        name: services    
+        runs-on: gha-runner-scale-set
+        container: hashicorp/terraform:latest
+        defaults:
+          run:
+            working-directory: terraform/06_services
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3          
+          - run: terraform init
+          - id: plan
+            run: terraform plan
+          
+    

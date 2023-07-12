@@ -1,5 +1,5 @@
 ---
-name: "cicd"
+name: "Pull Request"
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3          
       - run: terraform init
       - id: plan
-        run: terraform plan -no-color
+        run: terraform plan
   observability:
     if: github.event.pull_request.merged != true
     name: observability    
@@ -34,21 +34,7 @@ jobs:
         uses: actions/checkout@v3          
       - run: terraform init
       - id: plan
-        run: terraform plan -no-color
-  vault:
-    if: github.event.pull_request.merged != true
-    name: vault    
-    runs-on: gha-runner-scale-set
-    container: hashicorp/terraform:latest
-    defaults:
-      run:
-        working-directory: terraform/04_vault
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3          
-      - run: terraform init
-      - id: plan
-        run: terraform plan -no-color
+        run: terraform plan
   cicd:
     if: github.event.pull_request.merged != true
     name: cicd  
@@ -56,13 +42,13 @@ jobs:
     container: hashicorp/terraform:latest
     defaults:
       run:
-        working-directory: terraform/05_cicd
+        working-directory: terraform/04_cicd
     steps:
       - name: Checkout
         uses: actions/checkout@v3          
       - run: terraform init
       - id: plan
-        run: terraform plan -no-color
+        run: terraform plan
   services:
     if: github.event.pull_request.merged != true
     name: services    
@@ -76,6 +62,6 @@ jobs:
         uses: actions/checkout@v3          
       - run: terraform init
       - id: plan
-        run: terraform plan -no-color
+        run: terraform plan
       
 
