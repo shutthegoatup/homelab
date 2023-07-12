@@ -25,8 +25,8 @@ resource "vault_jwt_auth_backend_role" "role" {
   backend        = vault_jwt_auth_backend.oidc.path
   role_name      = "admin"
   token_policies = ["default", vault_policy.admin.name]
-
-  user_claim   = "sub"
+  oidc_scopes = ["openid","email"]
+  user_claim   = "email"
   groups_claim = "groups"
   role_type    = "oidc"
   allowed_redirect_uris = ["http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
@@ -60,4 +60,25 @@ resource "vault_kv_secret_v2" "secrets" {
   cas                 = 1
   delete_all_versions = true
   data_json           = sensitive(jsonencode(yamldecode(each.value)))
+}
+
+resource "vault_identity_oidc" "server" {
+  issuer = "https://${var.host}.${var.domain}"
+}
+
+resource "vault_identity_oidc_scope" "groups" {
+  name        = "groups"
+  template    = jsonencode(
+  {
+    groups = "{{identity.entity.groups.names}}",
+  }
+  )
+  description = "Groups scope."
+}
+
+resource "vault_identity_oidc_scope" "email" {
+  name        = "email"
+  template = "{\"email\":{{identity.entity.aliases.auth_oidc_66543ab0.name}}}"
+
+  description = "Email scope."
 }

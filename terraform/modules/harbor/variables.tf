@@ -13,6 +13,16 @@ variable "host" {
   default = "harbor"
 }
 
+variable "vault_domain" {
+  type    = string
+  default = "shutthegoatup.com"
+}
+
+variable "vault_host" {
+  type    = string
+  default = "vault"
+}
+
 variable "secrets" {
   type    = list(string)
   default = ["gsuite"]
