@@ -37,10 +37,7 @@ configs:
            issuer: ${issuer}
            clientID: ${client-id}
            clientSecret: ${client-secret}
-           requestedIDTokenClaims:
-             groups:
-               essential: true
-           requestedScopes:
+           scopes:
              - openid
              - user
-           userNameKey: name
+           userNameKey: fullname

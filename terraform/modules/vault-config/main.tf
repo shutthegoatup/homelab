@@ -31,7 +31,8 @@ resource "vault_jwt_auth_backend_role" "role" {
   role_type      = "oidc"
   claim_mappings = {
     "email": "email"
-    "name": "name"
+    "name": "fullname"
+    "groups": "external_groups"
   }
   allowed_redirect_uris = ["http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
     "http://localhost:8250/oidc/callback",
@@ -83,7 +84,7 @@ resource "vault_kv_secret_v2" "secrets" {
 
 resource "vault_identity_oidc_scope" "user" {
   name     = "user"
-  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}, \"groups\":{{identity.entity.groups.names}}, \"name\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.metadata.name}}}"
+  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}, \"groups\":{{identity.entity.groups.names}}, \"fullname\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.metadata.fullname}}}"
 
   description = "user scope."
 }
