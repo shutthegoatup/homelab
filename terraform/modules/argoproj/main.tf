@@ -4,6 +4,31 @@ resource "kubernetes_namespace" "ns" {
   }
 }
 
+resource "vault_identity_oidc_key" "key" {
+  name               = "argocd"
+  allowed_client_ids = ["*"]
+  rotation_period    = 3600
+  verification_ttl   = 3600
+}
+
+resource "vault_identity_oidc_client" "client" {
+  name = "argocd"
+  key  = vault_identity_oidc_key.key.name
+  redirect_uris = [
+    "https://argocd.${var.domain}/api/dex/callback"
+  ]
+  assignments = [
+    "allow_all"
+  ]
+  id_token_ttl     = 2400
+  access_token_ttl = 7200
+}
+
+data "vault_identity_oidc_client_creds" "creds" {
+  name = vault_identity_oidc_client.client.name
+}
+
+
 resource "helm_release" "argocd" {
   wait          = true
   wait_for_jobs = true
@@ -15,6 +40,9 @@ resource "helm_release" "argocd" {
   values        = [templatefile("${path.module}/values-argocd.yaml.tpl", {
     host   = "argocd"
     domain = var.domain
+    issuer = "https://vault.shutthegoatup.com/v1/identity/oidc/provider/vault"
+    client-id = data.vault_identity_oidc_client_creds.creds.client_id
+    client-secret = data.vault_identity_oidc_client_creds.creds.client_secret
   })]
 }
 

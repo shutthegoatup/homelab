@@ -25,10 +25,14 @@ resource "vault_jwt_auth_backend_role" "role" {
   backend        = vault_jwt_auth_backend.oidc.path
   role_name      = "default"
   token_policies = ["default"]
-  oidc_scopes    = ["openid", "email"]
+  oidc_scopes    = ["openid", "profile", "email"]
   user_claim     = "email"
   groups_claim   = "groups"
   role_type      = "oidc"
+  claim_mappings = {
+    "email": "email"
+    "name": "name"
+  }
   allowed_redirect_uris = ["http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
     "http://localhost:8250/oidc/callback",
     "https://vault.shutthegoatup.com/ui/vault/auth/oidc/oidc/callback"
@@ -79,7 +83,7 @@ resource "vault_kv_secret_v2" "secrets" {
 
 resource "vault_identity_oidc_scope" "user" {
   name     = "user"
-  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}, \"groups\":{{identity.entity.groups.names}}}"
+  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}, \"groups\":{{identity.entity.groups.names}}, \"name\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.metadata.name}}}"
 
   description = "user scope."
 }
