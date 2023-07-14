@@ -23,7 +23,7 @@ resource "helm_release" "secrets" {
   name          = each.key
   repository    = "https://dysnix.github.io/charts"
   chart         = "raw"
-  version       = "0.3.1"
+  version       = "v0.3.2"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   values = [
     <<-EOF

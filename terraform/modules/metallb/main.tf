@@ -22,7 +22,7 @@ resource "helm_release" "config" {
   name          = "metallb-config"
   repository    = "https://dysnix.github.io/charts"
   chart         = "raw"
-  version       = "0.3.1"
+  version       = "v0.3.2"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   values = [
     <<-EOF
