@@ -21,3 +21,7 @@ module "minio-operator" {
 module "redis-operator" {
   source = "../modules/redis-operator"
 }
+
+module "argopoj" {
+  source = "../modules/argoproj"
+}
