@@ -65,3 +65,56 @@ resource "vault_identity_oidc_client" "client" {
   access_token_ttl = 7200
 }
 
+resource "random_password" "password" {
+  length  = 12
+  special = false
+}
+
+resource "harbor_project" "main" {
+    provider = harbor
+
+  depends_on = [ helm_release.helm ]
+    name = "main"
+}
+
+resource "harbor_robot_account" "system" {
+  provider = harbor
+  depends_on = [ helm_release.helm ]
+
+  name        = "example-system"
+  description = "system level robot account"
+  level       = "system"
+  secret      = resource.random_password.password.result
+  permissions {
+    access {
+      action   = "create"
+      resource = "labels"
+    }
+    kind      = "system"
+    namespace = "/"
+  }
+  permissions {
+    access {
+      action   = "push"
+      resource = "repository"
+    }
+    access {
+      action   = "read"
+      resource = "helm-chart"
+    }
+    access {
+      action   = "read"
+      resource = "helm-chart-version"
+    }
+    kind      = "project"
+    namespace = harbor_project.main.name
+  }
+  permissions {
+    access {
+      action   = "pull"
+      resource = "repository"
+    }
+    kind      = "project"
+    namespace = "*"
+  }
+}
