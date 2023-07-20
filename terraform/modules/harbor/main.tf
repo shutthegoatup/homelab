@@ -102,8 +102,8 @@ resource "harbor_robot_account" "system" {
       action   = "pull"
       resource = "repository"
     }
-    kind      = "system"
-    namespace = "/"
+    kind      = "project"
+    namespace = "library"
   }
 }
 
@@ -140,8 +140,8 @@ resource "vault_generic_endpoint" "harbor_role" {
     max_ttl     = "60m",
     permissions = <<-EOT
     [{
-      "namespace": "/",
-      "kind": "system",
+      "namespace": "library",
+      "kind": "project",
       "access": [
         {
           "action": "pull",
@@ -165,4 +165,22 @@ resource "vault_generic_endpoint" "harbor_role" {
   })
 }
 
+resource "vault_kubernetes_auth_backend_role" "gha" {
+  backend                          = "kubernetes"
+  role_name                        = "gha"
+  bound_service_account_names      = ["default"]
+  bound_service_account_namespaces = ["*"]
+  token_ttl                        = 3600
+  token_policies                   = ["default", vault_policy.gha.name]
+  audience                         = "https://kubernetes.default.svc.cluster.local"
+}
 
+resource "vault_policy" "gha" {
+  name = "gha"
+
+  policy = <<EOT
+path "*" {
+  capabilities = ["read", "list"]
+}
+EOT
+}
