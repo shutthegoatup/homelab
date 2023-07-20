@@ -4,45 +4,26 @@ resource "kubernetes_namespace" "ns" {
   }
 }
 
+resource "random_password" "helm_password" {
+  length      = 16
+  min_lower   = 1
+  min_numeric = 1
+  min_upper   = 1
+  special     = false
+}
+
 resource "helm_release" "helm" {
-  depends_on = [helm_release.secrets]
   name       = "harbor"
   chart      = "harbor"
   repository = "https://helm.goharbor.io"
   namespace  = kubernetes_namespace.ns.metadata.0.name
+  version    = var.helm_version
   values = [templatefile("${path.module}/values.yaml.tpl", {
-    host   = var.host,
-    domain = var.domain
+    host           = var.host
+    notary-host    = "notary"
+    domain         = var.domain
+    admin-password = resource.random_password.helm_password.result
   })]
-}
-
-resource "helm_release" "secrets" {
-  for_each      = toset(var.secrets)
-  wait          = true
-  wait_for_jobs = true
-  name          = each.key
-  repository    = "https://dysnix.github.io/charts"
-  chart         = "raw"
-  version       = "v0.3.2"
-  namespace     = kubernetes_namespace.ns.metadata.0.name
-  values = [
-    <<-EOF
-    resources:
-    - apiVersion: secrets.hashicorp.com/v1beta1
-      kind: VaultStaticSecret
-      metadata:
-        namespace: ${var.namespace}
-        name: ${each.key}
-      spec:
-        mount: "kvv2"
-        type: kv-v2
-        path: ${each.key}
-        refreshAfter: 60s
-        destination:
-          create: true
-          name: ${each.key}
-          EOF
-  ]
 }
 
 resource "vault_identity_oidc_key" "key" {
@@ -65,3 +46,141 @@ resource "vault_identity_oidc_client" "client" {
   access_token_ttl = 7200
 }
 
+data "vault_identity_oidc_client_creds" "creds" {
+  name = vault_identity_oidc_client.client.name
+}
+
+resource "harbor_config_auth" "oidc" {
+  depends_on         = [helm_release.helm]
+  auth_mode          = "oidc_auth"
+  primary_auth_mode  = true
+  oidc_name          = "vault"
+  oidc_endpoint      = var.oidc_endpoint
+  oidc_client_id     = data.vault_identity_oidc_client_creds.creds.client_id
+  oidc_client_secret = data.vault_identity_oidc_client_creds.creds.client_secret
+  oidc_scope         = "openid,user"
+  oidc_verify_cert   = true
+  oidc_auto_onboard  = true
+  oidc_user_claim    = "fullname"
+  oidc_groups_claim  = "groups"
+  oidc_admin_group   = "superadmin"
+}
+
+resource "random_password" "robot_password" {
+  length      = 16
+  min_lower   = 1
+  min_numeric = 1
+  min_upper   = 1
+  special     = false
+}
+
+resource "harbor_robot_account" "system" {
+  depends_on = [helm_release.helm]
+
+  name        = "system-robot"
+  description = "system level robot account"
+  level       = "system"
+  secret      = resource.random_password.robot_password.result
+  permissions {
+    access {
+      action   = "create"
+      resource = "labels"
+    }
+    access {
+      action   = "push"
+      resource = "repository"
+    }
+    access {
+      action   = "read"
+      resource = "helm-chart"
+    }
+    access {
+      action   = "read"
+      resource = "helm-chart-version"
+    }
+    access {
+      action   = "pull"
+      resource = "repository"
+    }
+    kind      = "project"
+    namespace = "library"
+  }
+}
+
+resource "vault_generic_endpoint" "harbor_enable" {
+  disable_read         = true
+  disable_delete       = true
+  path                 = "sys/mounts/harbor"
+  ignore_absent_fields = true
+
+  data_json = jsonencode({
+    type = "vault-plugin-harbor"
+  })
+}
+
+resource "vault_generic_endpoint" "harbor_config" {
+  depends_on           = [vault_generic_endpoint.harbor_enable]
+  path                 = "harbor/config"
+  ignore_absent_fields = true
+
+  data_json = jsonencode({
+    url      = "https://${var.host}.${var.domain}"
+    username = "admin"
+    password = resource.random_password.helm_password.result
+  })
+}
+
+resource "vault_generic_endpoint" "harbor_role" {
+  depends_on           = [vault_generic_endpoint.harbor_config]
+  path                 = "harbor/roles/default"
+  ignore_absent_fields = true
+
+  data_json = jsonencode({
+    ttl         = "60m",
+    max_ttl     = "60m",
+    permissions = <<-EOT
+    [{
+      "namespace": "library",
+      "kind": "project",
+      "access": [
+        {
+          "action": "pull",
+          "resource": "repository"
+        },
+        {
+          "action": "push",
+          "resource": "repository"
+        },
+        {
+          "action": "create",
+          "resource": "tag"
+        },
+        {
+          "action": "delete",
+          "resource": "tag"
+        }
+      ]
+    }]
+    EOT
+  })
+}
+
+resource "vault_kubernetes_auth_backend_role" "gha" {
+  backend                          = "kubernetes"
+  role_name                        = "gha"
+  bound_service_account_names      = ["default"]
+  bound_service_account_namespaces = ["*"]
+  token_ttl                        = 3600
+  token_policies                   = ["default", vault_policy.gha.name]
+  audience                         = "https://kubernetes.default.svc.cluster.local"
+}
+
+resource "vault_policy" "gha" {
+  name = "gha"
+
+  policy = <<EOT
+path "*" {
+  capabilities = ["read", "list"]
+}
+EOT
+}

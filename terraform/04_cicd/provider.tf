@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/vault"
       version = "3.17.0"
     }
+    harbor = {
+      source  = "goharbor/harbor"
+      version = "3.9.4"
+    }
   }
 }
 
@@ -29,3 +33,10 @@ provider "vault" {
   skip_child_token       = true
   skip_get_vault_version = true
 }
+
+provider "harbor" {
+  url      = module.harbor.url
+  username = module.harbor.username
+  password = module.harbor.password
+}
+

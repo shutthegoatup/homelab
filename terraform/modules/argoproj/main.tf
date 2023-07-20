@@ -37,11 +37,11 @@ resource "helm_release" "argocd" {
   chart         = "argo-cd"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = var.argo_cd_helm_version
-  values        = [templatefile("${path.module}/values-argocd.yaml.tpl", {
-    host   = "argocd"
-    domain = var.domain
-    issuer = "https://vault.shutthegoatup.com/v1/identity/oidc/provider/vault"
-    client-id = data.vault_identity_oidc_client_creds.creds.client_id
+  values = [templatefile("${path.module}/values-argocd.yaml.tpl", {
+    host          = "argocd"
+    domain        = var.domain
+    issuer        = "https://vault.shutthegoatup.com/v1/identity/oidc/provider/vault"
+    client-id     = data.vault_identity_oidc_client_creds.creds.client_id
     client-secret = data.vault_identity_oidc_client_creds.creds.client_secret
   })]
 }
@@ -54,7 +54,7 @@ resource "helm_release" "argo-events" {
   chart         = "argo-events"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = var.argo_events_helm_version
-  values        = [templatefile("${path.module}/values-argo-events.yaml.tpl", {
+  values = [templatefile("${path.module}/values-argo-events.yaml.tpl", {
   })]
 }
 
@@ -66,7 +66,7 @@ resource "helm_release" "argo-rollouts" {
   chart         = "argo-rollouts"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = var.argo_rollouts_helm_version
-  values        = [templatefile("${path.module}/values-argo-rollouts.yaml.tpl", {
+  values = [templatefile("${path.module}/values-argo-rollouts.yaml.tpl", {
   })]
 }
 
@@ -78,7 +78,7 @@ resource "helm_release" "argo-workflows" {
   chart         = "argo-workflows"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = var.argo_workflows_helm_version
-  values        = [templatefile("${path.module}/values-argo-workflows.yaml.tpl", {
+  values = [templatefile("${path.module}/values-argo-workflows.yaml.tpl", {
   })]
 }
 
@@ -90,7 +90,7 @@ resource "helm_release" "argocd-apps" {
   chart         = "argocd-apps"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = var.argocd_apps_helm_version
-  values        = [templatefile("${path.module}/values-argocd-apps.yaml.tpl", {
+  values = [templatefile("${path.module}/values-argocd-apps.yaml.tpl", {
   })]
 }
 
@@ -102,6 +102,6 @@ resource "helm_release" "argocd-image-updater" {
   chart         = "argocd-image-updater"
   namespace     = kubernetes_namespace.ns.metadata.0.name
   version       = var.argocd_image_updater_helm_version
-  values        = [templatefile("${path.module}/values-argocd-image-updater.yaml.tpl", {
+  values = [templatefile("${path.module}/values-argocd-image-updater.yaml.tpl", {
   })]
 }

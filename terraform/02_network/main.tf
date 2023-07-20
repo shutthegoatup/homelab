@@ -34,5 +34,5 @@ module "echo" {
 
 module "vault" {
   depends_on = [module.ingress]
-  source = "../modules/vault"
+  source     = "../modules/vault"
 }

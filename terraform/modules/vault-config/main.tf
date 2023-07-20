@@ -30,9 +30,9 @@ resource "vault_jwt_auth_backend_role" "role" {
   groups_claim   = "groups"
   role_type      = "oidc"
   claim_mappings = {
-    "email": "email"
-    "name": "fullname"
-    "groups": "external_groups"
+    "email" : "email"
+    "name" : "fullname"
+    "groups" : "external_groups"
   }
   allowed_redirect_uris = ["http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
     "http://localhost:8250/oidc/callback",
@@ -96,4 +96,28 @@ resource "vault_identity_oidc_provider" "vault" {
   allowed_client_ids = ["*"]
 
   scopes_supported = [vault_identity_oidc_scope.user.name]
+}
+
+resource "vault_generic_endpoint" "plugin_name" {
+  disable_read         = true
+  disable_delete       = true
+  path                 = "sys/plugins/catalog/secret/vault-plugin-harbor"
+  ignore_absent_fields = true
+
+  data_json = jsonencode({
+    sha_256 = "71af59287f001791cfd2ee576076a43ace0031d4e9dd706a75e50e68452b9bc0"
+    command = "vault-plugin-harbor"
+  })
+}
+
+resource "vault_generic_endpoint" "kubernetes_secrets_reader" {
+  disable_read         = true
+  disable_delete       = true
+  path                 = "sys/plugins/catalog/secret/vault-plugin-secrets-kubernetes-reader"
+  ignore_absent_fields = true
+
+  data_json = jsonencode({
+    sha_256 = "a09457d4043afd3e6630ecc86cdee19585a46a605c8741530a66e14413c9b067"
+    command = "vault-plugin-secrets-kubernetes-reader"
+  })
 }

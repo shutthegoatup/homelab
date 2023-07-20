@@ -8,5 +8,5 @@ defaultAuthMethod:
     role: ${vault-kube-auth-role}
     serviceAccount: default
     tokenAudiences:
-    - vault
+    - https://kubernetes.default.svc.cluster.local
 

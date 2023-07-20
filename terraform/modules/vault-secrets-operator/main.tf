@@ -59,7 +59,7 @@ resource "vault_kubernetes_auth_backend_role" "vso" {
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
   token_policies                   = ["default", vault_policy.vso.name]
-  audience                         = "vault"
+  audience                         = "https://kubernetes.default.svc.cluster.local"
 }
 
 resource "vault_policy" "vso" {

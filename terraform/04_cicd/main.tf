@@ -1,13 +1,13 @@
 module "atlantis" {
-  source     = "../modules/atlantis"
+  source = "../modules/atlantis"
 }
 
 module "actions-runner-controller" {
-  source     = "../modules/actions-runner-controller"
+  source = "../modules/actions-runner-controller"
 }
 
 module "harbor" {
-  source     = "../modules/harbor"
+  source = "../modules/harbor"
 }
 
 module "postgres-operator" {
