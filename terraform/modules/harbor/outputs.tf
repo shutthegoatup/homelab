@@ -1,5 +1,5 @@
 output "url" {
-value = "${var.host}.${var.domain}"
+  value = "https://${var.host}.${var.domain}"
 }
 
 output "username" {
@@ -7,5 +7,5 @@ output "username" {
 }
 
 output "password" {
-  value = "Harbor12345"
+  value = resource.random_password.robot_password.result
 }

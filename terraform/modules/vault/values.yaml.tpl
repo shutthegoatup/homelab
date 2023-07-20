@@ -12,9 +12,10 @@ server:
     ingressClassName: nginx
     hosts:
       - host: ${service-name}.${fqdn}
+  standalone:
     config: |
       ui = true
-
+      plugin_directory = "/usr/local/libexec/vault"
       listener "tcp" {
         tls_disable = 1
         address = "[::]:8200"
@@ -32,6 +33,38 @@ server:
         prometheus_retention_time = "30s"
         disable_hostname = true
       }
+  extraInitContainers: 
+    - name: vault-plugin-harbor
+      image: alpine
+      command: [sh, -c]
+      args:
+        - cd /tmp &&
+          wget https://github.com/manhtukhang/vault-plugin-harbor/releases/download/v0.2.0/vault-plugin-harbor_0.2.0_linux_amd64.tar.gz -O vault-plugin-harbor.tar.gz &&
+          tar -xzf vault-plugin-harbor.tar.gz &&
+          mv vault-plugin-harbor /usr/local/libexec/vault/vault-plugin-harbor &&
+          chmod +x /usr/local/libexec/vault/vault-plugin-harbor
+      volumeMounts:
+        - name: plugins
+          mountPath: /usr/local/libexec/vault
+    - name: vault-plugin-secrets-kubernetes-reader
+      image: alpine
+      command: [sh, -c]
+      args:
+        - cd /tmp &&
+          wget https://github.com/fybrik/vault-plugin-secrets-kubernetes-reader/releases/download/v0.5.0/vault-plugin-secrets-kubernetes-reader_0.5.0_Linux_x86_64.tar.gz -O vault-plugin-secrets-kubernetes-reader.tar.gz &&
+          tar -xzf vault-plugin-secrets-kubernetes-reader.tar.gz &&
+          mv vault/plugins/vault-plugin-secrets-kubernetes-reader /usr/local/libexec/vault/vault-plugin-secrets-kubernetes-reader &&
+          chmod +x /usr/local/libexec/vault/vault-plugin-secrets-kubernetes-reader
+      volumeMounts:
+        - name: plugins
+          mountPath: /usr/local/libexec/vault
+  volumes:
+    - name: plugins
+      emptyDir: {}
+  volumeMounts:
+    - mountPath: /usr/local/libexec/vault
+      name: plugins
+      readOnly: true
 
 csi:
   enabled: false

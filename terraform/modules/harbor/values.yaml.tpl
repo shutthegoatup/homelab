@@ -7,3 +7,4 @@ expose:
     hosts:
       core: ${host}.${domain}
 externalURL: https://${host}.${domain}
+harborAdminPassword: ${admin-password}

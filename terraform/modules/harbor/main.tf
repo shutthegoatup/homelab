@@ -4,45 +4,21 @@ resource "kubernetes_namespace" "ns" {
   }
 }
 
+resource "random_password" "helm_password" {
+  length  = 12
+  special = false
+}
+
 resource "helm_release" "helm" {
-  depends_on = [helm_release.secrets]
   name       = "harbor"
   chart      = "harbor"
   repository = "https://helm.goharbor.io"
   namespace  = kubernetes_namespace.ns.metadata.0.name
   values = [templatefile("${path.module}/values.yaml.tpl", {
-    host   = var.host,
-    domain = var.domain
+    host           = var.host,
+    domain         = var.domain
+    admin-password = resource.random_password.robot_password.result
   })]
-}
-
-resource "helm_release" "secrets" {
-  for_each      = toset(var.secrets)
-  wait          = true
-  wait_for_jobs = true
-  name          = each.key
-  repository    = "https://dysnix.github.io/charts"
-  chart         = "raw"
-  version       = "v0.3.2"
-  namespace     = kubernetes_namespace.ns.metadata.0.name
-  values = [
-    <<-EOF
-    resources:
-    - apiVersion: secrets.hashicorp.com/v1beta1
-      kind: VaultStaticSecret
-      metadata:
-        namespace: ${var.namespace}
-        name: ${each.key}
-      spec:
-        mount: "kvv2"
-        type: kv-v2
-        path: ${each.key}
-        refreshAfter: 60s
-        destination:
-          create: true
-          name: ${each.key}
-          EOF
-  ]
 }
 
 resource "vault_identity_oidc_key" "key" {
@@ -65,35 +41,44 @@ resource "vault_identity_oidc_client" "client" {
   access_token_ttl = 7200
 }
 
-resource "random_password" "password" {
+data "vault_identity_oidc_client_creds" "creds" {
+  name = vault_identity_oidc_client.client.name
+}
+
+resource "harbor_config_auth" "oidc" {
+  depends_on         = [helm_release.helm]
+  auth_mode          = "oidc_auth"
+  primary_auth_mode  = true
+  oidc_name          = "vault"
+  oidc_endpoint      = var.oidc_endpoint
+  oidc_client_id     = data.vault_identity_oidc_client_creds.creds.client_id
+  oidc_client_secret = data.vault_identity_oidc_client_creds.creds.client_secret
+  oidc_scope         = "openid,user"
+  oidc_verify_cert   = true
+  oidc_auto_onboard  = true
+  oidc_user_claim    = "fullname"
+  oidc_groups_claim  = "groups"
+
+  oidc_admin_group = "superadmin"
+}
+
+resource "random_password" "robot_password" {
   length  = 12
   special = false
 }
 
-resource "harbor_project" "main" {
-    provider = harbor
-
-  depends_on = [ helm_release.helm ]
-    name = "main"
-}
-
 resource "harbor_robot_account" "system" {
-  provider = harbor
-  depends_on = [ helm_release.helm ]
+  depends_on = [helm_release.helm]
 
-  name        = "example-system"
+  name        = "system-robot"
   description = "system level robot account"
   level       = "system"
-  secret      = resource.random_password.password.result
+  secret      = resource.random_password.robot_password.result
   permissions {
     access {
       action   = "create"
       resource = "labels"
     }
-    kind      = "system"
-    namespace = "/"
-  }
-  permissions {
     access {
       action   = "push"
       resource = "repository"
@@ -106,15 +91,72 @@ resource "harbor_robot_account" "system" {
       action   = "read"
       resource = "helm-chart-version"
     }
-    kind      = "project"
-    namespace = harbor_project.main.name
-  }
-  permissions {
     access {
       action   = "pull"
       resource = "repository"
     }
-    kind      = "project"
-    namespace = "*"
+    kind      = "system"
+    namespace = "/"
   }
 }
+
+resource "vault_generic_endpoint" "harbor_config" {
+  path                 = "harbor/config"
+  ignore_absent_fields = true
+
+  data_json = <<EOT
+{
+  "url": "https://${var.host}.${var.domain}",
+  "username": "admin",
+  "password": "${resource.random_password.helm_password.result}"
+}
+EOT
+}
+
+resource "vault_generic_endpoint" "harbor_role" {
+  path                 = "habor/roles/default"
+  ignore_absent_fields = true
+
+  data_json = <<EOT
+{
+  "ttl": "60m",
+  "max_ttl": "60m",
+  "permissions": '[
+  {
+    "namespace": "project-a",
+    "kind": "project",
+    "access": [
+      {
+        "action": "pull",
+        "resource": "repository"
+      },
+      {
+        "action": "push",
+        "resource": "repository"
+      },
+      {
+        "action": "create",
+        "resource": "tag"
+      },
+      {
+        "action": "delete",
+        "resource": "tag"
+      }
+    ]
+  },
+  {
+    "namespace": "project-b",
+    "kind": "project",
+    "access": [
+      {
+        "action": "pull",
+        "resource": "repository"
+      }
+    ]
+  }
+]'
+}
+EOT
+}
+
+vault write habor/roles/test-role ttl=60s max_ttl=10m permissions=@role-permissions.json

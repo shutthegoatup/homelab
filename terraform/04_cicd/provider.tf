@@ -35,8 +35,8 @@ provider "vault" {
 }
 
 provider "harbor" {
-  url = module.harbor.url
+  url      = module.harbor.url
   username = module.harbor.username
-  password = module.harbor.harbor
+  password = module.harbor.password
 }
 
