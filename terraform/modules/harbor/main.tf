@@ -16,8 +16,8 @@ resource "helm_release" "helm" {
   namespace  = kubernetes_namespace.ns.metadata.0.name
   values = [templatefile("${path.module}/values.yaml.tpl", {
     host           = var.host,
-    domain         = var.domain
-    admin-password = resource.random_password.robot_password.result
+    domain         = var.domain,
+    admin-password = random_password.helm_password.result
   })]
 }
 
@@ -58,105 +58,65 @@ resource "harbor_config_auth" "oidc" {
   oidc_auto_onboard  = true
   oidc_user_claim    = "fullname"
   oidc_groups_claim  = "groups"
-
-  oidc_admin_group = "superadmin"
+  oidc_admin_group   = "superadmin"
 }
 
-resource "random_password" "robot_password" {
-  length  = 12
-  special = false
-}
+resource "vault_generic_endpoint" "harbor_enable" {
+  disable_read         = true
+  disable_delete       = true
+  path                 = "sys/mounts/harbor"
+  ignore_absent_fields = true
 
-resource "harbor_robot_account" "system" {
-  depends_on = [helm_release.helm]
-
-  name        = "system-robot"
-  description = "system level robot account"
-  level       = "system"
-  secret      = resource.random_password.robot_password.result
-  permissions {
-    access {
-      action   = "create"
-      resource = "labels"
-    }
-    access {
-      action   = "push"
-      resource = "repository"
-    }
-    access {
-      action   = "read"
-      resource = "helm-chart"
-    }
-    access {
-      action   = "read"
-      resource = "helm-chart-version"
-    }
-    access {
-      action   = "pull"
-      resource = "repository"
-    }
-    kind      = "system"
-    namespace = "/"
-  }
+  data_json = jsonencode({
+    type = "vault-plugin-harbor"
+  })
 }
 
 resource "vault_generic_endpoint" "harbor_config" {
+  depends_on = [ vault_generic_endpoint.harbor_enable ]
   path                 = "harbor/config"
   ignore_absent_fields = true
 
-  data_json = <<EOT
-{
-  "url": "https://${var.host}.${var.domain}",
-  "username": "admin",
-  "password": "${resource.random_password.helm_password.result}"
-}
-EOT
+  data_json = jsonencode({
+    url = "https://${var.host}.${var.domain}"
+    username = "admin"
+    password = resource.random_password.helm_password.result
+  })
 }
 
 resource "vault_generic_endpoint" "harbor_role" {
-  path                 = "habor/roles/default"
+  depends_on = [vault_generic_endpoint.harbor_config ]
+  path                 = "harbor/roles/default"
   ignore_absent_fields = true
 
-  data_json = <<EOT
-{
-  "ttl": "60m",
-  "max_ttl": "60m",
-  "permissions": '[
-  {
-    "namespace": "project-a",
-    "kind": "project",
-    "access": [
-      {
-        "action": "pull",
-        "resource": "repository"
-      },
-      {
-        "action": "push",
-        "resource": "repository"
-      },
-      {
-        "action": "create",
-        "resource": "tag"
-      },
-      {
-        "action": "delete",
-        "resource": "tag"
-      }
-    ]
-  },
-  {
-    "namespace": "project-b",
-    "kind": "project",
-    "access": [
-      {
-        "action": "pull",
-        "resource": "repository"
-      }
-    ]
-  }
-]'
-}
-EOT
+  data_json = jsonencode({
+    ttl = "60m",
+    max_ttl = "60m",
+    permissions = <<-EOT
+    [{
+      "namespace": "/",
+      "kind": "system",
+      "access": [
+        {
+          "action": "pull",
+          "resource": "repository"
+        },
+        {
+          "action": "push",
+          "resource": "repository"
+        },
+        {
+          "action": "create",
+          "resource": "tag"
+        },
+        {
+          "action": "delete",
+          "resource": "tag"
+        }
+      ]
+    }]
+    EOT
+  })
 }
 
-vault write habor/roles/test-role ttl=60s max_ttl=10m permissions=@role-permissions.json
+
