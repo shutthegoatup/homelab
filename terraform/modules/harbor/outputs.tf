@@ -7,5 +7,5 @@ output "username" {
 }
 
 output "password" {
-  value = resource.random_password.helm_password.result
+  value = random_password.helm_password.result
 }

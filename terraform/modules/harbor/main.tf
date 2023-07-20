@@ -16,8 +16,8 @@ resource "helm_release" "helm" {
   namespace  = kubernetes_namespace.ns.metadata.0.name
   values = [templatefile("${path.module}/values.yaml.tpl", {
     host           = var.host,
-    domain         = var.domain,
-    admin-password = random_password.helm_password.result
+    domain         = var.domain
+    admin-password = resource.random_password.helm_password.result
   })]
 }
 
@@ -58,8 +58,48 @@ resource "harbor_config_auth" "oidc" {
   oidc_auto_onboard  = true
   oidc_user_claim    = "fullname"
   oidc_groups_claim  = "groups"
-  oidc_admin_group   = "superadmin"
+
+  oidc_admin_group = "superadmin"
 }
+
+resource "random_password" "robot_password" {
+  length  = 12
+  special = false
+}
+
+resource "harbor_robot_account" "system" {
+  depends_on = [helm_release.helm]
+
+  name        = "system-robot"
+  description = "system level robot account"
+  level       = "system"
+  secret      = resource.random_password.robot_password.result
+  permissions {
+    access {
+      action   = "create"
+      resource = "labels"
+    }
+    access {
+      action   = "push"
+      resource = "repository"
+    }
+    access {
+      action   = "read"
+      resource = "helm-chart"
+    }
+    access {
+      action   = "read"
+      resource = "helm-chart-version"
+    }
+    access {
+      action   = "pull"
+      resource = "repository"
+    }
+    kind      = "system"
+    namespace = "/"
+  }
+}
+
 
 resource "vault_generic_endpoint" "harbor_enable" {
   disable_read         = true
@@ -73,7 +113,6 @@ resource "vault_generic_endpoint" "harbor_enable" {
 }
 
 resource "vault_generic_endpoint" "harbor_config" {
-  depends_on = [ vault_generic_endpoint.harbor_enable ]
   path                 = "harbor/config"
   ignore_absent_fields = true
 
