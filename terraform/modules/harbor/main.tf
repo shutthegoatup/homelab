@@ -5,8 +5,11 @@ resource "kubernetes_namespace" "ns" {
 }
 
 resource "random_password" "helm_password" {
-  length  = 12
-  special = false
+  length      = 16
+  min_lower   = 1
+  min_numeric = 1
+  min_upper   = 1
+  special     = false
 }
 
 resource "helm_release" "helm" {
@@ -14,8 +17,10 @@ resource "helm_release" "helm" {
   chart      = "harbor"
   repository = "https://helm.goharbor.io"
   namespace  = kubernetes_namespace.ns.metadata.0.name
+  version    = var.helm_version
   values = [templatefile("${path.module}/values.yaml.tpl", {
-    host           = var.host,
+    host           = var.host
+    notary-host    = "notary"
     domain         = var.domain
     admin-password = resource.random_password.helm_password.result
   })]
@@ -58,13 +63,15 @@ resource "harbor_config_auth" "oidc" {
   oidc_auto_onboard  = true
   oidc_user_claim    = "fullname"
   oidc_groups_claim  = "groups"
-
-  oidc_admin_group = "superadmin"
+  oidc_admin_group   = "superadmin"
 }
 
 resource "random_password" "robot_password" {
-  length  = 12
-  special = false
+  length      = 16
+  min_lower   = 1
+  min_numeric = 1
+  min_upper   = 1
+  special     = false
 }
 
 resource "harbor_robot_account" "system" {
@@ -100,7 +107,6 @@ resource "harbor_robot_account" "system" {
   }
 }
 
-
 resource "vault_generic_endpoint" "harbor_enable" {
   disable_read         = true
   disable_delete       = true
@@ -113,24 +119,25 @@ resource "vault_generic_endpoint" "harbor_enable" {
 }
 
 resource "vault_generic_endpoint" "harbor_config" {
+  depends_on           = [vault_generic_endpoint.harbor_enable]
   path                 = "harbor/config"
   ignore_absent_fields = true
 
   data_json = jsonencode({
-    url = "https://${var.host}.${var.domain}"
+    url      = "https://${var.host}.${var.domain}"
     username = "admin"
     password = resource.random_password.helm_password.result
   })
 }
 
 resource "vault_generic_endpoint" "harbor_role" {
-  depends_on = [vault_generic_endpoint.harbor_config ]
+  depends_on           = [vault_generic_endpoint.harbor_config]
   path                 = "harbor/roles/default"
   ignore_absent_fields = true
 
   data_json = jsonencode({
-    ttl = "60m",
-    max_ttl = "60m",
+    ttl         = "60m",
+    max_ttl     = "60m",
     permissions = <<-EOT
     [{
       "namespace": "/",
