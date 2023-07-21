@@ -103,7 +103,7 @@ resource "harbor_robot_account" "system" {
       resource = "repository"
     }
     kind      = "project"
-    namespace = "library"
+    namespace = "*"
   }
 }
 
@@ -140,7 +140,7 @@ resource "vault_generic_endpoint" "harbor_role" {
     max_ttl     = "60m",
     permissions = <<-EOT
     [{
-      "namespace": "library",
+      "namespace": "*",
       "kind": "project",
       "access": [
         {
@@ -188,6 +188,11 @@ EOT
 data "vault_kv_secret_v2" "dockerhub" {
   mount = "kvv2"
   name  = "dockerhub"
+}
+
+resource "harbor_project" "main" {
+  name        = "dockerhub-cache"
+  registry_id = harbor_registry.docker.registry_id
 }
 
 resource "harbor_registry" "docker" {
