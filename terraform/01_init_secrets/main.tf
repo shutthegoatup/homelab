@@ -8,5 +8,6 @@ resource "kubernetes_secret_v1" "input_vars" {
     arc-github-app        = var.arc-github-app
     gsuite                = var.gsuite
     cloudflare            = var.cloudflare
+    dockerhub             = var.dockerhub
   }
 }

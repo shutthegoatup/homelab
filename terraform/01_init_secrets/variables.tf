@@ -17,3 +17,7 @@ variable "gsuite" {
 variable "cloudflare" {
   type = string
 }
+
+variable "dockerhub" {
+  type = string
+}

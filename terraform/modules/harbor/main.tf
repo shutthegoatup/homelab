@@ -184,3 +184,16 @@ path "*" {
 }
 EOT
 }
+
+data "vault_kv_secret_v2" "dockerhub" {
+  mount = "kvv2"
+  name  = "dockerhub"
+}
+
+resource "harbor_registry" "docker" {
+  provider_name = "docker-hub"
+  name          = "dockerhub-cache"
+  endpoint_url  = "https://hub.docker.com"
+  access_id     = data.vault_kv_secret_v2.dockerhub.data.username
+  access_secret = data.vault_kv_secret_v2.dockerhub.data.token
+}
