@@ -4,7 +4,7 @@ k8sServiceHost: "192.168.1.5"
 k8sServicePort: "6443"
 
 l2announcements:
-  enabled: false
+  enabled: true
 
 socketLB:
   enabled: false
@@ -18,11 +18,10 @@ nodePort:
 hostPort:
   enabled: true
 
-bpf:
-  masquerade: false
+enableRuntimeDeviceDetection: true
 
 ipam:
   mode: kubernetes
 
 ingressController:
-  enabled: false
+  enabled: true
