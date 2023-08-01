@@ -191,11 +191,13 @@ data "vault_kv_secret_v2" "dockerhub" {
 }
 
 resource "harbor_project" "main" {
+  depends_on  = [vault_generic_endpoint.harbor_config]
   name        = "dockerhub-cache"
   registry_id = harbor_registry.docker.registry_id
 }
 
 resource "harbor_registry" "docker" {
+  depends_on    = [vault_generic_endpoint.harbor_config]
   provider_name = "docker-hub"
   name          = "dockerhub-cache"
   endpoint_url  = "https://hub.docker.com"

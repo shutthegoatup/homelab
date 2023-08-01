@@ -1,4 +1,15 @@
 ---
+crds:
+  enabled: false
+
+prometheus:
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+
 grafana:  
   ingress:
     enabled: true
@@ -24,6 +35,7 @@ grafana:
       allowed_domains: ${fqdn}
       hosted_domain: ${fqdn}
       use_pkce: true
+      role_attribute_path: contains(info.groups[*], 'superadmin') && 'Admin'
   envValueFrom:
     GF_AUTH_GOOGLE_CLIENT_ID:
       secretKeyRef:

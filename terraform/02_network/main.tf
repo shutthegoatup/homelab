@@ -4,8 +4,14 @@ data "kubernetes_secret_v1" "input_vars" {
   }
 }
 
+module "kube-prometheus-crds" {
+  source = "../modules/kube-prometheus-crds"
+
+}
+
 module "cilium" {
-  source = "../modules/cilium"
+  depends_on = [module.kube-prometheus-crds]
+  source     = "../modules/cilium"
 }
 
 module "ingress" {
