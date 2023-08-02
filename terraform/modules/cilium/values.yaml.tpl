@@ -7,7 +7,7 @@ l2announcements:
   enabled: false
 
 socketLB:
-  enabled: false
+  enabled: true
 
 externalIPs:
   enabled: true

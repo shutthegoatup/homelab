@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         folder: [02_network, 03_observability, 04_cicd, 05_services]
-    name: network   
+    name: terraform plan   
     runs-on: b
     container: hashicorp/terraform:latest
     defaults:
