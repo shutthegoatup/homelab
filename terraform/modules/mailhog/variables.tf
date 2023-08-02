@@ -3,6 +3,11 @@ variable "namespace" {
   default = "mailhog"
 }
 
+variable "host" {
+  type    = string
+  default = "mailhog"
+}
+
 variable "domain" {
   type    = string
   default = "shutthegoatup.com"
