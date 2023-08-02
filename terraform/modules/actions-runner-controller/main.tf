@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "ns" {
 resource "helm_release" "gha-runner-scale-set-controller" {
   wait          = true
   wait_for_jobs = true
-  name          = "arc"
+  name          = "a"
   repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart         = "gha-runner-scale-set-controller"
   namespace     = kubernetes_namespace.ns.metadata.0.name
@@ -21,7 +21,7 @@ resource "helm_release" "gha-runner-scale-set" {
   depends_on    = [helm_release.gha-runner-scale-set-controller]
   wait          = true
   wait_for_jobs = true
-  name          = "gha-runner-scale-set"
+  name          = "b"
   repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart         = "gha-runner-scale-set"
   namespace     = kubernetes_namespace.ns.metadata.0.name
