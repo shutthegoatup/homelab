@@ -1,5 +1,12 @@
 ---
 controller:
+  metrics: 
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels: 
+        release: kube-prometheus-stack
+
   replicas: 2
   extraArgs: 
     default-ssl-certificate: "kube-ingress/wildcard-tls"

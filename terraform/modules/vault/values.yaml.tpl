@@ -75,12 +75,14 @@ injector:
 serverTelemetry:
   serviceMonitor:
     enabled: true
-    selectors: {}
+    selectors: 
+      release: kube-prometheus-stack
     interval: 30s
     scrapeTimeout: 10s
   prometheusRules:
       enabled: true
-      selectors: {}
+      selectors: 
+        release: kube-prometheus-stack
       rules: 
         - alert: vault-HighResponseTime
           annotations:

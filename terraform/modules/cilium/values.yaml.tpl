@@ -7,7 +7,7 @@ l2announcements:
   enabled: false
 
 socketLB:
-  enabled: false
+  enabled: true
 
 externalIPs:
   enabled: true
@@ -26,3 +26,18 @@ ipam:
 
 ingressController:
   enabled: false
+
+apiserver:
+  metrics:
+    serviceMonitor:
+      enabled: true
+      labels: 
+        release: kube-prometheus-stack
+
+hubble:
+  metrics: 
+    enabled: {dns:query;ignoreAAAA,drop,tcp,flow,icmp,http}
+    serviceMonitor:
+      enabled: true
+      labels: 
+        release: kube-prometheus-stack
