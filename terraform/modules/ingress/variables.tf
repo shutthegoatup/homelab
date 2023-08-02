@@ -22,8 +22,17 @@ variable "cloudflare_api_token" {
   type = string
 }
 
-
 variable "domains_list" {
   type    = list(string)
-  default = ["*.shutthegoatup.com", "*.positron.uk", "*.adegnan.net", "*.secureweb.ltd", "shutthegoatup.com", "positron.uk", "adegnan.net", "secureweb.ltd"]
+  default = [
+    "*.notprod.positron.uk", 
+    "*.notprod.shutthegoatup.com", 
+    "*.shutthegoatup.com", 
+    "*.positron.uk", 
+    "*.adegnan.net", 
+    "*.secureweb.ltd", 
+    "shutthegoatup.com", 
+    "positron.uk", 
+    "adegnan.net", 
+    "secureweb.ltd"]
 }
