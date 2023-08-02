@@ -1,3 +1,7 @@
+module "mailhog" {
+  source = "../modules/mailhog"
+}
+
 module "downloads" {
   source = "../modules/downloads"
 }
