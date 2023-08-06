@@ -50,21 +50,7 @@ data "vault_identity_oidc_client_creds" "creds" {
   name = vault_identity_oidc_client.client.name
 }
 
-resource "harbor_config_auth" "oidc" {
-  depends_on         = [helm_release.helm]
-  auth_mode          = "oidc_auth"
-  primary_auth_mode  = true
-  oidc_name          = "vault"
-  oidc_endpoint      = var.oidc_endpoint
-  oidc_client_id     = data.vault_identity_oidc_client_creds.creds.client_id
-  oidc_client_secret = data.vault_identity_oidc_client_creds.creds.client_secret
-  oidc_scope         = "openid,user"
-  oidc_verify_cert   = true
-  oidc_auto_onboard  = true
-  oidc_user_claim    = "fullname"
-  oidc_groups_claim  = "groups"
-  oidc_admin_group   = "superadmin"
-}
+
 
 resource "random_password" "robot_password" {
   length      = 16

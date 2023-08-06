@@ -7,7 +7,7 @@
     jobs:
       network:
         name: network   
-        runs-on: gha-runner-scale-set
+        runs-on: b
         container: hashicorp/terraform:latest
         defaults:
           run:
@@ -20,7 +20,7 @@
             run: terraform plan
       observability:
         name: observability    
-        runs-on: gha-runner-scale-set
+        runs-on: b
         container: hashicorp/terraform:latest
         defaults:
           run:
@@ -33,7 +33,7 @@
             run: terraform plan
       cicd:
         name: cicd  
-        runs-on: gha-runner-scale-set
+        runs-on: b
         container: hashicorp/terraform:latest
         defaults:
           run:
@@ -46,7 +46,7 @@
             run: terraform plan
       services:
         name: services    
-        runs-on: gha-runner-scale-set
+        runs-on: b
         container: hashicorp/terraform:latest
         defaults:
           run:
