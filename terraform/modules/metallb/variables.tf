@@ -10,5 +10,5 @@ variable "helm_version" {
 
 variable "addresses" {
   type    = string
-  default = "192.168.2.200-192.168.2.250"
+  default = "192.168.2.128/26"
 }

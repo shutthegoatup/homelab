@@ -13,7 +13,7 @@ resource "kubernetes_secret_v1" "secret" {
     api-token = var.cloudflare_api_token
   }
 }
-
+/*
 resource "helm_release" "nginx" {
   depends_on    = [helm_release.certs]
   wait          = true
@@ -26,7 +26,7 @@ resource "helm_release" "nginx" {
   values = [templatefile("${path.module}/values.yaml.tpl", {
   })]
 }
-
+*/
 resource "helm_release" "certs" {
   wait          = true
   wait_for_jobs = true

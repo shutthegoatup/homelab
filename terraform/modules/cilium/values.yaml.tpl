@@ -18,14 +18,17 @@ nodePort:
 hostPort:
   enabled: true
 
-bpf:
-  masquerade: false
-
 ipam:
   mode: kubernetes
 
 ingressController:
-  enabled: false
+  enabled: true
+  default: true
+  enforceHttps: true
+  loadbalancerMode: shared
+#  defaultSecretNamespace: kube-ingress
+#  defaultSecretName: wildcard-tls
+  loadBalancerClass: nginx
 
 apiserver:
   metrics:
@@ -41,3 +44,24 @@ hubble:
       enabled: true
       labels: 
         release: kube-prometheus-stack
+
+autoDirectNodeRoutes: true
+routing-mode: native
+ipv4NativeRoutingCIDR: 10.0.0.0/8
+
+l7proxy: true
+enableRuntimeDeviceDetection: true
+tunnel: "disabled"
+tunneling: false
+routingMode: native-routing
+native-routing-cidr: 10.0.0.0/8
+bpf:
+  masquerade: true
+
+operator:
+  # -- Enable the cilium-operator component (required).
+  enabled: true
+
+  # -- Roll out cilium-operator pods automatically when configmap is updated.
+  rollOutPods: true
+masquerade: true
