@@ -6,7 +6,6 @@ data "kubernetes_secret_v1" "input_vars" {
 
 module "kube-prometheus-crds" {
   source = "../modules/kube-prometheus-crds"
-
 }
 
 module "cilium" {
