@@ -13,6 +13,7 @@ controller:
   config:
     force-ssl-redirect: true
     use-proxy-protocol: true
+    worker-processes: "8"
   kind: Deployment
   service:
     type: LoadBalancer

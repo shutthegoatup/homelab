@@ -18,14 +18,17 @@ nodePort:
 hostPort:
   enabled: true
 
-bpf:
-  masquerade: false
-
 ipam:
   mode: kubernetes
 
 ingressController:
   enabled: false
+  default: true
+  enforceHttps: true
+  loadbalancerMode: shared
+#  defaultSecretNamespace: kube-ingress
+#  defaultSecretName: wildcard-tls
+  loadBalancerClass: nginx
 
 apiserver:
   metrics:
@@ -41,3 +44,6 @@ hubble:
       enabled: true
       labels: 
         release: kube-prometheus-stack
+
+routing-mode: native
+ipv4NativeRoutingCIDR: 10.0.0.0/8

@@ -5,7 +5,7 @@ variable "namespace" {
 
 variable "helm_version" {
   type    = string
-  default = "4.7.0"
+  default = "4.7.1"
 }
 
 variable "team_email" {
