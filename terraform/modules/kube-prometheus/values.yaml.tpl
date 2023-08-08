@@ -5,43 +5,32 @@ crds:
 prometheus:
   prometheusSpec:
     podMonitorSelectorNilUsesHelmValues: false
-prometheus:
-  prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
-
 
 grafana:  
   ingress:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - ${grafana-service-name}.${fqdn}
+      - ${grafana-host}.${domain}
     path: /
     pathType: Prefix
   grafana.ini:
     server:
-      root_url: https://${grafana-service-name}.${fqdn}
+      root_url: https://${grafana-host}.${domain}
     auth:
       disable_login_form: true
-    auth.google:
+    auth.generic_oauth:
       enabled: true
       allow_sign_up: true
       auto_login: true
-      client_id: notsecret
-      client_secret: notsecret
-      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
-      auth_url: https://accounts.google.com/o/oauth2/auth
-      token_url: https://accounts.google.com/o/oauth2/token
-      allowed_domains: ${fqdn}
-      hosted_domain: ${fqdn}
+      client_id: ${client-id}
+      client_secret: ${client-secret}
+      scopes: openid profile email groups
+      auth_url: https://vault.shutthegoatup.com/ui/vault/identity/oidc/provider/vault/authorize
+      token_url: https://vault.shutthegoatup.com/v1/identity/oidc/provider/vault/token
+      api_url: "https://vault.shutthegoatup.com/v1/identity/oidc/provider/vault/userinfo"
+      allowed_domains: ${domain}
       use_pkce: true
-      role_attribute_path: contains(info.groups[*], 'superadmin') && 'Admin'
-  envValueFrom:
-    GF_AUTH_GOOGLE_CLIENT_ID:
-      secretKeyRef:
-        name: gsuite
-        key: client-id
-    GF_AUTH_GOOGLE_CLIENT_SECRET:
-      secretKeyRef:
-        name: gsuite
-        key: client-secret
+      role_attribute_path: contains(groups[*], 'superadmin') && 'Admin'
+      allow_assign_grafana_admin: true
