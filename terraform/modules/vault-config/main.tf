@@ -31,7 +31,7 @@ resource "vault_jwt_auth_backend_role" "role" {
   role_type      = "oidc"
   claim_mappings = {
     "email" : "email"
-    "name" : "fullname"
+    "name" : "name"
     "groups" : "external_groups"
   }
   allowed_redirect_uris = ["http://localhost:8200/ui/vault/auth/oidc/oidc/callback",
@@ -82,12 +82,27 @@ resource "vault_kv_secret_v2" "secrets" {
   data_json           = sensitive(jsonencode(yamldecode(each.value)))
 }
 
-resource "vault_identity_oidc_scope" "user" {
-  name     = "user"
-  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}, \"groups\":{{identity.entity.groups.names}}, \"fullname\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.metadata.fullname}}}"
+resource "vault_identity_oidc_scope" "profile" {
+  name     = "profile"
+  template = "{\"name\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.metadata.name}}}"
 
-  description = "user scope."
+  description = "profile scope."
 }
+
+resource "vault_identity_oidc_scope" "email" {
+  name     = "email"
+  template = "{\"email\":{{identity.entity.aliases.${vault_jwt_auth_backend.oidc.accessor}.name}}}"
+
+  description = "email scope."
+}
+
+resource "vault_identity_oidc_scope" "groups" {
+  name     = "groups"
+  template = "{\"groups\":{{identity.entity.groups.names}}}"
+
+  description = "groups scope."
+}
+
 
 resource "vault_identity_oidc_provider" "vault" {
   name               = var.host
@@ -95,7 +110,11 @@ resource "vault_identity_oidc_provider" "vault" {
   issuer_host        = "${var.host}.${var.domain}"
   allowed_client_ids = ["*"]
 
-  scopes_supported = [vault_identity_oidc_scope.user.name]
+  scopes_supported = [
+    vault_identity_oidc_scope.profile.name, 
+    vault_identity_oidc_scope.email.name, 
+    vault_identity_oidc_scope.groups.name
+  ]
 }
 
 resource "vault_generic_endpoint" "plugin_name" {

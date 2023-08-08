@@ -8,12 +8,12 @@ variable "helm_version" {
   default = "47.1.0"
 }
 
-variable "grafana_service_name" {
+variable "grafana_host" {
   type    = string
   default = "grafana"
 }
 
-variable "fqdn" {
+variable "domain" {
   type    = string
   default = "shutthegoatup.com"
 }
@@ -21,4 +21,9 @@ variable "fqdn" {
 variable "secrets" {
   type    = list(any)
   default = ["gsuite"]
+}
+
+variable "oidc_endpoint" {
+  type    = string
+  default = "https://vault.shutthegoatup.com/v1/identity/oidc/provider/vault"
 }

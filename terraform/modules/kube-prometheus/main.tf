@@ -1,5 +1,4 @@
 resource "helm_release" "helm" {
-  depends_on    = [helm_release.secrets]
   wait          = true
   wait_for_jobs = true
   name          = "kube-prometheus-stack"
@@ -8,36 +7,34 @@ resource "helm_release" "helm" {
   namespace     = var.namespace
   version       = var.helm_version
   values = [templatefile("${path.module}/values.yaml.tpl", {
-    grafana-service-name = var.grafana_service_name,
-    fqdn                 = var.fqdn
+    grafana-host   = var.grafana_host,
+    domain         = var.domain
+    client-id      = data.vault_identity_oidc_client_creds.creds.client_id
+    client-secret  = data.vault_identity_oidc_client_creds.creds.client_secret
+    oidc-endpoint  = var.oidc_endpoint
   })]
 }
 
-resource "helm_release" "secrets" {
-  for_each      = toset(var.secrets)
-  wait          = true
-  wait_for_jobs = true
-  name          = each.key
-  repository    = "https://dysnix.github.io/charts"
-  chart         = "raw"
-  version       = "v0.3.2"
-  namespace     = var.namespace
-  values = [
-    <<-EOF
-    resources:
-    - apiVersion: secrets.hashicorp.com/v1beta1
-      kind: VaultStaticSecret
-      metadata:
-        namespace: ${var.namespace}
-        name: ${each.key}
-      spec:
-        mount: "kvv2"
-        type: kv-v2
-        path: ${each.key}
-        refreshAfter: 60s
-        destination:
-          create: true
-          name: ${each.key}
-          EOF
+resource "vault_identity_oidc_key" "key" {
+  name               = "grafana"
+  allowed_client_ids = ["*"]
+  rotation_period    = 3600
+  verification_ttl   = 3600
+}
+
+resource "vault_identity_oidc_client" "client" {
+  name = "grafana"
+  key  = vault_identity_oidc_key.key.name
+  redirect_uris = [
+    "https://${var.grafana_host}.${var.domain}/login/generic_oauth"
   ]
+  assignments = [
+    "allow_all"
+  ]
+  id_token_ttl     = 2400
+  access_token_ttl = 7200
+}
+
+data "vault_identity_oidc_client_creds" "creds" {
+  name = vault_identity_oidc_client.client.name
 }
