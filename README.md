@@ -58,7 +58,17 @@ Services required to observe, monitor & autoscale other services.
 
 There's a bug with the vault provider where you can't configure and use it in the same run.
 
-### terraform/04_cicd
+### terraform/04_operators
+
+Install operators used by other services
+
+- postgres
+- redis
+- minio
+
+Consumed by both cicd step a
+
+### terraform/05_cicd
 
 Services required to bootstrap the cluster to serve traffic.
 
@@ -66,12 +76,5 @@ Services required to bootstrap the cluster to serve traffic.
 - atlantis
 - github actions runner controller 
 - harbor
-- operators ( postgres, redis, minio )
 
 We can now automatically run tests, deploy ephemeral environments, and promote production ready services.  
-
-### terraform/05_servies
-
-Random services of doom.  
-
-If I want to test something, I might put it here.
