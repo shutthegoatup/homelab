@@ -22,4 +22,6 @@ module "sabnzbd" {
   source = "../modules/sabnzbd"
 }
 
-
+module "cloud-custodian" {
+  source = "../modules/cloud-custodian"
+}
