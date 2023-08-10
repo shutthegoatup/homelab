@@ -87,3 +87,33 @@ resource "helm_release" "certs" {
           EOF
   ]
 }
+
+resource "kubernetes_ingress_v1" "ingress" {
+  metadata {
+    name = "kubernetes"
+    annotations = {
+      "nginx.ingress.kubernetes.io/ssl-passthrough" = true
+    }
+  }
+  spec {
+    ingress_class_name = "nginx"
+    rule {
+              host = "kubernetes.shutthegoatup.com"
+
+      http {
+        path {
+          path = "/"
+          path_type = "Prefix"
+          backend {
+            service {
+              name = "kubernetes"
+              port {
+                number = 443
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
