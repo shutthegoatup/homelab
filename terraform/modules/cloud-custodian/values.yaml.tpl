@@ -1,6 +1,7 @@
 ---
 image:
-  repository: docker.io/nginx
+  repository: cloudcustodian/c7n-org
+  tag: latest
   pullPolicy: IfNotPresent
 
 scheduledPolicies: 
@@ -19,9 +20,23 @@ scheduledPolicies:
         - "tag:aws:autoscaling:groupName": absent
         - "tag:c7n_status": absent
 
+args:
+- "run"
+- "-c"
+- "/home/custodian/accounts/accounts.yaml"
+- "-s"
+- "/home/custodian/output"
+- "-u"
+- "/home/custodian/policies.yaml"
+- "-v"
+- "--region"
+- "all"
 
+envVars:
+  - name: AWS_DEFAULT_REGION
+    value: eu-central-1
 
 secret:
   enabled: true
-  mountPath: /config
+  mountPath: /home/custodian/accounts/
   secretName: custodian-aws-accounts

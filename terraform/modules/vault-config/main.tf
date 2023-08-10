@@ -111,8 +111,8 @@ resource "vault_identity_oidc_provider" "vault" {
   allowed_client_ids = ["*"]
 
   scopes_supported = [
-    vault_identity_oidc_scope.profile.name, 
-    vault_identity_oidc_scope.email.name, 
+    vault_identity_oidc_scope.profile.name,
+    vault_identity_oidc_scope.email.name,
     vault_identity_oidc_scope.groups.name
   ]
 }

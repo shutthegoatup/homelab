@@ -7,11 +7,11 @@ resource "helm_release" "helm" {
   namespace     = var.namespace
   version       = var.helm_version
   values = [templatefile("${path.module}/values.yaml.tpl", {
-    grafana-host   = var.grafana_host,
-    domain         = var.domain
-    client-id      = data.vault_identity_oidc_client_creds.creds.client_id
-    client-secret  = data.vault_identity_oidc_client_creds.creds.client_secret
-    oidc-endpoint  = var.oidc_endpoint
+    grafana-host  = var.grafana_host,
+    domain        = var.domain
+    client-id     = data.vault_identity_oidc_client_creds.creds.client_id
+    client-secret = data.vault_identity_oidc_client_creds.creds.client_secret
+    oidc-endpoint = var.oidc_endpoint
   })]
 }
 
