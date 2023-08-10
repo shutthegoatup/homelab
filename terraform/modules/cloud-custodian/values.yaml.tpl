@@ -1,6 +1,6 @@
 ---
 image:
-  repository: cloudcustodian/c7n-org
+  repository: docker.io/nginx
   pullPolicy: IfNotPresent
 
 scheduledPolicies: 
@@ -19,14 +19,9 @@ scheduledPolicies:
         - "tag:aws:autoscaling:groupName": absent
         - "tag:c7n_status": absent
 
-args:
-- "run"
-- "-v"
-- "-c /home/custodian/accounts/accounts.yaml"
-- "-s /home/custodian/output"
-- "-u /home/custodian/policies.yaml"
+
 
 secret:
   enabled: true
-  mountPath: /home/custodian/accounts
+  mountPath: /config
   secretName: custodian-aws-accounts

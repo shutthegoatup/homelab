@@ -16,8 +16,6 @@ resource "helm_release" "helm" {
   })]
 }
 
-
-
 resource "kubernetes_secret_v1" "secret" {
   metadata {
     name = "custodian-aws-accounts"
@@ -36,5 +34,4 @@ accounts:
     EOT
     )
   }
-
 }
