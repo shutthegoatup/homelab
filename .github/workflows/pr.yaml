@@ -11,9 +11,9 @@ jobs:
     if: github.event.pull_request.merged != true
     strategy:
       matrix:
-        folder: [02_network, 03_observability, 04_operators, 05_cicd, 06_services]
+        folder: [02_network, 03_observability, 04_operators, 05_cicd]
     name: terraform plan   
-    runs-on: b
+    runs-on: gha-runner-scale-set
     container: hashicorp/terraform:latest
     defaults:
       run:
