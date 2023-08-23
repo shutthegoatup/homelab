@@ -10,6 +10,7 @@ jobs:
   plan:
     if: github.event.pull_request.merged != true
     strategy:
+      max-parallel: 1
       matrix:
         folder: [02_network, 03_observability, 04_operators, 05_cicd]
     name: terraform plan   
