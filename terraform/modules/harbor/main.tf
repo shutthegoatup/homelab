@@ -13,11 +13,13 @@ resource "random_password" "helm_password" {
 }
 
 resource "helm_release" "helm" {
-  name       = "harbor"
-  chart      = "harbor"
-  repository = "https://helm.goharbor.io"
-  namespace  = kubernetes_namespace.ns.metadata.0.name
-  version    = var.helm_version
+  wait          = true
+  wait_for_jobs = true
+  name          = "harbor"
+  chart         = "harbor"
+  repository    = "https://helm.goharbor.io"
+  namespace     = kubernetes_namespace.ns.metadata.0.name
+  version       = var.helm_version
   values = [templatefile("${path.module}/values.yaml.tpl", {
     host           = var.host
     notary-host    = "notary"
