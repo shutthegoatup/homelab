@@ -9,30 +9,64 @@ server:
   enabled: true
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: ${ingress-class-name}
     hosts:
-      - host: ${service-name}.${fqdn}
+      - host: ${host}.${domain}
   standalone:
-    config: |
-      ui = true
-      plugin_directory = "/usr/local/libexec/vault"
-      listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-        # Enable unauthenticated metrics access (necessary for Prometheus Operator)
-        telemetry {
-          unauthenticated_metrics_access = "true"
+    enabled: false
+  ha:
+    enabled: true
+    setNodeId: true
+    replicas: 3
+    raft:
+      enabled: true
+      config: |
+        ui = true
+        plugin_directory = "/usr/local/libexec/vault"
+        disable_mlock = true
+        listener "tcp" {
+          tls_disable = 1
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+          # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+          telemetry {
+            unauthenticated_metrics_access = "true"
+          }
         }
-      }
-      storage "file" {
-        path = "/vault/data"
-      }
+        storage "raft" {
+          path = "/vault/data"
+          retry_join {
+            auto_join = "provider=k8s label_selector=\"app.kubernetes.io/name=vault,component=server\" namespace=\"{{ .Release.Namespace }}\"" 
+            auto_join_scheme = "http"
+            auto_join_port = 8200
+          }
+        }
 
-      telemetry {
-        prometheus_retention_time = "30s"
-        disable_hostname = true
-      }
+        service_registration "kubernetes" {}
+
+        telemetry {
+          prometheus_retention_time = "30s"
+          disable_hostname = true
+        }
+  extraContainers: 
+    - name: unseal
+      image: ghcr.io/bank-vaults/bank-vaults:1.20.4
+      args:
+        - "unseal"
+        - "--init"
+        - "--auto"
+        - "--raft"
+        - "--raft-leader-address"
+        - "http://vault-0:8200"
+        - "--mode" 
+        - "k8s"
+        - "--k8s-secret-name"
+        - "vault"
+        - "--k8s-secret-namespace"
+        - "vault"
+      env:
+        - name: VAULT_ADDR
+          value: "http://localhost:8200"
   extraInitContainers: 
     - name: vault-plugin-harbor
       image: alpine

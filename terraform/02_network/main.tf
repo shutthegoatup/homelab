@@ -1,9 +1,3 @@
-data "kubernetes_secret_v1" "input_vars" {
-  metadata {
-    name = "input-vars"
-  }
-}
-
 module "kube-prometheus-crds" {
   source = "../modules/kube-prometheus-crds"
 }
@@ -40,4 +34,6 @@ module "echo" {
 module "vault" {
   depends_on = [module.ingress]
   source     = "../modules/vault"
+
+  secrets = nonsensitive(data.kubernetes_secret_v1.input_vars.data)
 }
