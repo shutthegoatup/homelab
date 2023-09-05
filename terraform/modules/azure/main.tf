@@ -38,7 +38,6 @@ resource "azuread_application" "homelab" {
       type = "Scope"
     }
   }
-
 }
 
 resource "azuread_service_principal" "homelab" {
