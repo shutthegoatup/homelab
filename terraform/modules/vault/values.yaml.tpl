@@ -11,7 +11,7 @@ server:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - host: ${service-name}.${fqdn}
+      - host: ${host}.${domain}
   standalone:
     config: |
       ui = true
