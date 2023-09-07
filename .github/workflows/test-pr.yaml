@@ -29,7 +29,7 @@ jobs:
           method: jwt
           jwtGithubAudience: sigstore # set the GitHub token's aud claim
           secrets: |
-            kvv2/dockerhub username ;
+            secret/kvv2/dockerhub username ;
             
       - id: plan
         run: echo $TEST
