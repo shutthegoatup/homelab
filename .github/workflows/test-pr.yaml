@@ -1,0 +1,36 @@
+---
+name: "Pull Request"
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  plan:
+    permissions:
+        contents: read
+        id-token: write
+    name: terraform plan   
+    runs-on: gha-runner-scale-set
+    container: hashicorp/terraform:latest
+    defaults:
+      run:
+        working-directory: terraform/${{ matrix.folder }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3     
+      - name: Import Secrets
+        id: import-secrets
+        uses: hashicorp/vault-action@v2     
+        with:
+          url: https://vault.shutthegoatup.com
+          role: robot
+          method: jwt
+          jwtGithubAudience: sigstore # set the GitHub token's aud claim
+          secrets: |
+            kvv2/dockerhub/username | TEST ;
+            
+      - id: plan
+        run: echo $TEST
+
