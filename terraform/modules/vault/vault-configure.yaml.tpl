@@ -17,7 +17,7 @@ auth:
       oidc_discovery_url: "https://accounts.google.com"
       provider_config:
         provider: gsuite
-        gsuite_service_account: ${gsuite-service-account}
+        gsuite_service_account: '${gsuite-service-account}'
         gsuite_admin_impersonate: "allan@shutthegoatup.com"
         fetch_groups:             true
         fetch_user_info:          true
@@ -31,10 +31,11 @@ auth:
         - "http://localhost:8250/oidc/callback" 
         - "https://${host}.${domain}/ui/vault/auth/oidc/oidc/callback" 
       policies: default 
-      oidc_scopes:
-        - email
-        - groups
-        - profile
+      oidc_scopes: ["openid", "profile", "email"]
+  - type: oidc
+    config:
+      bound_issuer: "https://token.actions.githubusercontent.com"            
+      oidc_discovery_url: "https://token.actions.githubusercontent.com"
 
 groups:
   - name: superadmin
