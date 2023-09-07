@@ -32,10 +32,19 @@ auth:
         - "https://${host}.${domain}/ui/vault/auth/oidc/oidc/callback" 
       policies: default 
       oidc_scopes: ["openid", "profile", "email"]
-  - type: oidc
+  - type: jwt
     config:
       bound_issuer: "https://token.actions.githubusercontent.com"            
       oidc_discovery_url: "https://token.actions.githubusercontent.com"
+      default_role: robot 
+    roles:
+    - name: robot
+      role_type: jwt
+      user_claim: "actor"
+      bound_claims: 
+        repository: "shutthegoatup/homelab"
+      policies: superadmin 
+    
 
 groups:
   - name: superadmin
