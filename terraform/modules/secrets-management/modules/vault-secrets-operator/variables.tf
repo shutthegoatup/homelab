@@ -1,6 +1,6 @@
 variable "namespace" {
   type    = string
-  default = "vault-secrets-operator"
+  default = "vault"
 }
 
 variable "helm_version" {

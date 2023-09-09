@@ -45,7 +45,7 @@ resource "helm_release" "secrets" {
     <<-EOF
     resources:
     - apiVersion: secrets.hashicorp.com/v1beta1
-      kind: VaultStaticSecret
+      kind: VaultDynamicSecret
       metadata:
         namespace: ${var.namespace}
         name: ${each.key}
