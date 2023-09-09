@@ -57,7 +57,7 @@ resource "kubernetes_deployment_v1" "this" {
             "--k8s-secret-name",
             "vault-config-manager",
             "--k8s-secret-namespace",
-            "vault"]
+          "vault"]
           env {
             name  = "VAULT_ADDR"
             value = "http://vault-internal:8200"
@@ -84,7 +84,7 @@ resource "kubernetes_deployment_v1" "this" {
             "--k8s-secret-namespace",
             "vault",
             "--vault-config-file",
-            "/vault/autoconfig/vault-configure.yaml"]
+          "/vault/autoconfig/vault-configure.yaml"]
           env {
             name  = "VAULT_ADDR"
             value = "http://vault-active:8200"

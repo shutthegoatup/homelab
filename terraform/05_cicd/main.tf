@@ -48,25 +48,25 @@ resource "vault_identity_oidc_provider" "vault" {
 }
 
 module "atlantis" {
-  depends_on = [ vault_kv_secret_v2.secrets ]
-  source = "../modules/atlantis"
+  depends_on = [vault_kv_secret_v2.secrets]
+  source     = "../modules/atlantis"
 
 }
 
 module "actions-runner-controller" {
-  depends_on = [ vault_kv_secret_v2.secrets ]
-  source = "../modules/actions-runner-controller"
+  depends_on = [vault_kv_secret_v2.secrets]
+  source     = "../modules/actions-runner-controller"
 
 }
 
 module "harbor" {
-  depends_on = [ vault_kv_secret_v2.secrets ]
-  source = "../modules/harbor"
+  depends_on = [vault_kv_secret_v2.secrets]
+  source     = "../modules/harbor"
 
 }
 
 module "argopoj" {
-  depends_on = [ vault_kv_secret_v2.secrets ]
+  depends_on = [vault_kv_secret_v2.secrets]
 
   source = "../modules/argoproj"
 }
