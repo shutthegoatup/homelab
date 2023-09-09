@@ -1,5 +1,6 @@
-variable "secrets" {
-  type = map(any)
+variable "namespace" {
+  type    = string
+  default = "vault"
 }
 
 variable "host" {
@@ -10,4 +11,8 @@ variable "host" {
 variable "domain" {
   type    = string
   default = "shutthegoatup.com"
+}
+
+variable "secrets" {
+  type = map(any)
 }

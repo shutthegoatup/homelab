@@ -25,7 +25,7 @@ provider "helm" {
 
 provider "vault" {
   address                = "https://vault.shutthegoatup.com"
-  token                  = data.kubernetes_secret_v1.vault_token.data["root_token"]
+  token                  = data.kubernetes_secret_v1.vault_token.data["vault-root"]
   skip_child_token       = true
   skip_get_vault_version = true
 }

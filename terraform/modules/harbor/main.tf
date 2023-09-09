@@ -109,19 +109,7 @@ resource "harbor_robot_account" "system" {
   }
 }
 
-resource "vault_generic_endpoint" "harbor_enable" {
-  disable_read         = true
-  disable_delete       = true
-  path                 = "sys/mounts/harbor"
-  ignore_absent_fields = true
-
-  data_json = jsonencode({
-    type = "vault-plugin-harbor"
-  })
-}
-
 resource "vault_generic_endpoint" "harbor_config" {
-  depends_on           = [vault_generic_endpoint.harbor_enable]
   path                 = "harbor/config"
   ignore_absent_fields = true
 

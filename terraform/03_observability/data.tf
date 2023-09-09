@@ -6,7 +6,7 @@ data "kubernetes_secret_v1" "input_vars" {
 
 data "kubernetes_secret_v1" "vault_token" {
   metadata {
-    name      = "vault-root-token"
+    name      = "vault-config-manager"
     namespace = var.vault_namespace
   }
 }

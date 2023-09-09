@@ -4,6 +4,7 @@ gobal:
     prometheusOperator: true
 
 server:
+  updateStrategyType: "RollingUpdate"
   logLevel: trace
   logFormat: json
   enabled: true
@@ -13,26 +14,58 @@ server:
     hosts:
       - host: ${host}.${domain}
   standalone:
-    config: |
-      ui = true
-      plugin_directory = "/usr/local/libexec/vault"
-      listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-        # Enable unauthenticated metrics access (necessary for Prometheus Operator)
-        telemetry {
-          unauthenticated_metrics_access = "true"
+    enabled: false
+  ha:
+    enabled: true
+    setNodeId: true
+    replicas: 3
+    raft:
+      enabled: true
+      config: |
+        ui = true
+        plugin_directory = "/usr/local/libexec/vault"
+        disable_mlock = true
+        listener "tcp" {
+          tls_disable = 1
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+          # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+          telemetry {
+            unauthenticated_metrics_access = "true"
+          }
         }
-      }
-      storage "file" {
-        path = "/vault/data"
-      }
+        storage "raft" {
+          path = "/vault/data"
+          retry_join {
+            auto_join = "provider=k8s label_selector=\"app.kubernetes.io/name=vault,component=server\" namespace=\"{{ .Release.Namespace }}\"" 
+            auto_join_scheme = "http"
+            auto_join_port = 8200
+          }
+        }
 
-      telemetry {
-        prometheus_retention_time = "30s"
-        disable_hostname = true
-      }
+        service_registration "kubernetes" {}
+
+        telemetry {
+          prometheus_retention_time = "30s"
+          disable_hostname = true
+        }
+  extraContainers: 
+    - name: vault-unseal
+      image: ghcr.io/bank-vaults/bank-vaults:1.20.4
+      env:
+        - name: VAULT_ADDR
+          value: http://127.0.0.1:8200
+      args:
+        - unseal
+        - --mode
+        - k8s
+        - --k8s-secret-name
+        - vault-config-manager
+        - --k8s-secret-namespace
+        - vault
+        - --raft-ha-storage
+        - --raft-leader-address
+        - "http://vault-active:8200"
   extraInitContainers: 
     - name: vault-plugin-harbor
       image: alpine

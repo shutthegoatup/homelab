@@ -17,7 +17,3 @@ variable "helm_version" {
   type    = string
   default = "0.25.0"
 }
-
-variable "secrets" {
-  type = map(any)
-}

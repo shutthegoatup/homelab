@@ -42,9 +42,17 @@ auth:
       role_type: jwt
       user_claim: "actor"
       bound_claims: 
-        repository: "shutthegoatup/homelab"
+        repository: "shutthegoatup/*"
       policies: superadmin 
-    
+  - type: kubernetes
+    config:
+      kubernetes_host: "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT"
+    roles:
+      - name: vso
+        bound_service_account_names: default
+        bound_service_account_namespaces: "*"
+        policies: superadmin
+        ttl: 1h
 
 groups:
   - name: superadmin
@@ -69,4 +77,19 @@ secrets:
     description: "KV Version 2 secret engine mount"
     options:
       version: 2
+  - path: harbor
+    type: plugin
+    plugin_name: vault-plugin-harbor
+    description: harbor plugin
+  - path: kubernetes-reader
+    type: plugin
+    plugin_name: vault-plugin-secrets-kubernetes-reader
+    description: kubernetes reader plugin
+
+audit:
+  - type: file
+    description: "File based audit logging device"
+    options:
+      file_path: /dev/stdout
+
 
