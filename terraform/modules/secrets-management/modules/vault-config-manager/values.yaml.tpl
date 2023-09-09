@@ -30,6 +30,10 @@ auth:
       allowed_redirect_uris: 
         - "http://localhost:8250/oidc/callback" 
         - "https://${host}.${domain}/ui/vault/auth/oidc/oidc/callback" 
+      claim_mappings:
+        email: email
+        name: name
+        groups: external_groups
       policies: default 
       oidc_scopes: ["openid", "profile", "email"]
   - type: jwt
