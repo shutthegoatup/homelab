@@ -50,13 +50,14 @@ auth:
       policies: superadmin 
   - type: kubernetes
     config:
-      kubernetes_host: "https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT"
+      kubernetes_host: https://kubernetes.default.svc.cluster.local
     roles:
       - name: vso
         bound_service_account_names: default
         bound_service_account_namespaces: "*"
         policies: superadmin
         ttl: 1h
+        audience: https://kubernetes.default.svc.cluster.local
 
 groups:
   - name: superadmin
