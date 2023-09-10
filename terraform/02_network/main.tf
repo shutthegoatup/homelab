@@ -37,7 +37,9 @@ module "echo" {
   source     = "../modules/echoserver"
 }
 
-module "vault" {
+module "secrets-management" {
   depends_on = [module.ingress]
-  source     = "../modules/vault"
+  source     = "../modules/secrets-management"
+
+  secrets = nonsensitive(data.kubernetes_secret_v1.input_vars.data)
 }

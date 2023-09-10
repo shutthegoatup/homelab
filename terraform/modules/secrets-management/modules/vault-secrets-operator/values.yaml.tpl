@@ -5,8 +5,8 @@ defaultVaultConnection:
 defaultAuthMethod:
   enabled: true
   kubernetes:
-    role: ${vault-kube-auth-role}
+    role: vso
     serviceAccount: default
     tokenAudiences:
-    - vault
+    - https://kubernetes.default.svc.cluster.local
 
