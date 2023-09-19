@@ -11,7 +11,7 @@ resource "helm_release" "gha-runner-scale-set-controller" {
   repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart         = "gha-runner-scale-set-controller"
   namespace     = kubernetes_namespace.ns.metadata.0.name
-  version       = "0.5.0"
+  version       = var.helm_version
   values = [templatefile("${path.module}/values-arc-set-controller.yaml.tpl", {
     service-account = kubernetes_service_account.sa.metadata.0.name
   })]
@@ -25,7 +25,7 @@ resource "helm_release" "gha-runner-scale-set" {
   repository    = "oci://ghcr.io/actions/actions-runner-controller-charts"
   chart         = "gha-runner-scale-set"
   namespace     = kubernetes_namespace.ns.metadata.0.name
-  version       = "0.5.0"
+  version       = var.helm_version
   values = [templatefile("${path.module}/values-arc-set.yaml.tpl", {
     github-org-url       = "https://github.com/shutthegoatup",
     github-config-secret = "arc-github-app"

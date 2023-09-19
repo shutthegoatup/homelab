@@ -1,6 +1,6 @@
 variable "namespace" {
   type    = string
-  default = "actions-runner-controller"
+  default = "arc"
 }
 
 variable "fqdn" {
@@ -20,7 +20,7 @@ variable "metrics-service-name" {
 
 variable "helm_version" {
   type    = string
-  default = "0.23.2"
+  default = "0.6.0"
 }
 
 variable "secrets" {
