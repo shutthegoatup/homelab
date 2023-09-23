@@ -65,8 +65,10 @@ module "harbor" {
 
 }
 
+/*
 module "argopoj" {
   depends_on = [vault_kv_secret_v2.secrets]
 
   source = "../modules/argoproj"
 }
+*/
