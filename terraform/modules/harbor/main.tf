@@ -184,6 +184,14 @@ resource "harbor_project" "main" {
   depends_on  = [vault_generic_endpoint.harbor_config]
   name        = "dockerhub-cache"
   registry_id = harbor_registry.docker.registry_id
+  public      = true
+}
+
+resource "harbor_project" "quay_cache" {
+  depends_on  = [vault_generic_endpoint.harbor_config]
+  name        = "quay-cache"
+  registry_id = harbor_registry.quay.registry_id
+  public      = true
 }
 
 resource "harbor_registry" "docker" {
@@ -193,4 +201,11 @@ resource "harbor_registry" "docker" {
   endpoint_url  = "https://hub.docker.com"
   access_id     = data.vault_kv_secret_v2.dockerhub.data.username
   access_secret = data.vault_kv_secret_v2.dockerhub.data.token
+}
+
+resource "harbor_registry" "quay" {
+  depends_on    = [vault_generic_endpoint.harbor_config]
+  provider_name = "quay-io"
+  name          = "quay-cache"
+  endpoint_url  = "https://quay.io"
 }
