@@ -11,17 +11,19 @@ jobs:
     if: github.event.pull_request.merged != true
     strategy:
       matrix:
-        folder: [02_network, 03_observability, 04_operators, 05_cicd]
-    name: terraform plan   
-    runs-on: gha-runner-scale-set
-    container: hashicorp/terraform:latest
-    defaults:
-      run:
-        working-directory: terraform/${{ matrix.folder }}
+        profile: [ millie ]
+    name: Skaffold  
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4          
-      - run: terraform init
-      - id: plan
-        run: terraform plan -lock=false
+        uses: actions/checkout@v4
+      - uses: yokawasa/action-setup-kube-tools@v0.11.0
+        with:
+          kubectl: '1.29.2'
+          kustomize: '5.3.0'
+          helm: '3.14.0'
+          skaffold: '2.10.0'
+      - name: skaffold deploy
+        id: skaffold
+        run: skaffold deploy -p ${{matrix.profile}}
 
