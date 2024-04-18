@@ -1,0 +1,18 @@
+
+resources:
+- namespace.yaml
+- cluster-secret-store.yaml
+
+helmCharts:
+  - name: external-secrets 
+    releaseName: external-secrets 
+    repo: https://charts.external-secrets.io
+    version: 0.9.15-2
+    namespace: external-secrets 
+    includeCRDs: true
+    valuesInline:
+      serviceAccount:
+        create: true
+        automount: true
+        annotations: 
+          eks.amazonaws.com/role-arn: arn:aws:iam::180993369973:role/homelab-external-secrets
