@@ -9,21 +9,5 @@ on:
 jobs:
   plan:
     if: github.event.pull_request.merged != true
-    strategy:
-      matrix:
-        profile: [ millie ]
-    name: Skaffold  
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: yokawasa/action-setup-kube-tools@v0.11.0
-        with:
-          kubectl: '1.29.2'
-          kustomize: '5.3.0'
-          helm: '3.14.0'
-          skaffold: '2.10.0'
-      - name: skaffold deploy
-        id: skaffold
-        run: skaffold deploy -p ${{matrix.profile}}
+    uses: .github/workflows/environment.yaml
 

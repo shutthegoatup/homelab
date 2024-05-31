@@ -9,7 +9,7 @@ resources:
 helmCharts:
 - name: cilium
   releaseName: cilium
-  version: 1.15.3
+  version: 1.15.5
   repo: https://helm.cilium.io/
   namespace: kube-system
   includeCRDs: true
@@ -17,7 +17,7 @@ helmCharts:
     cni:
       binPath: /usr/lib/cni
     kubeProxyReplacement: strict
-    k8sServiceHost: "192.168.1.1"
+    k8sServiceHost: "176.9.39.138"
     k8sServicePort: "6443"
     operator:
       replicas: 2

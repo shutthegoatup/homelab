@@ -1,0 +1,39 @@
+on: 
+  workflow_call:
+
+permissions:
+    id-token: write
+
+jobs:
+    write_platform_secrets:
+        strategy:
+            matrix:
+                cluster: ["bandit", "ghost"]   
+        name: Save Static Secrets to Files
+        runs-on: ubuntu
+        steps: 
+          - uses: yokawasa/action-setup-kube-tools@v0.11.1
+          - run: |
+                cat << EOF
+                apiVersion: v1
+                kind: Config
+                clusters:
+                    - cluster:
+                        certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJUXpQb0ZXS1ArSUV3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRBME1UQXhOREEwTXpCYUZ3MHpOREEwTURneE5EQTVNekJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUQwTGdXSnd2ZDNuNGNudzlkQWdlQ2dWb2ZuMkd5Q2NTZ3UyYUlCQXhBRDk4ZkhXWE8vaDRscWY1eDEKZ1hHejdVZ3VXOE9oeXNwcDF0d09kUjdqNVJuS0FyaHlmbE41RWx0YUpnMFRTc3Nqa2wvUzNGL2MySDBoRFNYYwpScEhvRy9CTElPaWtyWDVxRFN5d3Qxa1lucWM1MWV4SzFGc1JNY3MrdDhYSjZoVnI2RlZ1L244YzhyeVB4NldwCkRwTGY5VWYrN1VvMXMwZ1hoVzV5RWFFYnhXOXZaRnEvZE5BanZEWW52TUhRNnAyaE84OW8vRmNmZzFRMkkrMWIKUGtlV2sxZEh6WVZvZi9GdzJUOEtiZTlpdWxuK1lCMEFRVlBTTmVHN2RKWGI0YnVzRS92OFRQZVdIcnJ3WmpiOQo2VkUwTTI2TXVNQWRQQlFKN3FYSFA3YWxaa1NIQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSNnMwb3VmckVza21pWHFCaVVjWDJmb2JXMU1EQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ0NiYy9qaktsbgpGRittQ0dSbXRFWGNUV29ybHNnZ2NEVnMzSGN6bDJkMFdLLzY2WjBHTHhVaEZhSEZLRXVXbHdBZ0xpQyszek9iClVCNXpyKzJJL2lCYVdkczJBenBrUGo0TElvTWxsUlpTb3FwRDRJaWxUbHNKbDVMUXNQZHpwWVNnZHJVTC9TM2MKYURTWmh6VUlUbENmd1VBNHVxcitYWVBtS20vZUowWTJKbDVDMU03MGR5cy9WZGRiUG1tVlYyc292cGhLMzhZZAoxOFUyVW9TTFp1MEZnc0VJSXNaRjhjOFVqOTJGZ3NkSGdPcTNJSzZGaExLSE1FMXczYlRZNmRLS2ZBSlhEKzFFCk11VnFiM3NCQ2lmU2ZOVk5lS1o1MmQvWkQ5RHN6RnVBcWF4aEZFMnpJbUEwV1dwc0RKcXJ6NG5kWnJ2cXNxbU8KNzlVNE9WQi9JM1lwCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+                        server: https://bandit.shutthegoatup.com:6443
+                      name: bandit
+                    - cluster:
+                        certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJUE5yYWhJUkpGQVF3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TXpFeU1USXdPVFEzTkROYUZ3MHpNekV5TURrd09UVXlORE5hTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURWV1l6SHY5RmNkWG1jU3U1bzR1YTlYTmdyeENHQW1MSEFSQ0J1clpxR2M2alZ4YTdxK2dTSVFubEoKNGNCUmJZTFZjcWJ0L0dES1FSOWRTVDQ3dHJmOS80Mi84bXl4cHN6bEJKSG1JTG01M0h6VTNqZEtvWTduZEpvSQpMdkxtKytLcnhzL1pUZTB1U3JjVnZjRGx5TlpGTjhaQUpldzdYZWVCdFNyUk1vZ2w2Z0VLQS9WNy93ZTA0ZkcxCmtUY0hXd2dlUGlkeXBETGt6U1FFVmhGWlE1TCtLM1VnN1BIVzluTEtvSk1GbUFtcmZ5MWVTbUJvYzQ0U01SaGsKV2h1UUxUQkEwRE83NlBCWC9SaWl6YnlOKzRiVVBCTHRidnlxWlJzaUIxMTZ4b21MREtJb2IvNE4wd1ppWHBlagpmNWI2TUhFRlF0QXNyL1VTV1FkL0o5R3FlcFYxQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRY29FUEpWUHZza1crYkxEaFdPbEtjRVNaWU1UQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQkJLalltOEo4MwprUkp5Q2I4V1p6Vlg2RWJ1WGtPaTNhcUdiemtTNU5WQXNXbEhLT0Z2WlJHbUk1aXVpaTZlcVdwOVFNR21iVW9iClBjYmF3alMzdDdGR3U2eHFsNmwydy90TkluVXFQbUo3czFRVEdkcU9YbkpOS041VlREdHQ4dWVIb1piMUF2RHYKbENuNllObENZaUEvOHlCR1gzSjVvZWdlajJpdHBwNDBzSGtZcFo1Wnk4cFY0ZWM1V1Q5YkNwQURmRUczNTZzUwordEp5RXZWWnVWbHVKaDRFa0lFM3NFNlRkeTRaYkxNaUtkMlpjOHE0eUV2V2laZFY1QWN5TzEzTWtYOHhPTTBUCjZYMkJwcVpWbTc0OWFvUXNqUjFHRGllSXZ6T3ZQQjVxWWJKN2FtdWdkZlptTEhZUWlSYkFTTXozLzZRc2Z0dHUKdFdrclpveFplcEVkCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+                        server: https://176.9.39.138:6443
+                      name: ghost
+                current-context: bandit
+                contexts:
+                - context:
+                    cluster: bandit
+                name: webhook
+                EOF
+                kubectl config set-context ${matrix.cluster}
+          - run: |
+                kubectl create secret generic platform-secrets -n kube-system \
+                    --from-literal=cloudflare_apitoken=${secrets.cloudflare_apitoken} 
+
