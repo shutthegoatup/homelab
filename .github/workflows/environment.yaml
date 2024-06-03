@@ -33,7 +33,8 @@ jobs:
                     cluster: bandit
                 name: webhook
                 EOF
-          - run: kubectl config set-context ${{matrix.cluster}}
+          - run: kubectl config use-context ${{matrix.cluster}}
+          - run: kubectl config view
           - run: |
                 kubectl create secret generic platform-secrets -n kube-system \
                     --from-literal=cloudflare_apitoken=${{secrets.cloudflare_apitoken}} 
