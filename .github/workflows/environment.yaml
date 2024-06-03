@@ -31,7 +31,7 @@ jobs:
                 - context:
                     cluster: bandit
                   name: bandit
-                  - context:
+                - context:
                     cluster: ghost
                   name: ghost
                 EOF
