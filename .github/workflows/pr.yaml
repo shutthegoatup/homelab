@@ -9,5 +9,5 @@ on:
 jobs:
   plan:
     if: github.event.pull_request.merged != true
-    uses: shuthegoatup/homelab/.github/workflows/environment.yaml@addKustomize
+    uses: ./.github/workflows/environment.yaml
 
