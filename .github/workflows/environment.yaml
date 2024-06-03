@@ -10,7 +10,7 @@ jobs:
             matrix:
                 cluster: ["bandit", "ghost"]   
         name: Save Static Secrets to Files
-        runs-on: ubuntu
+        runs-on: ubuntu-latest
         steps: 
           - uses: yokawasa/action-setup-kube-tools@v0.11.1
           - run: |
