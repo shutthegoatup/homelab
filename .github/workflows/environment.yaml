@@ -37,7 +37,18 @@ jobs:
                 EOF
           - run: kubectl config view
           - run: kubectl config use-context ${{matrix.cluster}}
+          - name: Install OIDC Client from Core Package
+            run: npm install @actions/core@1.6.0 @actions/http-client
+          - name: Get Id Token
+            uses: actions/github-script@v6
+            id: idtoken
+            with:
+              script: |
+                const coredemo = require('@actions/core')
+                let id_token = await coredemo.getIDToken()
+                coredemo.setOutput('id_token', id_token)
           - run: |
-                kubectl create secret generic platform-secrets -n kube-system \
+                kubectl --token=${{steps.idtoken.outputs.id_token}} \
+                    create secret generic platform-secrets -n kube-system \
                     --from-literal=cloudflare_apitoken=${{secrets.cloudflare_apitoken}} 
 
