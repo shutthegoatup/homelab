@@ -8,7 +8,7 @@ jobs:
     write_platform_secrets:
         strategy:
             matrix:
-                cluster: ["bandit", "ghost"]   
+                cluster: ["bandit"]   
         name: Save Static Secrets to Files
         runs-on: ubuntu-latest
         steps: 
