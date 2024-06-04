@@ -5,22 +5,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  plan: 
+  plan:
     strategy:
       matrix:
-        folder: [02_network, 03_observability, 04_operators, 05_cicd]
-    name: terraform plan   
-    runs-on: gha-runner-scale-set
-    container: hashicorp/terraform:latest
-    defaults:
-      run:
-        working-directory: terraform/${{ matrix.folder }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4          
-      - run: terraform init
-      - id: plan
-        run: terraform plan -lock=false
+        folder: [bandit, ghost]
+    if: github.event.pull_request.merged != true
+    uses: ./.github/workflows/deploy-secrets.yaml
+    with:
+      cluster: ${{ matrix.cluster }}
+
           
                 
           
