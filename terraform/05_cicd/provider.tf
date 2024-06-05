@@ -14,7 +14,7 @@ terraform {
     }
     harbor = {
       source  = "goharbor/harbor"
-      version = "3.10.2"
+      version = "3.10.11"
     }
   }
 }
