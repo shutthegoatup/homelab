@@ -7,7 +7,7 @@ on:
     - main
 
 jobs:
-  plan:
+  deploy-secrets:
     strategy:
       matrix:
         cluster: [bandit, ghost]
