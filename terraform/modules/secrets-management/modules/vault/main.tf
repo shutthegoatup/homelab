@@ -42,3 +42,19 @@ resource "kubernetes_role_binding_v1" "this" {
     namespace = var.namespace
   }
 }
+
+resource "kubernetes_cluster_role_binding_v1" "this" {
+  metadata {
+    name      = "vault-cluster-role"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "vault"
+    namespace = var.namespace
+  }
+}

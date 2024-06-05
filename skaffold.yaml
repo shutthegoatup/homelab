@@ -1,0 +1,19 @@
+apiVersion: skaffold/v4beta5 
+kind: Config 
+metadata: 	
+  name: homelab
+profiles:
+  - name: ghost
+    manifests:
+      kustomize:
+        paths:
+          - kustomize/overlay/ghost
+        buildArgs:
+          - --enable-helm
+  - name: millie
+    manifests:
+      kustomize:
+        paths:
+          - kustomize/overlay/millie
+        buildArgs:
+          - --enable-helm

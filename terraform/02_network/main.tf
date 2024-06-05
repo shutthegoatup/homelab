@@ -14,16 +14,11 @@ module "cilium" {
 }
 
 module "ingress" {
-  depends_on = [module.cert-manager, module.metallb]
+  depends_on = [module.cert-manager]
   source     = "../modules/ingress"
 
   team_email           = "letsencrypt@secureweb.ltd"
   cloudflare_api_token = yamldecode(data.kubernetes_secret_v1.input_vars.data.cloudflare).cloudflare_api_token
-}
-
-module "metallb" {
-  depends_on = [module.cilium]
-  source     = "../modules/metallb"
 }
 
 module "cert-manager" {
@@ -37,9 +32,3 @@ module "echo" {
   source     = "../modules/echoserver"
 }
 
-module "secrets-management" {
-  depends_on = [module.ingress]
-  source     = "../modules/secrets-management"
-
-  secrets = nonsensitive(data.kubernetes_secret_v1.input_vars.data)
-}
