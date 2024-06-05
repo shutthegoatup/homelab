@@ -8,8 +8,7 @@ jobs:
   plan:
     strategy:
       matrix:
-        folder: [bandit, ghost]
-    if: github.event.pull_request.merged != true
+        cluster: [bandit, ghost]
     uses: ./.github/workflows/deploy-secrets.yaml
     with:
       cluster: ${{ matrix.cluster }}
