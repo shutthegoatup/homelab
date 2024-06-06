@@ -15,8 +15,11 @@ permissions:
     id-token: write
 
 jobs:
-    write_platform_secrets:
-        name: Save Static Secrets to Files
+    deploy:
+        name: kubernetes deploy
+        strategy:
+          matrix:
+            stage: [01_init, 02_network]
         runs-on: ubuntu-latest
         steps: 
           - uses: actions/checkout@v4
@@ -29,5 +32,5 @@ jobs:
                 cloudflare_apitoken=${{secrets.cloudflare_apitoken}}
                 EOF
           - run: |
-                kubectl apply -k ./kustomize/base/secrets
+                kubectl apply -k ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }}
 
