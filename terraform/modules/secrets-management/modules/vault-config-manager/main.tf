@@ -49,7 +49,7 @@ resource "kubernetes_deployment_v1" "this" {
       spec {
         service_account_name = kubernetes_service_account_v1.this.metadata.0.name
         init_container {
-          image = "ghcr.io/bank-vaults/bank-vaults:1.20.4"
+          image = "ghcr.io/bank-vaults/bank-vaults:v1.31.1"
           name  = "init"
           args = ["init",
             "--mode",
@@ -74,7 +74,7 @@ resource "kubernetes_deployment_v1" "this" {
           }
         }
         container {
-          image = "ghcr.io/bank-vaults/bank-vaults:1.20.4"
+          image = "ghcr.io/bank-vaults/bank-vaults:v1.31.1"
           name  = "configure"
           args = ["configure",
             "--mode",
