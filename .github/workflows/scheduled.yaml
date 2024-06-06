@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         cluster: [bandit, ghost]
-    uses: ./.github/workflows/deploy-secrets.yaml
+    uses: ./.github/workflows/deploy.yaml
     with:
       cluster: ${{ matrix.cluster }}
 
