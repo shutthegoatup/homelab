@@ -1,0 +1,15 @@
+
+resources:
+- namespace.yaml
+- serviceaccount.yaml
+- cluster-secret-store.yaml
+
+helmCharts:
+  - name: external-secrets 
+    releaseName: external-secrets 
+    repo: https://charts.external-secrets.io
+    version: 0.9.18
+    namespace: external-secrets 
+    includeCRDs: false
+    valuesInline:
+      installCRDs: true

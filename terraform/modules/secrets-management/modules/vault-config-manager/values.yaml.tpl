@@ -45,6 +45,7 @@ auth:
     - name: robot
       role_type: jwt
       user_claim: "actor"
+      bound_claims_type: "glob"
       bound_claims: 
         repository: "shutthegoatup/*"
       policies: superadmin 
@@ -82,6 +83,17 @@ secrets:
     description: "KV Version 2 secret engine mount"
     options:
       version: 2
+  - type: kubernetes
+    path: kubernetes
+    configuration:
+      config: 
+        -  name: ''
+      roles:
+        - name: gha
+          allowed_kubernetes_namespaces: "*"
+          kubernetes_role_type: "ClusterRole"
+          kubernetes_role_name: "cluster-admin"
+
   - path: harbor
     type: plugin
     plugin_name: vault-plugin-harbor
