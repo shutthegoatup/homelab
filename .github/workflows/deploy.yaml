@@ -28,7 +28,7 @@ jobs:
             with:
               cluster: ${{ inputs.cluster }}
           - run: |
-                cat << EOF > ./kustomize/base/secrets/.env.secret
+                cat << EOF > ./kustomize/bases/secrets/.env.secret
                 cloudflare_apitoken=${{secrets.cloudflare_apitoken}}
                 EOF
           - run: |
