@@ -1,3 +1,2 @@
 resources:
-  - ../../../bases/cert-manager
   - ../../../bases/external-dns
