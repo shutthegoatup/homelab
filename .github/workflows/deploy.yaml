@@ -16,7 +16,7 @@ permissions:
 
 jobs:
     deploy:
-        name: kubernetes deploy
+        name: ${{ matrix.stage }}
         strategy:
           max-parallel: 1
           matrix:
