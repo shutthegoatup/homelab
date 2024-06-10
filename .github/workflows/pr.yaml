@@ -12,7 +12,7 @@ jobs:
       matrix:
         cluster: [bandit, ghost]
     if: github.event.pull_request.merged != true
-    uses: ./.github/workflows/deploy-secrets.yaml
+    uses: ./.github/workflows/deploy.yaml
     with:
       cluster: ${{ matrix.cluster }}
 
