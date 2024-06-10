@@ -5,7 +5,7 @@ on:
     - cron:  '0 */8 * * *'
 
 jobs:
-  deploy-secrets:
+  deploy:
     strategy:
       matrix:
         cluster: [bandit, ghost]

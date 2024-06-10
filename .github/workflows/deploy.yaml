@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       cluster:
-        description: 'Cluster to Deploy too.'
+        description: 'Cluster Deploy Target'
         required: true
         type: string
       runs-on:
@@ -16,10 +16,11 @@ permissions:
 
 jobs:
     deploy:
-        name: kubernetes deploy
+        name: ${{ matrix.stage }}
         strategy:
+          max-parallel: 1
           matrix:
-            stage: [01_init, 02_network]
+            stage: [01_init, 02_network, 03_operators, 04_services]
         runs-on: ubuntu-latest
         steps: 
           - uses: actions/checkout@v4
@@ -32,5 +33,5 @@ jobs:
                 cloudflare_apitoken=${{secrets.cloudflare_apitoken}}
                 EOF
           - run: |
-                kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kubectl apply -f -
+                kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kubectl apply --server-side -f -
 
