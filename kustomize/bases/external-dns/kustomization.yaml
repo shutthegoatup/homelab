@@ -12,3 +12,18 @@ resources:
   - ./external-dns-clusterrole.yaml
   - ./external-dns-clusterrolebinding.yaml
   - ./namespace.yaml
+
+replacements:
+- source:
+    kind: Secret
+    name: platform-secrets
+    namespace: kube-system
+  fieldPaths:
+    - data.cloudflare_apitoken    
+  targets:
+  - select:
+      kind: Secret
+      name: cloudflare
+      namespace: external-dns
+    fieldPaths:
+    - data.cloudflare_apitoken
