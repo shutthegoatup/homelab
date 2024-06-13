@@ -10,6 +10,9 @@ on:
         default: 'ubuntu-latest'
         required: false
         type: string
+    secrets:
+      CLOUDFLARE_APITOKEN:
+        required: true
 
 permissions:
     id-token: write
