@@ -12,7 +12,7 @@ jobs:
     uses: ./.github/workflows/deploy.yaml
     with:
       cluster: ${{ matrix.cluster }}
-
+    secrets: inherit
           
                 
           
