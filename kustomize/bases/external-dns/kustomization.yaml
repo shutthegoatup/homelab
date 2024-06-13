@@ -19,8 +19,7 @@ replacements:
     kind: Secret
     name: platform-secrets
     namespace: kube-system
-  fieldPath:
-    - data.cloudflare_apitoken    
+    fieldPath: data.cloudflare_apitoken    
   targets:
   - select:
       kind: Secret
