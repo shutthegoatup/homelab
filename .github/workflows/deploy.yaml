@@ -33,10 +33,8 @@ jobs:
               cluster: ${{ inputs.cluster }}
           - run: |
                 cat << EOF > ./kustomize/bases/secrets/.env.secret
-                cloudflare_apitoken=${CLOUDFLARE_APITOKEN}
+                cloudflare_apitoken=${{ secrets.CLOUDFLARE_APITOKEN }}
                 EOF
-            env:
-              CLOUDFLARE_APITOKEN: ${{ secrets.CLOUDFLARE_APITOKEN }}
           - run: |
                 kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kubectl apply --force-conflicts --server-side -f -
 

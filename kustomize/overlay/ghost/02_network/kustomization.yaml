@@ -1,4 +1,5 @@
 resources:
+  - ../../../bases/secrets
   - ../../../bases/cilium
   - ../../../bases/external-dns
   - ../../../bases/cert-manager

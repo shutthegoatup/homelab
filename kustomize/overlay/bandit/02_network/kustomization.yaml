@@ -1,4 +1,5 @@
 resources:
+  - ../../../bases/secrets
   - ../../../bases/external-dns
   - ../../../bases/cert-manager
   - ../../../bases/ingress-nginx
