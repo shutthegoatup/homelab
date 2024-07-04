@@ -21,7 +21,7 @@ helmCharts:
         hostPort:
           enabled: true
         extraArgs: 
-          default-ssl-certificate: "kube-ingress/wildcard-tls"
+          default-ssl-certificate: "ingress-nginx/wildcard-tls"
         config:
           force-ssl-redirect: true
         kind: DaemonSet
