@@ -39,4 +39,5 @@ resources:
   - ingress.yaml
   - issuer.yaml
   - certificate.yaml
+  - secret.yaml
 
