@@ -13,7 +13,7 @@ replacements:
       name: httpbin
       namespace: httpbin
     fieldPaths:
-    - data.spec.rules.0.host
+    - spec.rules.0.host
     options:
       delimiter: "."
       index: 1
