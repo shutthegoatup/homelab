@@ -6,15 +6,10 @@ metadata:
   namespace: ingress-nginx
 spec:
   dnsNames:
-    - "shutthegoatup.com"
     - "*.shutthegoatup.com"
-    - "millie.shutthegoatup.com"
-    - "bandit.shutthegoatup.com"
-    - "ghost.shutthegoatup.com"
     - "*.millie.shutthegoatup.com"
     - "*.bandit.shutthegoatup.com"
     - "*.ghost.shutthegoatup.com"
-    - "positron.uk"
     - "*.positron.uk"
   secretName: wildcard-tls
   issuerRef:
