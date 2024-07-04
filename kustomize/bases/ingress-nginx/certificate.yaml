@@ -1,14 +1,3 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kubernetes-tls
-spec:
-  dnsNames:
-    - "bandit.shutthegoatup.com"
-  secretName: kubernetes-tls
-  issuerRef:
-    name: letsencrypt-prod
-    kind: Issuer
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -17,15 +6,10 @@ metadata:
   namespace: ingress-nginx
 spec:
   dnsNames:
-    - "shutthegoatup.com"
     - "*.shutthegoatup.com"
-    - "millie.shutthegoatup.com"
-    - "bandit.shutthegoatup.com"
-    - "ghost.shutthegoatup.com"
     - "*.millie.shutthegoatup.com"
     - "*.bandit.shutthegoatup.com"
     - "*.ghost.shutthegoatup.com"
-    - "positron.uk"
     - "*.positron.uk"
   secretName: wildcard-tls
   issuerRef:

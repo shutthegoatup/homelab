@@ -12,3 +12,5 @@ resources:
   - ./external-dns-clusterrole.yaml
   - ./external-dns-clusterrolebinding.yaml
   - ./namespace.yaml
+  - ./secret.yaml
+
