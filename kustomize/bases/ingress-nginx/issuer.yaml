@@ -1,21 +1,3 @@
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: allan+letsencrypt@shutthegoatup.com
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt-prod
-    solvers:
-    - selector:
-        dnsZones:
-          - "bandit.shutthegoatup.com"
-          - "ghost.shutthegoatup.com"
-      http01:
-        ingress:
-          ingressClassName: nginx
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
