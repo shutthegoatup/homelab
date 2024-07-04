@@ -36,7 +36,6 @@ helmCharts:
 
 resources:
   - namespace.yaml
-  - ingress.yaml
   - issuer.yaml
   - certificate.yaml
   - secret.yaml
