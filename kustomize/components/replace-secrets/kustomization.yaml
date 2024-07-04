@@ -14,3 +14,9 @@ replacements:
       namespace: external-dns
     fieldPaths:
     - data.cloudflare_apitoken
+  - select:
+      kind: Secret
+      name: cloudflare
+      namespace: ingress-nginx
+    fieldPaths:
+    - data.cloudflare_apitoken
