@@ -3,4 +3,4 @@ resources:
   - ../../../bases/httpbin
 
 components:
-  - ../../../components/replace-secrets
+  - ../../../components/replace-server-name
