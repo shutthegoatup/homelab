@@ -1,0 +1,6 @@
+
+configMapGenerator:
+- name: platform-config
+  namespace: kube-system
+  envs:
+  - .env.config
