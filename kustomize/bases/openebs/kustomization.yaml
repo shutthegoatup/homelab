@@ -8,6 +8,10 @@ helmCharts:
   repo: https://openebs.github.io/openebs
   namespace: openebs
   includeCRDs: true
-
-
-
+  valuesInline:
+    mayastor:
+      enabled: true
+    engines:
+      replicated:
+        mayastor:
+          enabled: false
