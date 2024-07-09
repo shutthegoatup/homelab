@@ -1,6 +1,7 @@
 resources:
   - ../../../bases/config
   - ../../../bases/httpbin
+  - ../../../bases/gitea
 
 components:
   - ../../../components/replace-server-name

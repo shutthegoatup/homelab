@@ -1,0 +1,10 @@
+helmCharts:
+- name: gitea
+  releaseName: gitea
+  version: 10.3.0
+  repo: https://dl.gitea.com/charts/
+  namespace: gitea
+  includeCRDs: true
+
+
+
