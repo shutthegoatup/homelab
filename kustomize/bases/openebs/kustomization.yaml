@@ -1,0 +1,13 @@
+resources:
+- namespace.yaml
+
+helmCharts:
+- name: openebs
+  releaseName: openebs
+  version: 4.1.0
+  repo: https://openebs.github.io/openebs
+  namespace: openebs
+  includeCRDs: true
+
+
+
