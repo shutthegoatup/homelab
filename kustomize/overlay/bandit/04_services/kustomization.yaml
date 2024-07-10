@@ -1,7 +1,6 @@
 resources:
   - ../../../bases/config
   - ../../../bases/httpbin
-  - ../../../bases/gitea
   - ../../../bases/openebs
 
 components:
