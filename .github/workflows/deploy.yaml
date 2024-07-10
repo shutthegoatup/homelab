@@ -28,6 +28,7 @@ jobs:
         steps: 
           - uses: actions/checkout@v4
           - uses: yokawasa/action-setup-kube-tools@v0.11.1
+          - uses: carvel-dev/setup-action@v2
           - uses: ./.github/actions/kube-login
             with:
               cluster: ${{ inputs.cluster }}
@@ -39,5 +40,5 @@ jobs:
                 server_name=${{ inputs.cluster }}
                 EOF
           - run: |
-                kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kubectl apply --force-conflicts --server-side -f -
+                kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kapp deploy -a homelab_${{ matrix.stage }} -f -
 
