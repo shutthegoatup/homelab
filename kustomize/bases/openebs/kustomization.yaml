@@ -9,8 +9,6 @@ helmCharts:
   namespace: openebs
   includeCRDs: true
   valuesInline:
-    mayastor:
-      enabled: true
     engines:
       replicated:
         mayastor:
