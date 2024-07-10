@@ -16,5 +16,9 @@ helmCharts:
     persistence:
       enabled: true
       storageClass: openebs-hostpath
-
+    ingress:
+      enabled: true
+      className: nginx
+      hosts:
+        - host: gitea.bandit.shutthegoatup.com
 
