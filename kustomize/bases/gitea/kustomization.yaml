@@ -19,6 +19,7 @@ helmCharts:
     ingress:
       enabled: true
       className: nginx
+      apiVersion: networking.k8s.io/v1
       hosts:
-        - host: gitea.bandit.shutthegoatup.com
+        - host: gitea.bandit.shutthegoatup.comf
 
