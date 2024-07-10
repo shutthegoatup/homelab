@@ -1,6 +1,7 @@
 resources:
   - ../../../bases/config
   - ../../../bases/httpbin
+  - ../../../bases/openebs
 
 components:
   - ../../../components/replace-server-name
