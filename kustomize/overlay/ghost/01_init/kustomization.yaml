@@ -1,3 +1,2 @@
 resources:
-  - ../../../bases/secrets
   - ../../../bases/crd
