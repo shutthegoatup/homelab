@@ -31,6 +31,8 @@ jobs:
               token: ${{secrets.GITHUB_TOKEN}}
           - uses: yokawasa/action-setup-kube-tools@v0.11.1
           - uses: carvel-dev/setup-action@v2
+            with:
+              token: ${{secrets.GITHUB_TOKEN}}
           - uses: ./.github/actions/kube-login
             with:
               cluster: ${{ inputs.cluster }}
