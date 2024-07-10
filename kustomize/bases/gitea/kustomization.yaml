@@ -22,5 +22,7 @@ helmCharts:
       apiVersion: networking.k8s.io/v1
       hosts:
         - host: gitea.bandit.shutthegoatup.com
-          paths: /
+          paths:
+          - path: /
+            pathType: Prefix
 
