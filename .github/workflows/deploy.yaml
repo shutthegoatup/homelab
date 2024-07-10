@@ -40,5 +40,5 @@ jobs:
                 server_name=${{ inputs.cluster }}
                 EOF
           - run: |
-                kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kapp deploy -a $(echo homelab_${{ matrix.stage }} | sed --expression='s/_/-/g') -f -
+                kustomize build --enable-helm ./kustomize/overlay/${{ inputs.cluster }}/${{ matrix.stage }} | kapp deploy -a $(echo homelab_${{ matrix.stage }} | sed --expression='s/_/-/g') -f - -y
 
