@@ -21,5 +21,6 @@ helmCharts:
       className: nginx
       apiVersion: networking.k8s.io/v1
       hosts:
-        - host: gitea.bandit.shutthegoatup.comf
+        - host: gitea.bandit.shutthegoatup.com
+          paths: /
 
