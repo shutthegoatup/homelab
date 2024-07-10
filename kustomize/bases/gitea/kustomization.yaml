@@ -11,7 +11,7 @@ helmCharts:
   namespace: gitea
   includeCRDs: true
   valuesInline:
-    globals:
+    global:
       storageClass: openebs-hostpath
 
 
