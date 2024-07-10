@@ -8,6 +8,9 @@ helmCharts:
   repo: https://dl.gitea.com/charts/
   namespace: gitea
   includeCRDs: true
+  valuesInline:
+    globals:
+      storageClass: openebs-hostpath
 
 
 
