@@ -13,6 +13,8 @@ helmCharts:
   valuesInline:
     global:
       storageClass: openebs-hostpath
-
+    persistence:
+      enabled: true
+      storageClass: openebs-hostpath
 
 
