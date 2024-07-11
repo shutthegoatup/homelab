@@ -8,3 +8,4 @@ resources:
 - example-kc.yaml
 - database.yaml
 - secret.yaml
+- realm.yaml
