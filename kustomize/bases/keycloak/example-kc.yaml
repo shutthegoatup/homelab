@@ -19,5 +19,6 @@ spec:
       key: password
   hostname:
     hostname: keycloak.bandit.shutthegoatup.com
+  features-disabled: "device-flow"
   proxy:
     headers: xforwarded
