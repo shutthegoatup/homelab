@@ -20,4 +20,4 @@ spec:
   hostname:
     hostname: keycloak.bandit.shutthegoatup.com
   proxy:
-    headers: xforwarded # double check your reverse proxy sets and overwrites the X-Forwarded-* headers
+    headers: xforwarded
