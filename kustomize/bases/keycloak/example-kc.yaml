@@ -4,8 +4,8 @@ metadata:
   name: example-kc
 spec:
   instances: 3
-    ingress:
-      className: nginx
+  ingress:
+    className: nginx
   db:
     vendor: postgres
     host: postgres-db
