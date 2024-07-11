@@ -7,5 +7,4 @@ resources:
 - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.5/kubernetes/kubernetes.yml
 - example-kc.yaml
 - database.yaml
-- secret.yaml
 - realm.yaml
