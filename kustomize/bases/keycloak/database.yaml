@@ -7,3 +7,4 @@ spec:
   instances: 3
   storage:
     size: 10Gi
+  storageClass: openebs-hostpath
