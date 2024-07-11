@@ -10,12 +10,12 @@ spec:
     httpEnabled: true
   db:
     vendor: postgres
-    host: postgres-db
+    host: example-kcpg-rw
     usernameSecret:
-      name: keycloak-db-secret
+      name: example-kcpg-app
       key: username
     passwordSecret:
-      name: keycloak-db-secret
+      name: example-kcpg-app
       key: password
   hostname:
     hostname: keycloak.bandit.shutthegoatup.com
