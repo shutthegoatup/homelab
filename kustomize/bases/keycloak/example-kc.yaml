@@ -1,0 +1,21 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: example-kc
+spec:
+  instances: 3
+    ingress:
+      className: nginx
+  db:
+    vendor: postgres
+    host: postgres-db
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+  hostname:
+    hostname: keycloak.bandit.shutthegoatup.com
+  proxy:
+    headers: xforwarded # double check your reverse proxy sets and overwrites the X-Forwarded-* headers
