@@ -1,0 +1,24 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: example-kc
+spec:
+  instances: 3
+  ingress:
+    className: nginx
+  http:
+    httpEnabled: true
+  db:
+    vendor: postgres
+    host: example-kcpg-rw
+    usernameSecret:
+      name: example-kcpg-app
+      key: username
+    passwordSecret:
+      name: example-kcpg-app
+      key: password
+  hostname:
+    hostname: keycloak.bandit.shutthegoatup.com
+  features-disabled: "device-flow"
+  proxy:
+    headers: xforwarded

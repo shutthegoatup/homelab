@@ -1,0 +1,10 @@
+namespace: keycloak
+
+resources:
+- namespace.yaml
+- https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.5/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
+- https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.5/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
+- https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.5/kubernetes/kubernetes.yml
+- example-kc.yaml
+- database.yaml
+- realm.yaml
