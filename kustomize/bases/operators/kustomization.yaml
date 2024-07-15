@@ -3,8 +3,3 @@ resources:
 - https://raw.githubusercontent.com/cockroachdb/cockroach-operator/master/install/operator.yaml
 - https://github.com/authzed/spicedb-operator/releases/latest/download/bundle.yaml
 - https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.23/releases/cnpg-1.23.1.yaml
-#- github.com/minio/operator?ref=v5.0.15
-
-replicas:
-  - name: minio-operator
-    count: 1
