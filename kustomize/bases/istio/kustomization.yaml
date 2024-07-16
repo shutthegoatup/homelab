@@ -9,7 +9,7 @@ helmCharts:
   namespace: istio-system
 - name: cni
   releaseName: istio-cni
-  version: 1.22.1
+  version: 1.22.3
   repo: https://istio-release.storage.googleapis.com/charts
   namespace: istio-system
   valuesInline:
