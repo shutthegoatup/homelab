@@ -2,3 +2,14 @@
 commonAnnotations:
   kapp.k14s.io/update-strategy: fallback-on-replace
 
+resources:
+- namespace.yaml
+- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.20/deploy/crds/bundle.yaml
+
+helmCharts:
+- name: external-secrets
+  releaseName: external-secrets
+  version: 0.9.20
+  repo: https://charts.external-secrets.io
+  namespace: external-secrets
+  includeCRDs: false
