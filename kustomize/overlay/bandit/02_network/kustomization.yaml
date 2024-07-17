@@ -3,6 +3,7 @@ resources:
   - ../../../bases/external-dns
   - ../../../bases/cert-manager
   - ../../../bases/ingress-nginx
+  - ../../../bases/istio
 
 components:
   - ../../../components/replace-secrets

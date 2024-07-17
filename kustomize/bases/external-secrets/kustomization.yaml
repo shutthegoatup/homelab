@@ -4,6 +4,7 @@ commonAnnotations:
 
 resources:
 - namespace.yaml
+- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.9.20/deploy/crds/bundle.yaml
 
 helmCharts:
 - name: external-secrets
@@ -11,4 +12,6 @@ helmCharts:
   version: 0.9.20
   repo: https://charts.external-secrets.io
   namespace: external-secrets
-  includeCRDs: true
+  includeCRDs: false
+  valuesInline:
+    installCRDs: false

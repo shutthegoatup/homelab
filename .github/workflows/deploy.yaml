@@ -33,6 +33,7 @@ jobs:
           - uses: carvel-dev/setup-action@v2
             with:
               token: ${{secrets.GITHUB_TOKEN}}
+              only: kapp
           - uses: ./.github/actions/kube-login
             with:
               cluster: ${{ inputs.cluster }}
