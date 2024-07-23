@@ -4,6 +4,7 @@ metadata:
   name: example-kc
 spec:
   instances: 3
+  image: ghcr.io/shutthegoatup/homelab/keycloak:latest
   ingress:
     className: nginx
   http:
