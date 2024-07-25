@@ -2,7 +2,6 @@ resources:
   - ../../../bases/config
   - ../../../bases/httpbin
   - ../../../bases/openebs
-  - ../../../bases/keycloak
 
 components:
   - ../../../components/replace-server-name
