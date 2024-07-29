@@ -9,6 +9,8 @@ helmCharts:
   namespace: vault
   valuesInline:
     server:
+      dataStorage:
+        storageClass: openebs-hostpath
       logLevel: trace
       logFormat: json
       enabled: true
