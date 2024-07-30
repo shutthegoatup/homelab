@@ -7,7 +7,7 @@ resources:
 
 images:
  - name: ghcr.io/bank-vaults/bank-vaults
-   newTag: 1.31.1
+   newTag: v1.31.1
 
 helmCharts:
 - name: vault
@@ -17,6 +17,7 @@ helmCharts:
   namespace: vault
   valuesInline:
     server:
+      affinity: {}
       dataStorage:
         storageClass: openebs-hostpath
       logFormat: json
@@ -77,13 +78,6 @@ helmCharts:
             - --raft-ha-storage
             - --raft-leader-address
             - "http://vault-active:8200"
-      volumes:
-        - name: plugins
-          emptyDir: {}
-      volumeMounts:
-        - mountPath: /usr/local/libexec/vault
-          name: plugins
-          readOnly: true
 
     csi:
       enabled: false
