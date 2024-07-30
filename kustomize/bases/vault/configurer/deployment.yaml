@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configure
+  namespace: vault
+  labels:
+    app: configure
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: configure
+  template:
+    metadata:
+      labels:
+        app: configure
+    spec:
+      serviceAccountName: vault-config-manager
+      initContainers:
+      - name: init
+        image: ghcr.io/bank-vaults/bank-vaults:1.20.4
+        args:
+          - init
+          - --mode
+          - k8s
+          - --k8s-secret-name
+          - vault-seal
+          - --k8s-secret-namespace
+          - vault
+        env:   
+          - name: VAULT_ADDR
+            value: http://vault-internal:8200
+      containers:
+      - name: configure
+        image: ghcr.io/bank-vaults/bank-vaults:1.20.4
+        args:
+          - configure
+          - --mode
+          - k8s
+          - --k8s-secret-name
+          - vault-seal
+          - --k8s-secret-namespace
+          - vault
+          - --vault-config-file
+          - /vault/autoconfig/vault-configure.yaml
+        env:   
+          - name: VAULT_ADDR
+            value: http://vault-active:8200
+        volumeMounts:  
+        - name: vault-config-manager
+          mountPath: /vault/autoconfig
+      volumes:  
+        - name: vault-config-manager
+          secret:  
+            secretName: vault-config-manager
