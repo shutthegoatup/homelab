@@ -17,7 +17,7 @@ helmCharts:
   namespace: vault
   valuesInline:
     server:
-      affinity: {}
+      affinity: ""
       dataStorage:
         storageClass: openebs-hostpath
       logFormat: json
