@@ -18,6 +18,9 @@ subjects:
 - kind: ServiceAccount
   name: vault-config-manager 
   namespace: vault
+- kind: ServiceAccount
+  name: vault
+  namespace: vault
 roleRef:
   kind: Role 
   name: vault-config-manager
