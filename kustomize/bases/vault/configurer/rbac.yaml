@@ -17,7 +17,6 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: vault-config-manager 
-  apiGroup: rbac.authorization.k8s.io
   namespace: vault
 roleRef:
   kind: Role 
