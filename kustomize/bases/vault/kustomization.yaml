@@ -72,7 +72,7 @@ helmCharts:
             - --mode
             - k8s
             - --k8s-secret-name
-            - vault-config-manager
+            - vault-seal
             - --k8s-secret-namespace
             - vault
             - --raft-ha-storage
