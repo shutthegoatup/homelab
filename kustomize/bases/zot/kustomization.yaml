@@ -7,10 +7,10 @@ helmCharts:
     releaseName: zot
     repo: https://zotregistry.dev/helm-charts
     namespace: zot
-    version: 4.10.0
+    version: 0.1.58
     includeCRDs: true
     valuesInline:
-      replicaCount: 2
+      replicaCount: 1
       ingress:
         enabled: true
         annotations: 
@@ -29,7 +29,7 @@ helmCharts:
       httpGet:
         scheme: HTTPS
 
-      persistence: false
+      persistence: true
       # PVC data, only used if persistence is 'true'
       pvc:
         # Make the chart create the PVC, this option is used with storageClasses that
