@@ -1,5 +1,6 @@
 resources:
 - minio.yaml
+- namespace.yaml
 
 helmCharts:
   - name: zot
