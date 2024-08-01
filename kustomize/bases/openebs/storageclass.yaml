@@ -8,7 +8,8 @@ parameters:
   compression: "off"
   dedup: "on"
   fstype: "zfs"
-  poolname: "zfspv-pool"
+  poolname: "data"
+  thinprovision: "yes"
 provisioner: zfs.csi.openebs.io
 volumeBindingMode: WaitForFirstConsumer
 allowedTopologies:

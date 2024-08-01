@@ -2,6 +2,8 @@ resources:
 - minio.yaml
 - namespace.yaml
 
+namespace: zot
+
 helmCharts:
   - name: zot
     releaseName: zot
@@ -30,18 +32,9 @@ helmCharts:
         scheme: HTTPS
 
       persistence: true
-      # PVC data, only used if persistence is 'true'
       pvc:
-        # Make the chart create the PVC, this option is used with storageClasses that
-        # can create volumes dynamically, if that is not the case is better to do it
-        # manually and set create to false
         create: true
-        # Name of the PVC to use or create if persistence is enabled, if not set the
-        # value '$CHART_RELEASE-pvc' is used
         name: null
-        # Volume access mode, if using more than one replica we need
         accessMode: "ReadWriteOnce"
-        # Size of the volume requested
         storage: 500Gi
-        # Name of the storage class to use if it is different than the default one
         storageClassName: openebs-zfspv
