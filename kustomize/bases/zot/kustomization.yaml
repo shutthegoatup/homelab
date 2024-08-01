@@ -13,6 +13,7 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       replicaCount: 1
+      mountConfig: true
       ingress:
         enabled: true
         annotations: 
@@ -38,3 +39,4 @@ helmCharts:
         accessMode: "ReadWriteOnce"
         storage: 500Gi
         storageClassName: openebs-zfspv
+  
