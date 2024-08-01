@@ -30,7 +30,7 @@ helmCharts:
             paths:
               - path: /
       httpGet:
-        scheme: HTTPS
+        scheme: HTTP
 
       persistence: true
       pvc:
