@@ -13,7 +13,6 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       replicaCount: 1
-      mountConfig: true
       ingress:
         enabled: true
         annotations: 
@@ -39,4 +38,17 @@ helmCharts:
         accessMode: "ReadWriteOnce"
         storage: 500Gi
         storageClassName: openebs-zfspv
-  
+
+      mountConfig: true
+      configFiles:
+        config.json: |-
+          {
+            "storage": { "rootDirectory": "/var/lib/registry" },
+            "http": { "address": "0.0.0.0", "port": "5000" },
+            "log": { "level": "info" }  
+            "extensions": {
+              "ui": {
+                "enable": true
+              }
+            }
+          }
