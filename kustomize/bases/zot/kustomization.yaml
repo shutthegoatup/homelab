@@ -49,6 +49,12 @@ helmCharts:
             "extensions": {
               "ui": {
                 "enable": true
+              },
+              "search": {
+                "enable": true,
+                "cve": {
+                  "updateInterval": "2h"
+                }
               }
             }
           }
