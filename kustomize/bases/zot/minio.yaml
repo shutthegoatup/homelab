@@ -1,0 +1,20 @@
+apiVersion: minio.min.io/v2
+kind: Tenant
+metadata:
+  name: zot-minio
+  namespace: zot
+spec:
+  pools:
+    - servers: 1
+      name: pool-0
+      volumesPerServer: 1
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          storageClassName: openebs-zfspv
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 500Gi

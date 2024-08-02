@@ -1,0 +1,19 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: openebs-zfspv
+allowVolumeExpansion: true
+parameters:
+  recordsize: "128k"
+  compression: "off"
+  dedup: "on"
+  fstype: "zfs"
+  poolname: "data"
+  thinprovision: "yes"
+provisioner: zfs.csi.openebs.io
+volumeBindingMode: WaitForFirstConsumer
+allowedTopologies:
+- matchLabelExpressions:
+  - key: kubernetes.io/hostname
+    values:
+      - millie

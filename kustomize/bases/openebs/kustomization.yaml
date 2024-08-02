@@ -2,6 +2,7 @@ namespace: openebs
 
 resources:
 - namespace.yaml
+- storageclass.yaml
 
 helmCharts:
 - name: openebs

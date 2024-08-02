@@ -1,0 +1,60 @@
+resources:
+- minio.yaml
+- namespace.yaml
+
+namespace: zot
+
+helmCharts:
+  - name: zot
+    releaseName: zot
+    repo: https://zotregistry.dev/helm-charts
+    namespace: zot
+    version: 0.1.58
+    includeCRDs: true
+    valuesInline:
+      replicaCount: 1
+      ingress:
+        enabled: true
+        annotations: 
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+        # If using nginx, disable body limits and increase read and write timeouts
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+        className: "nginx"
+        pathtype: ImplementationSpecific
+        hosts:
+          - host: zot.bandit.shutthegoatup.com
+            paths:
+              - path: /
+      httpGet:
+        scheme: HTTP
+
+      persistence: true
+      pvc:
+        create: true
+        name: null
+        accessMode: "ReadWriteOnce"
+        storage: 500Gi
+        storageClassName: openebs-zfspv
+
+      mountConfig: true
+      configFiles:
+        config.json: |-
+          {
+            "storage": { "rootDirectory": "/var/lib/registry" },
+            "http": { "address": "0.0.0.0", "port": "5000" },
+            "log": { "level": "info" },
+            "extensions": {
+              "ui": {
+                "enable": true
+              },
+              "search": {
+                "enable": true,
+                "cve": {
+                  "updateInterval": "2h"
+                }
+              }
+            }
+          }
