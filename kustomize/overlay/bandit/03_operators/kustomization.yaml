@@ -1,3 +1,4 @@
 resources:
   - ../../../bases/operators
   - ../../../bases/external-secrets
+  - ../../../bases/trivy-operator
