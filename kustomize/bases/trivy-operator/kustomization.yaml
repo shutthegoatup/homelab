@@ -1,0 +1,12 @@
+resources:
+  - namespace.yaml
+
+helmCharts:
+- name: trivy-operator
+  releaseName: trivy-operator
+  version: 0.21.4
+  repo: https://aquasecurity.github.io/helm-charts/
+  namespace: trivy-system
+  includeCRDs: true
+
+
