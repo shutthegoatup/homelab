@@ -11,7 +11,7 @@ parameters:
   compression: "lz4"
   dedup: "on"
   fstype: "zfs"
-  poolname: "data/k8s-default"
+  poolname: "data"
   thinprovision: "yes"
 provisioner: zfs.csi.openebs.io
 volumeBindingMode: WaitForFirstConsumer
@@ -31,7 +31,7 @@ parameters:
   compression: "lz4"
   dedup: "off"
   fstype: "zfs"
-  poolname: "data/k8s-postgres"
+  poolname: "data"
   thinprovision: "yes"
 provisioner: zfs.csi.openebs.io
 volumeBindingMode: WaitForFirstConsumer
@@ -51,7 +51,7 @@ parameters:
   compression: "lz4"
   dedup: "on"
   fstype: "zfs"
-  poolname: "data/k8s-largefiles"
+  poolname: "data"
   thinprovision: "yes"
 provisioner: zfs.csi.openebs.io
 volumeBindingMode: WaitForFirstConsumer
