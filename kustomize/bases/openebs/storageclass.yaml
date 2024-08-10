@@ -1,14 +1,57 @@
+---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: openebs-zfspv
+  annotations:
+    storageclass.kubernetes.io/is-default-class: true
 allowVolumeExpansion: true
 parameters:
   recordsize: "128k"
-  compression: "off"
+  compression: "lz4"
   dedup: "on"
   fstype: "zfs"
-  poolname: "data"
+  poolname: "data/k8s-default"
+  thinprovision: "yes"
+provisioner: zfs.csi.openebs.io
+volumeBindingMode: WaitForFirstConsumer
+allowedTopologies:
+- matchLabelExpressions:
+  - key: kubernetes.io/hostname
+    values:
+      - millie
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: openebs-zfspv-pgsql
+allowVolumeExpansion: true
+parameters:
+  recordsize: "8k"
+  compression: "lz4"
+  dedup: "off"
+  fstype: "zfs"
+  poolname: "data/k8s-postgres"
+  thinprovision: "yes"
+provisioner: zfs.csi.openebs.io
+volumeBindingMode: WaitForFirstConsumer
+allowedTopologies:
+- matchLabelExpressions:
+  - key: kubernetes.io/hostname
+    values:
+      - millie
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: openebs-zfspv-largefiles
+allowVolumeExpansion: true
+parameters:
+  recordsize: "1M"
+  compression: "lz4"
+  dedup: "on"
+  fstype: "zfs"
+  poolname: "data/k8s-largefiles"
   thinprovision: "yes"
 provisioner: zfs.csi.openebs.io
 volumeBindingMode: WaitForFirstConsumer
