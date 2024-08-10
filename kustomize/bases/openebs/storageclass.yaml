@@ -2,7 +2,7 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: openebs-zfspv
+  name: openebs-zfspv-default
   annotations:
     storageclass.kubernetes.io/is-default-class: true
 allowVolumeExpansion: true
