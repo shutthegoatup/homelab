@@ -5,6 +5,8 @@ resources:
   - ../../../bases/keycloak
   - ../../../bases/vault
   - ../../../bases/zot
+  - ../../../bases/immich
+
 
 components:
   - ../../../components/replace-server-name
