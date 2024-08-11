@@ -1,3 +1,5 @@
+namespace: immich
+
 resources:
   - namespace.yaml
   - pvc.yaml
