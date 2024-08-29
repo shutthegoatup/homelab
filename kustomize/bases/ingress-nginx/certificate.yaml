@@ -6,11 +6,14 @@ metadata:
   namespace: ingress-nginx
 spec:
   dnsNames:
+    - "shutthegoatup.com"
     - "*.shutthegoatup.com"
-    - "*.millie.shutthegoatup.com"
+    - "*.notprod.shutthegoatup.com"
     - "*.bandit.shutthegoatup.com"
     - "*.ghost.shutthegoatup.com"
+    - "positron.uk"
     - "*.positron.uk"
+    - "*.notprod.positron.uk"
   secretName: wildcard-tls
   issuerRef:
     name: letsencrypt-prod
