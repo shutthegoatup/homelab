@@ -12,7 +12,7 @@ helmCharts:
     valuesInline:
       controller:
         admissionWebhooks:
-          annotations: 
+          labels:
             sidecar.istio.io/inject: "false"
         tolerations: 
           - key: "node-role.kubernetes.io/control-plane"
