@@ -11,6 +11,9 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       controller:
+        admissionWebhooks:
+          annotations: 
+            sidecar.istio.io/inject: "false"
         tolerations: 
           - key: "node-role.kubernetes.io/control-plane"
             operator: "Exists"
@@ -33,6 +36,7 @@ helmCharts:
           default: true
       defaultBackend:
         enabled: true
+
 
 resources:
   - namespace.yaml
