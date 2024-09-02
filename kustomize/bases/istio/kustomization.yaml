@@ -19,3 +19,7 @@ helmCharts:
   version: 1.22.2
   repo: https://istio-release.storage.googleapis.com/charts
   namespace: istio-ingress
+  valuesInline:
+    defaults: 
+      service:
+        type: NodePort
