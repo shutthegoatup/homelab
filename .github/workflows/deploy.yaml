@@ -34,7 +34,7 @@ jobs:
             with:
               token: ${{secrets.GITHUB_TOKEN}}
               only: kapp
-          - uses: ./.github/actions/kube-login
+          - uses: shutthegoatup/kube-login@v1
             with:
               cluster: ${{ inputs.cluster }}
           - run: |
