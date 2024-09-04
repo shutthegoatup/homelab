@@ -1,6 +1,5 @@
 resources:
   - ../../../bases/secrets
-  - ../../../bases/cilium
   - ../../../bases/external-dns
   - ../../../bases/cert-manager
   - ../../../bases/ingress-nginx
@@ -8,3 +7,32 @@ resources:
 
 components:
   - ../../../components/replace-secrets
+
+helmCharts:
+- name: cilium
+  releaseName: cilium
+  version: 1.16.1
+  repo: https://helm.cilium.io/
+  namespace: kube-system
+  includeCRDs: true
+  valuesInline:
+    cni:
+      binPath: /usr/lib/cni
+    kubeProxyReplacement: true
+    k8sServiceHost: "176.9.39.138"
+    k8sServicePort: "6443"
+    operator:
+      replicas: 1
+    l2announcements:
+      enabled: false
+    socketLB:
+      enabled: true
+      hostNamespaceOnly: true
+    externalIPs:
+      enabled: true
+    nodePort:
+      enabled: true
+    hostPort:
+      enabled: true
+    ipam:
+      mode: kubernetes  

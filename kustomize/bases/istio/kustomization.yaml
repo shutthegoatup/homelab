@@ -8,9 +8,18 @@ helmCharts:
   repo: https://istio-release.storage.googleapis.com/charts
   namespace: istio-system
   valuesInline:
-    defaultRevision: defauklt
+    defaultRevision: default
 - name: istiod
   releaseName: istiod
   version: 1.22.2
   repo: https://istio-release.storage.googleapis.com/charts
   namespace: istio-system
+- name: gateway
+  releaseName: gateway
+  version: 1.22.2
+  repo: https://istio-release.storage.googleapis.com/charts
+  namespace: istio-ingress
+  valuesInline:
+    defaults: 
+      service:
+        type: NodePort
