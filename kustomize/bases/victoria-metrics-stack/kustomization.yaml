@@ -1,0 +1,10 @@
+resources:
+- namespace.yaml
+
+helmCharts:
+  - name: victoria-metrics-k8s-stack
+    releaseName: victoria-metrics-k8s-stack
+    repo: https://victoriametrics.github.io/helm-charts/
+    namespace: victoria-metrics-k8s-stack
+    version: 0.25.15
+    includeCRDs: true
