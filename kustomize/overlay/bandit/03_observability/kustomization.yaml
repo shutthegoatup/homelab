@@ -1,0 +1,2 @@
+resources:
+  - ../../../bases/victoria-metrics-k8s-stack

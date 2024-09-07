@@ -23,7 +23,7 @@ jobs:
         strategy:
           max-parallel: 1
           matrix:
-            stage: [01_init, 02_network, 03_operators, 04_services]
+            stage: [01_init, 02_network, 03_observability, 04_operators, 05_services]
         runs-on: ubuntu-latest
         steps: 
           - uses: actions/checkout@v4
