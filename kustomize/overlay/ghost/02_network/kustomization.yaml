@@ -4,7 +4,6 @@ resources:
   - ../../../bases/cert-manager
   - ../../../bases/ingress-nginx
   - ../../../bases/istio
-  - ../../../bases/victoria-metrics-stack
 
 components:
   - ../../../components/replace-secrets
