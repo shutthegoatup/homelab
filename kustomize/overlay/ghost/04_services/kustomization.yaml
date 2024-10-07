@@ -2,6 +2,8 @@ resources:
   - ../../../bases/config
   - ../../../bases/httpbin
   - ../../../bases/openebs
+  - ../../../bases/zitadel
+
 
 components:
   - ../../../components/replace-server-name
