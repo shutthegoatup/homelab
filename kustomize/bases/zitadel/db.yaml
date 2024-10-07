@@ -3,6 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: zitadel
+  namespace: zitadel
 spec:
   instances: 3
   bootstrap:

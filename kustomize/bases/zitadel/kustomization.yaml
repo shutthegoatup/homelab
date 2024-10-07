@@ -3,12 +3,14 @@ resources:
   - db.yaml
   - secrets.yaml
 
+namespace: zitadel
+
 helmCharts:
 - name: zitadel
   releaseName: zitadel
-#  version: 1.22.2
-  repo: https://charts.zitadel.com
   namespace: zitadel
+  version: 8.5.0
+  repo: https://charts.zitadel.com
   valuesInline:
     zitadel:
       masterkeySecretName: masterkey
