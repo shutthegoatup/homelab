@@ -1,0 +1,36 @@
+resources:
+  - namespace.yaml
+  - db.yaml
+  - secrets.yaml
+
+helmCharts:
+- name: zitadel
+  releaseName: zitadel
+#  version: 1.22.2
+  repo: https://charts.zitadel.com
+  namespace: zitadel
+  valuesInline:
+    zitadel:
+      masterkeyName: masterkey
+      configmapConfig:
+        ExternalSecure: true
+        ExternalDomain: zitadel.ghost.shutthegoatup.com
+        TLS:
+          Enabled: false
+        Database:
+          Postgres:
+            Host: zitadel
+            Port: 5432
+            Database: zitadel
+            MaxOpenConns: 20
+            MaxIdleConns: 10
+            MaxConnLifetime: 30m
+            MaxConnIdleTime: 5m
+            User:
+              Username: postgres
+              SSL:
+                Mode: disable
+            Admin:
+              Username: postgres
+              SSL:
+                Mode: disable
