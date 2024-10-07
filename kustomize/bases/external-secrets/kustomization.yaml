@@ -9,9 +9,13 @@ resources:
 helmCharts:
 - name: external-secrets
   releaseName: external-secrets
-  version: 0.9.20
+  version: 0.10.4
   repo: https://charts.external-secrets.io
   namespace: external-secrets
   includeCRDs: false
   valuesInline:
-    installCRDs: false
+    installCRDs: true
+    certController:
+      create: false
+    webhook:
+      create: false
