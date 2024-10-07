@@ -11,7 +11,7 @@ helmCharts:
   namespace: zitadel
   valuesInline:
     zitadel:
-      masterkeyName: masterkey
+      masterkeySecretName: masterkey
       configmapConfig:
         ExternalSecure: true
         ExternalDomain: zitadel.ghost.shutthegoatup.com
