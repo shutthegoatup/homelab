@@ -1,3 +1,7 @@
+commonAnnotations:
+  kapp.k14s.io/update-strategy: fallback-on-replace
+
+
 resources:
   - namespace.yaml
   - db.yaml
