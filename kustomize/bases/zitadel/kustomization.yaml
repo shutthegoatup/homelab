@@ -92,4 +92,4 @@ helmCharts:
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
       value: support@shutthegoatup.com
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_TLS
-      value: false
+      value: "none"
