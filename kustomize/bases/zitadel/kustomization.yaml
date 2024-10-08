@@ -21,18 +21,40 @@ helmCharts:
           Enabled: false
         Database:
           Postgres:
-            Host: zitadel-rw
-            Port: 5432
-            Database: zitadel
             MaxOpenConns: 20
             MaxIdleConns: 10
             MaxConnLifetime: 30m
             MaxConnIdleTime: 5m
-            User:
-              Username: postgres
-              SSL:
-                Mode: disable
-            Admin:
-              Username: postgres
-              SSL:
-                Mode: disable
+    env:
+    - name: ZITADEL_DATABASE_POSTGRES_HOST
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: host
+    - name: ZITADEL_DATABASE_POSTGRES_PORT
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: port
+    - name: ZITADEL_DATABASE_POSTGRES_DATABASE
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: dbname
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: user
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: password
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME
+      value: zitadel-db-user
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-db-pass
+          key: password
