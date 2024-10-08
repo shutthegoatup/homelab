@@ -60,5 +60,5 @@ helmCharts:
     - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: zitadel-db-pass
+          name: zitadel-db-password
           key: password
