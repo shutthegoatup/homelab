@@ -3,6 +3,7 @@ resources:
   - ../../../bases/httpbin
   - ../../../bases/openebs
   - ../../../bases/zitadel
+  - ../../../bases/mailhog
 
 
 components:

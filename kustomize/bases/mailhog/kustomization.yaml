@@ -1,0 +1,18 @@
+resources:
+- namespace.yaml
+
+helmCharts:
+- name: mailhog
+  releaseName: mailhog
+  version: 5.2.3
+  repo: https://codecentric.github.io/helm-charts
+  namespace: mailhog
+  valuesInline:
+    ingress:
+      enabled: true
+      className: nginx
+      hosts:
+        - host: mailhog.ghost.shutthegoatup.com
+          paths:
+            - path: /
+              pathType: Prefix
