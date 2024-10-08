@@ -80,7 +80,7 @@ helmCharts:
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
       value: mailhog.mailhog.svc
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PORT
-      value: 1025
+      value: "1025"
 #    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
 #      value: mailhog.mailhog.svc
 #    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
@@ -92,4 +92,4 @@ helmCharts:
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
       value: support@shutthegoatup.com
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_TLS
-      value: "none"
+      value: "false"
