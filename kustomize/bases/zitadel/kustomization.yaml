@@ -1,0 +1,79 @@
+commonAnnotations:
+  kapp.k14s.io/update-strategy: fallback-on-replace
+
+
+resources:
+  - namespace.yaml
+  - db.yaml
+  - secrets.yaml
+
+namespace: zitadel
+
+helmCharts:
+- name: zitadel
+  releaseName: zitadel
+  namespace: zitadel
+  version: 8.5.0
+  repo: https://charts.zitadel.com
+  valuesInline:
+    zitadel:
+      masterkeySecretName: masterkey
+      configmapConfig:
+        ExternalSecure: true
+        ExternalDomain: zitadel.ghost.shutthegoatup.com
+        TLS:
+          Enabled: false
+        Database:
+          Postgres:
+            MaxOpenConns: 20
+            MaxIdleConns: 10
+            MaxConnLifetime: 30m
+            MaxConnIdleTime: 5m
+    ingress:
+      enabled: true
+      className: nginx
+      hosts:
+        - host: zitadel.ghost.shutthegoatup.com
+          paths:
+            - path: /
+              pathType: Prefix
+    env:
+    - name: ZITADEL_DATABASE_POSTGRES_HOST
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: host
+    - name: ZITADEL_DATABASE_POSTGRES_PORT
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: port
+    - name: ZITADEL_DATABASE_POSTGRES_DATABASE
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: dbname
+    - name: ZITADEL_DATABASE_POSTGRES_USER_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: user
+    - name: ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-app
+          key: password
+    - name: ZITADEL_DATABASE_POSTGRES_USER_SSL_MODE
+      value: disable 
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-superuser
+          key: user
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-superuser
+          key: password
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE
+      value: disable 

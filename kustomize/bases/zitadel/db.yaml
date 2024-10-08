@@ -1,0 +1,15 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: zitadel
+  namespace: zitadel
+spec:
+  instances: 3
+  bootstrap:
+    initdb:
+      database: zitadel
+  storage:
+    storageClass: openebs-hostpath
+    size: 10Gi
+  enableSuperuserAccess: true
