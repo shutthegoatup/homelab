@@ -29,6 +29,14 @@ helmCharts:
             MaxIdleConns: 10
             MaxConnLifetime: 30m
             MaxConnIdleTime: 5m
+    ingress:
+      enabled: true
+      className: nginx
+      hosts:
+        - host: zitadel.ghost.shutthegoatup.com
+          paths:
+            - path: /
+              pathType: Prefix
     env:
     - name: ZITADEL_DATABASE_POSTGRES_HOST
       valueFrom:
