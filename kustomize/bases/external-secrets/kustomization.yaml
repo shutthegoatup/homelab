@@ -15,3 +15,5 @@ helmCharts:
   includeCRDs: false
   valuesInline:
     installCRDs: false
+    certController:
+      create: false
