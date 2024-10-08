@@ -78,9 +78,7 @@ helmCharts:
     - name: ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE
       value: disable 
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
-      value: mailhog.mailhog.svc.cluster.local
-    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PORT
-      value: "1025"
+      value: "mailhog.mailhog.svc.cluster.local:1250"
 #    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
 #      value: mailhog.mailhog.svc
 #    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
