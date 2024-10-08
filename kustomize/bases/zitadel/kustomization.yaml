@@ -55,10 +55,14 @@ helmCharts:
         secretKeyRef:
           name: zitadel-app
           key: password
-    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_USERNAME
+    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE
+      value: disable 
+    - name: ZITADEL_DATABASE_POSTGRES_USER_USERNAME
       value: zitadel-db-user
-    - name: ZITADEL_DATABASE_POSTGRES_ADMIN_PASSWORD
+    - name: ZITADEL_DATABASE_POSTGRES_USER_PASSWORD
       valueFrom:
         secretKeyRef:
           name: zitadel-db-password
           key: password
+    - name: ZITADEL_DATABASE_POSTGRES_USER_SSL_MODE
+      value: disable 
