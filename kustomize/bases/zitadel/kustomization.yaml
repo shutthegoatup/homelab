@@ -79,10 +79,10 @@ helmCharts:
       value: disable 
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
       value: "mailhog.mailhog.svc.cluster.local:1025"
-#    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
-#      value: mailhog.mailhog.svc
-#    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
-#      value: mailhog.mailhog.svc
+    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
+      value: mailhog
+    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
+      value: mailhog
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROM
       value: support@shutthegoatup.com
     - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROMNAME
