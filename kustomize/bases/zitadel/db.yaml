@@ -12,3 +12,7 @@ spec:
   storage:
     storageClass: openebs-hostpath
     size: 10Gi
+  enableSuperuserAccess: true
+#CREATE ROLE zitadel LOGIN;
+#CREATE DATABASE zitadel;
+#GRANT CONNECT, CREATE ON DATABASE zitadel TO zitadel;
