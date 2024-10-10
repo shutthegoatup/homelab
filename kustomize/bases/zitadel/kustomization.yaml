@@ -33,7 +33,6 @@ helmCharts:
           SMTPConfiguration:
             SMTP:
               Host: mailhog.mailhog.svc.cluster.local:1025
-        DefaultInstance:
           InstanceName: ZITADEL # ZITADEL_DEFAULTINSTANCE_INSTANCENAME
           DefaultLanguage: en # ZITADEL_DEFAULTINSTANCE_DEFAULTLANGUAGE
           Org:
