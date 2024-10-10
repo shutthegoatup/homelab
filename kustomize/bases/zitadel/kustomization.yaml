@@ -30,15 +30,6 @@ helmCharts:
             MaxConnLifetime: 30m
             MaxConnIdleTime: 5m
         DefaultInstance:
-          SMTPConfiguration:
-            SMTP:
-              Host: mailhog.mailhog.svc.cluster.local:1025
-          InstanceName: ZITADEL # ZITADEL_DEFAULTINSTANCE_INSTANCENAME
-          DefaultLanguage: en # ZITADEL_DEFAULTINSTANCE_DEFAULTLANGUAGE
-          Org:
-            Name: Shut The Goat Up # ZITADEL_DEFAULTINSTANCE_ORG_NAME
-            # In the DefaultInstance.Org.Human section, the initial organization's admin user with the role IAM_OWNER is defined.
-            # If DefaultInstance.Org.Machine.Machine is defined, a service user is created with the IAM_OWNER role.
             Human:
               UserName: root
 
