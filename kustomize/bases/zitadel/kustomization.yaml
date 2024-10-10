@@ -33,6 +33,27 @@ helmCharts:
           SMTPConfiguration:
             SMTP:
               Host: mailhog.mailhog.svc.cluster.local:1025
+        DefaultInstance:
+          InstanceName: ZITADEL # ZITADEL_DEFAULTINSTANCE_INSTANCENAME
+          DefaultLanguage: en # ZITADEL_DEFAULTINSTANCE_DEFAULTLANGUAGE
+          Org:
+            Name: Shut The Goat Up # ZITADEL_DEFAULTINSTANCE_ORG_NAME
+            # In the DefaultInstance.Org.Human section, the initial organization's admin user with the role IAM_OWNER is defined.
+            # If DefaultInstance.Org.Machine.Machine is defined, a service user is created with the IAM_OWNER role.
+            Human:
+              # In case that UserLoginMustBeDomain is false (default) and if you don't overwrite the username with an email,
+              # it will be suffixed by the org domain (org-name + domain from config).
+              # for example zitadel-admin in org `My Org` on domain.tld -> zitadel-admin@my-org.domain.tld
+              UserName: allan@shutthegoatup.com
+              FirstName: Allan
+              LastName: Degnan
+              NickName: Allan
+              DisplayName: Allan
+              Email:
+                Address: # allan@shutthegoatup.com
+                Verified: true # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_EMAIL_VERIFIED
+              PreferredLanguage: en # ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PREFERREDLANGUAGE
+              Gender: Male
 
     ingress:
       enabled: true
@@ -82,3 +103,8 @@ helmCharts:
           key: password
     - name: ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE
       value: disable 
+    - name: ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-humanuser
+          key: password
