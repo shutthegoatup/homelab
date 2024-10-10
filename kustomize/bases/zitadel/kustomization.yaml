@@ -29,7 +29,7 @@ helmCharts:
             MaxIdleConns: 10
             MaxConnLifetime: 30m
             MaxConnIdleTime: 5m
-        FirstInstance:
+        DefaultInstance:
           Org:
             Human:
               UserName: root
