@@ -11,6 +11,7 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       controller:
+        allowSnippetAnnotations: "true"
         admissionWebhooks:
           labels:
             sidecar.istio.io/inject: "false"
