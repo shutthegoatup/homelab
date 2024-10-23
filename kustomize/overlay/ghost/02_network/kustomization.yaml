@@ -8,6 +8,77 @@ resources:
 components:
   - ../../../components/replace-secrets
 
+patches:
+  - target:
+      kind: Issuer
+      name: letsencrypt-prod
+    patch: |-
+      apiVersion: cert-manager.io/v1
+      kind: Issuer
+      metadata:
+        name: letsencrypt-prod
+        namespace: ingress-nginx
+      spec:
+        acme:
+          email: allan+letsencrypt@shutthegoatup.com
+          server: https://acme-v02.api.letsencrypt.org/directory
+          privateKeySecretRef:
+            name: letsencrypt-prod
+          solvers:
+          - selector:
+              dnsZones:
+                - "shutthegoatup.com"
+                - "*.shutthegoatup.com"
+                - "millie.shutthegoatup.com"
+                - "bandit.shutthegoatup.com"
+                - "ghost.shutthegoatup.com"
+                - "*.millie.shutthegoatup.com"
+                - "*.bandit.shutthegoatup.com"
+                - "*.ghost.shutthegoatup.com"
+                - "positron.uk"
+                - "*.positron.uk"
+            dns01:
+              cloudflare:
+                apiTokenSecretRef:
+                  name: cloudflare
+                  key: cloudflare_apitoken
+          - selector:
+              dnsZones:
+                - "next.renderapp.io"
+                - "minio.next.renderapp.io"
+                - "minio-console.next.renderapp.io"
+            http01: 
+              ingress:
+                ingressClassName: nginx
+                
+  - target:
+      kind: Certificate
+      name: wildcard-tls
+    patch: |-
+      apiVersion: cert-manager.io/v1
+      kind: Certificate
+      metadata:
+        name: wildcard-tls
+        namespace: ingress-nginx
+      spec:
+        dnsNames:
+          - "shutthegoatup.com"
+          - "*.shutthegoatup.com"
+          - "*.notprod.shutthegoatup.com"
+          - "*.bandit.shutthegoatup.com"
+          - "*.ghost.shutthegoatup.com"
+          - "positron.uk"
+          - "*.positron.uk"
+          - "*.notprod.positron.uk"
+          - "next.renderapp.io"
+          - "minio.next.renderapp.io"
+          - "minio-console.next.renderapp.io"
+        secretName: wildcard-tls
+        issuerRef:
+          name: letsencrypt-prod
+          kind: Issuer
+
+
 helmCharts:
 - name: cilium
   releaseName: cilium
@@ -36,3 +107,4 @@ helmCharts:
       enabled: true
     ipam:
       mode: kubernetes  
+      
