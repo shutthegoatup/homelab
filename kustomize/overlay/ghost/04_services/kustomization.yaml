@@ -4,7 +4,18 @@ resources:
   - ../../../bases/openebs
   - ../../../bases/zitadel
   - ../../../bases/mailhog
+  - ../../../bases/vault
 
 
 components:
   - ../../../components/replace-server-name
+
+patches:
+  - target:
+      name: vault
+      namespace: vault
+      kind: Ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: vault.ghost.shutthegoatup.com
