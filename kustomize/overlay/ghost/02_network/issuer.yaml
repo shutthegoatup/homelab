@@ -28,3 +28,9 @@ spec:
           apiTokenSecretRef:
             name: cloudflare
             key: cloudflare_apitoken
+    - selector:
+        dnsZones:
+          - "next.renderapp.io"
+          - "minio.next.renderapp.io"
+          - "minio-console.next.renderapp.io"
+      http01: {}

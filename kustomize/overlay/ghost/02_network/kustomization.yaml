@@ -4,6 +4,8 @@ resources:
   - ../../../bases/cert-manager
   - ../../../bases/ingress-nginx
   - ../../../bases/istio
+  - certificate.yaml
+  - issuer.yaml
 
 components:
   - ../../../components/replace-secrets
@@ -36,3 +38,4 @@ helmCharts:
       enabled: true
     ipam:
       mode: kubernetes  
+      
