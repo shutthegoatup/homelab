@@ -7,8 +7,6 @@ spec:
   provider:
     vault:
       server: "http://vault.vault.svc.cluster.local:8200"
-      path: "secret"
-      version: "v2"
       auth:
         kubernetes:
           mountPath: "kubernetes"
