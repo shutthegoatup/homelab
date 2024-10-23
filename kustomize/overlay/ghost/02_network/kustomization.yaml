@@ -4,8 +4,8 @@ resources:
   - ../../../bases/cert-manager
   - ../../../bases/ingress-nginx
   - ../../../bases/istio
-  - certificate.yaml
-  - issuer.yaml
+  - ./certificate.yaml
+  - ./issuer.yaml
 
 components:
   - ../../../components/replace-secrets
