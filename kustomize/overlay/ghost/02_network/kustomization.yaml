@@ -49,6 +49,7 @@ patches:
                 - "minio-console.next.renderapp.io"
                 - "olm.next.renderapp.io"
                 - "urban.next.renderapp.io"
+                - "olm.renderapp.io"
             http01: 
               ingress:
                 ingressClassName: nginx
@@ -77,6 +78,7 @@ patches:
           - "minio-console.next.renderapp.io"
           - "olm.next.renderapp.io"
           - "urban.next.renderapp.io"
+          - "olm.renderapp.io"
         secretName: wildcard-tls
         issuerRef:
           name: letsencrypt-prod
