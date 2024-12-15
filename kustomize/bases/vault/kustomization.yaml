@@ -7,7 +7,7 @@ resources:
 
 images:
  - name: ghcr.io/bank-vaults/bank-vaults
-   newTag: v1.31.1
+   newTag: v1.31.3
 
 helmCharts:
 - name: vault
