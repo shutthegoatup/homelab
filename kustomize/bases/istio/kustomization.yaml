@@ -4,7 +4,7 @@ resources:
 helmCharts:
 - name: base
   releaseName: istio-base
-  version: 1.22.2
+  version: 1.24.2
   repo: https://istio-release.storage.googleapis.com/charts
   namespace: istio-system
   valuesInline:
