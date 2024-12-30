@@ -11,9 +11,12 @@ resources:
 helmCharts:
 - name: external-secrets
   releaseName: external-secrets
-  version: 0.10.4
+  version: 0.12.1
   repo: https://charts.external-secrets.io
   namespace: external-secrets
   includeCRDs: false
   valuesInline:
     installCRDs: false
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::512964320231:role/ghost-role"
