@@ -4,7 +4,7 @@ commonAnnotations:
 
 resources:
 - namespace.yaml
-- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.10.4/deploy/crds/bundle.yaml
+- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.12.1/deploy/crds/bundle.yaml
 - ./vault.yaml
 - secretstores.yaml
 
