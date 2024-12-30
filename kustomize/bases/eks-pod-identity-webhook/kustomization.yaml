@@ -1,0 +1,5 @@
+resources:
+  - auth.yaml
+  - deployment.yaml
+  - mutatingwebhook.yaml
+  - service.yaml
