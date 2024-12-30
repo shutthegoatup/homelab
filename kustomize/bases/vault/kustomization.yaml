@@ -4,6 +4,7 @@ resources:
   - configurer/serviceaccount.yaml
   - configurer/rbac.yaml
   - configurer/secret.yaml
+  - secretstore.yaml
 
 images:
  - name: ghcr.io/bank-vaults/bank-vaults
