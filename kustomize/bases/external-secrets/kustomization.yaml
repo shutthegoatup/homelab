@@ -4,16 +4,19 @@ commonAnnotations:
 
 resources:
 - namespace.yaml
-- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.10.4/deploy/crds/bundle.yaml
+- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.12.1/deploy/crds/bundle.yaml
 - ./vault.yaml
 - secretstores.yaml
 
 helmCharts:
 - name: external-secrets
   releaseName: external-secrets
-  version: 0.10.4
+  version: 0.12.1
   repo: https://charts.external-secrets.io
   namespace: external-secrets
   includeCRDs: false
   valuesInline:
     installCRDs: false
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::512964320231:role/ghost-role"
