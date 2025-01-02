@@ -1,0 +1,6 @@
+helmCharts:
+- name: reloader
+  releaseName: reloader
+  repo: https://stakater.github.io/stakater-charts
+  namespace: kube-system
+  includeCRDs: true

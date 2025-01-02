@@ -2,6 +2,7 @@ resources:
   - ../../../bases/operators
   - ../../../bases/eks-pod-identity-webhook
   - ../../../bases/external-secrets
+  - ../../../bases/reloader
 
 patches:
   - patch: |
