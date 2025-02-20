@@ -11,7 +11,7 @@ components:
 helmCharts:
 - name: cilium
   releaseName: cilium
-  version: 1.16.1
+  version: 1.17.1
   repo: https://helm.cilium.io/
   namespace: kube-system
   includeCRDs: true
@@ -24,7 +24,7 @@ helmCharts:
     operator:
       replicas: 1
     l2announcements:
-      enabled: false
+      enabled: true
     socketLB:
       enabled: true
       hostNamespaceOnly: true
@@ -36,3 +36,9 @@ helmCharts:
       enabled: true
     ipam:
       mode: kubernetes
+    nativeRoutingCIDR: "10.244.0.0/16"
+    bpf:
+      masquerade: true
+    tunnel: disabled
+    routingMode: native
+    mtu: 1500
