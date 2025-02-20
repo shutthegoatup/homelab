@@ -42,4 +42,3 @@ helmCharts:
     ipMasqAgent:
       enabled: false
     enableIPv4Masquerade: true
-    devices: "br0, enp39s0"
