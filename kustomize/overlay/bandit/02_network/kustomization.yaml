@@ -34,9 +34,7 @@ helmCharts:
       enabled: true
     ipam:
       mode: kubernetes
-    nativeRoutingCIDR: "10.244.0.0/16"
-    bpf:
-      masquerade: true
+    ipv4NativeRoutingCIDR: "10.244.0.0/16"
     routingMode: native
     mtu: 1500
     ipv4:
