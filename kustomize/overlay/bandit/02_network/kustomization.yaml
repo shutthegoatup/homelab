@@ -39,6 +39,5 @@ helmCharts:
     nativeRoutingCIDR: "10.244.0.0/16"
     bpf:
       masquerade: true
-    tunnel: disabled
     routingMode: native
     mtu: 1500
