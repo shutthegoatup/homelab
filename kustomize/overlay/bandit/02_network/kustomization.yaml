@@ -45,3 +45,10 @@ helmCharts:
 #    devices:
 #      - "br0"
     autoDirectNodeRoutes: true
+    bpf:
+      datapathMode: netkit 
+      masquerade: true 
+    ipv6:
+      enabled: true 
+    enableIPv6BIGTCP: true 
+    enableIPv4BIGTCP: true 
