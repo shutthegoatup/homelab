@@ -44,4 +44,3 @@ helmCharts:
     enableIPv4Masquerade: true
     devices:
       - "br0"
-      - "enp2s0"
