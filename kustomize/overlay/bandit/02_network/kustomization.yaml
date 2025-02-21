@@ -49,6 +49,6 @@ helmCharts:
       datapathMode: netkit 
       masquerade: true 
     ipv6:
-      enabled: true 
+      enabled: false 
     enableIPv6BIGTCP: true 
-    enableIPv4BIGTCP: true 
+    enableIPv4BIGTCP: false 
