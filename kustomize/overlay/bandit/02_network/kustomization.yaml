@@ -11,7 +11,7 @@ components:
 helmCharts:
 - name: cilium
   releaseName: cilium
-  version: 1.16.1
+  version: 1.17.1
   repo: https://helm.cilium.io/
   namespace: kube-system
   includeCRDs: true
@@ -23,8 +23,6 @@ helmCharts:
     k8sServicePort: "6443"
     operator:
       replicas: 1
-    l2announcements:
-      enabled: false
     socketLB:
       enabled: true
       hostNamespaceOnly: true
@@ -36,3 +34,21 @@ helmCharts:
       enabled: true
     ipam:
       mode: kubernetes
+    ipv4NativeRoutingCIDR: "10.244.0.0/16"
+    routingMode: native
+    mtu: 1500
+    ipv4:
+      enabled: true
+    ipMasqAgent:
+      enabled: false
+    enableIPv4Masquerade: true
+#    devices:
+#      - "br0"
+    autoDirectNodeRoutes: true
+    bpf:
+      datapathMode: netkit 
+      masquerade: true 
+    ipv6:
+      enabled: false 
+    enableIPv6BIGTCP: true 
+    enableIPv4BIGTCP: false 
