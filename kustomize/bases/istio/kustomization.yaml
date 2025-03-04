@@ -11,6 +11,6 @@ helmCharts:
     defaultRevision: default
 - name: istiod
   releaseName: istiod
-  version: 1.22.2
+  version: 1.25.0
   repo: https://istio-release.storage.googleapis.com/charts
   namespace: istio-system
