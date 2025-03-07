@@ -44,10 +44,8 @@ patches:
                   key: cloudflare_apitoken
           - selector:
               dnsZones:
-                - "next.renderapp.io"
                 - "minio.next.renderapp.io"
                 - "minio-console.next.renderapp.io"
-                - "olm.next.renderapp.io"
                 - "urban.next.renderapp.io"
                 - "olm.renderapp.io"
             http01: 
@@ -73,10 +71,8 @@ patches:
           - "positron.uk"
           - "*.positron.uk"
           - "*.notprod.positron.uk"
-          - "next.renderapp.io"
           - "minio.next.renderapp.io"
           - "minio-console.next.renderapp.io"
-          - "olm.next.renderapp.io"
           - "urban.next.renderapp.io"
           - "olm.renderapp.io"
         secretName: wildcard-tls
