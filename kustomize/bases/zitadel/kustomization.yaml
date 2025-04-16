@@ -29,6 +29,11 @@ helmCharts:
             MaxIdleConns: 10
             MaxConnLifetime: 30m
             MaxConnIdleTime: 5m
+        DefaultInstance:
+          Org:
+            Human:
+              UserName: root
+
     ingress:
       enabled: true
       className: nginx
@@ -77,17 +82,8 @@ helmCharts:
           key: password
     - name: ZITADEL_DATABASE_POSTGRES_ADMIN_SSL_MODE
       value: disable 
-    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_HOST
-      value: "mailhog.mailhog.svc.cluster.local:1025"
-#    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_USER
-#      value: mailhog.mailhog.svc
-#    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
-#      value: mailhog.mailhog.svc
-    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROM
-      value: support@shutthegoatup.com
-    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_FROMNAME
-      value: STGU Support
-    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_REPLYTOADDRESS
-      value: support@shutthegoatup.com
-    - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_TLS
-      value: "false"
+    - name: ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: zitadel-humanuser
+          key: password
