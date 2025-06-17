@@ -11,7 +11,7 @@ resources:
 helmCharts:
   # ARC Controller Chart
   - name: gha-runner-scale-set-controller
-    repo: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts
     releaseName: arc-controller-renderapp
     namespace: arc-systems
     includeCRDs: true
@@ -25,29 +25,13 @@ helmCharts:
           containers:
             env: 
             - name: KUBE_IN_CLUSTER_CONFIG
-              value: true
+              value: "true"
     
   # ARC Runner Scale Set Chart
   - name: gha-runner-scale-set
-    repo: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts
     releaseName: arc-runner-set
     namespace: arc-systems
-    valuesInline:
-      githubConfigUrl: "https://github.com/renderappio/*"
-      githubConfigSecret: github-app-renderapp
-      maxRunners: 20
-      minRunners: 5
-      controllerServiceAccount:
-        name: arc-controller-renderapp
-        namespace: arc-systems
-
-      containerMode:
-        type: "dind"
-        kubernetesModeWorkVolumeClaim:
-          accessModes: ["ReadWriteOnce"]
-          storageClassName: "openebs-zfspv"
-          resources:
-            requests:
-              storage: 5Gi
+    valuesFile: arc-runner-values.yaml
 
 
