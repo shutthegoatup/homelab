@@ -3,6 +3,7 @@ resources:
   - ../../../bases/eks-pod-identity-webhook
   - ../../../bases/external-secrets
   - ../../../bases/reloader
+  - ../../../bases/arc-systems
 
 patches:
   - patch: |

@@ -1,0 +1,16 @@
+githubConfigUrl: "https://github.com/renderappio"
+githubConfigSecret: github-app-renderapp
+maxRunners: 20
+minRunners: 5
+controllerServiceAccount:
+  name: arc-controller-renderapp
+  namespace: arc-systems
+
+containerMode:
+  type: "dind"
+  kubernetesModeWorkVolumeClaim:
+    accessModes: ["ReadWriteOnce"]
+    storageClassName: "openebs-zfspv"
+    resources:
+      requests:
+        storage: 5Gi
