@@ -6,26 +6,25 @@ namespace: arc-systems
 
 resources:
   - namespace.yaml
+  - secrets.yaml
 
 helmCharts:
   # ARC Controller Chart
   - name: arc-controller-renderapp
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
-    chart: gha-runner-scale-set-controller
-    version: latest
-    releaseName: arc
+    #chart: gha-runner-scale-set-controller
+    releaseName: arc-controller-renderapp
     namespace: arc-systems
     includeCRDs: true
 
   # ARC Runner Scale Set Chart
   - name: arc-runner-renderapp
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
-    chart: gha-runner-scale-set
-    version: latest
+    #chart: gha-runner-scale-set
     releaseName: arc-runner-set
     namespace: arc-runners
     valuesInline:
-      githubConfigUrl: "https://github.com/renderappio/*
+      githubConfigUrl: "https://github.com/renderappio/*"
       githubConfigSecret: github-app-renderapp
       maxRunners: 20
       minRunners: 5
@@ -37,3 +36,5 @@ helmCharts:
           resources:
             requests:
               storage: 5Gi
+
+
