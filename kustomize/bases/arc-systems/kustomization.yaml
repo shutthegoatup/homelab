@@ -10,24 +10,37 @@ resources:
 
 helmCharts:
   # ARC Controller Chart
-  - name: arc-controller-renderapp
-    repo: oci://ghcr.io/actions/actions-runner-controller-charts
-    #chart: gha-runner-scale-set-controller
+  - name: gha-runner-scale-set-controller
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts/
     releaseName: arc-controller-renderapp
     namespace: arc-systems
     includeCRDs: true
-
+    valuesInline:
+      serviceAccount:
+        create: true
+        name: arc-controller-renderapp
+      template:
+        spec:
+          serviceAccountName: arc-controller-renderapp
+          containers:
+            env: 
+            - name: KUBE_IN_CLUSTER_CONFIG
+              value: true
+    
   # ARC Runner Scale Set Chart
-  - name: arc-runner-renderapp
-    repo: oci://ghcr.io/actions/actions-runner-controller-charts
-    #chart: gha-runner-scale-set
+  - name: gha-runner-scale-set
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts/
     releaseName: arc-runner-set
-    namespace: arc-runners
+    namespace: arc-systems
     valuesInline:
       githubConfigUrl: "https://github.com/renderappio/*"
       githubConfigSecret: github-app-renderapp
       maxRunners: 20
       minRunners: 5
+      controllerServiceAccount:
+        name: arc-controller-renderapp
+        namespace: arc-systems
+
       containerMode:
         type: "dind"
         kubernetesModeWorkVolumeClaim:
