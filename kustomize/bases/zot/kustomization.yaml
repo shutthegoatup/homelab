@@ -9,7 +9,7 @@ helmCharts:
     releaseName: zot
     repo: https://zotregistry.dev/helm-charts
     namespace: zot
-    version: 0.1.58
+    version: 0.1.73
     includeCRDs: true
     valuesInline:
       replicaCount: 1
