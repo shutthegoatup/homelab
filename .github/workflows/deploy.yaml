@@ -30,6 +30,9 @@ jobs:
             with:
               token: ${{secrets.GITHUB_TOKEN}}
           - uses: yokawasa/action-setup-kube-tools@v0.11.2
+            with:
+              helm: 3.17.3
+              kustomize: 5.6.0
           - uses: carvel-dev/setup-action@v2
             with:
               token: ${{secrets.GITHUB_TOKEN}}
