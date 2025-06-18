@@ -10,7 +10,7 @@ containerMode:
   type: "dind"
   kubernetesModeWorkVolumeClaim:
     accessModes: ["ReadWriteOnce"]
-    storageClassName: "openebs-zfspv"
+    storageClassName: "openebs-local"
     resources:
       requests:
         storage: 5Gi
