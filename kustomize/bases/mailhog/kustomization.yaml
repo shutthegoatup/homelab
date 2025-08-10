@@ -4,7 +4,7 @@ resources:
 helmCharts:
 - name: mailhog
   releaseName: mailhog
-  version: 5.2.3
+  version: 5.8.0
   repo: https://codecentric.github.io/helm-charts
   namespace: mailhog
   valuesInline:
