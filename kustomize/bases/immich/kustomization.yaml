@@ -1,0 +1,39 @@
+namespace: immich
+
+resources:
+  - namespace.yaml
+  - pvc.yaml
+
+helmCharts:
+- name: immich
+  releaseName: immich
+  version: 0.7.1
+  repo: https://immich-app.github.io/immich-charts
+  namespace: immich
+  includeCRDs: true
+  valuesInline:
+    server:
+      enabled: true
+      ingress:
+        main:
+          enabled: true
+          annotations:
+            # proxy-body-size is set to 0 to remove the body limit on file uploads
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          hosts:
+            - host: immich.bandit.shutthegoatup.com
+              paths:
+                - path: "/"
+
+    immich:
+      metrics:
+        enabled: false
+      persistence:
+        library:
+          existingClaim: immich-image-store
+
+    redis: 
+      enabled: true
+
+    postgres:
+      enabled: true

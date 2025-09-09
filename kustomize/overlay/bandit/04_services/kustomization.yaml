@@ -4,7 +4,9 @@ resources:
   - ../../../bases/openebs
   - ../../../bases/keycloak
   - ../../../bases/vault
-  - ../../../bases/zot
+  #- ../../../bases/zot
+  - ../../../bases/immich
+
 
 components:
   - ../../../components/replace-server-name
